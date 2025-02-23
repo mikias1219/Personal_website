@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+assets/images
+assets/fonts
+assets/videos
+assets/audio
+
+# Sublime Text files
+*.sublime-workspace
+
