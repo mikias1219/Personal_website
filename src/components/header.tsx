@@ -4,7 +4,7 @@ import { Link } from 'react-scroll'; // Correct import
 const Header: React.FC = () => {
   return (
     <header className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <div className="container">
+    
         <a className="navbar-brand" href="/">My Portfolio</a>
         <button
           className="navbar-toggler"
@@ -69,7 +69,7 @@ const Header: React.FC = () => {
             </li>
           </ul>
         </div>
-      </div>
+    
     </header>
   );
 };

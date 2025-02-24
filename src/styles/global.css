@@ -47,7 +47,7 @@ header nav ul li a {
 .footer {
     background-color: #1a1a1a;
     color: #ffffff;
-    padding: 0.75rem 2rem; /* Reduced padding */
+    padding: 0.5rem 0.5rem; /* Reduced padding */
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -84,13 +84,13 @@ header nav ul li a {
   /* Responsive Design */
   @media (max-width: 600px) {
     .footer-container {
-      flex-direction: column;
+      flex-direction: row;
       gap: 1rem; /* Stack items with spacing */
       padding: 1rem;
     }
   
     .footer-links {
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       gap: 0.75rem;
     }
