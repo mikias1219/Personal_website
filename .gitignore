@@ -30,3 +30,4 @@ assets/audio
 # Sublime Text files
 *.sublime-workspace
 
+.vercel
