@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import profilePic from '../photo/photo_2024-04-04_13-32-35.jpg'; // Ensure this path is correct
+import profilePic from '../photo/profile.jpg'; // Ensure this path is correct
 import cvFile from '../assets/mikias_Abate.pdf'; // Adjust the path to your CV file
 
 const Home: React.FC = () => {

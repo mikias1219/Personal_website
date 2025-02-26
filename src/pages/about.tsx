@@ -12,7 +12,7 @@ const AboutMe: React.FC = () => {
             <h3 className="card-title">Personal Info</h3>
             <ul className="info-list">
               <li><strong>Name:</strong> Mikias Abate</li>
-              <li><strong>Education:</strong> Information Systems at Addis Ababa University</li>
+              <li><strong>Education:</strong>  Degree in Information Systems at Addis Ababa University</li>
               <li><strong>Interests:</strong> Web Development, Networking, Data Science</li>
             </ul>
           </div>
