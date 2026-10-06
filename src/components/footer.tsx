@@ -1,34 +1,32 @@
 import React from 'react';
-
+import { FiArrowUp } from 'react-icons/fi';
+import { socials } from '../data/socials';
+import { externalProps } from '../data/links';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="footer">
-      <div className="footer-container">
-        <div className="footer-brand">
-          <p>© {new Date().getFullYear()} My Portfolio</p>
-        </div>
-        <div className="footer-links">
-          <a
-            href="https://www.linkedin.com/in/mikiyas-abate/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn
-          </a>
-          <a
-            href="https://github.com/mikias1219"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
-          <a
-            href="https://www.facebook.com/profile.php?id=100077164533916"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Facebook
+    <footer className="site-footer">
+      <div className="container footer-inner">
+        <a href="#home" className="brand">
+          <span className="brand-mark">MA</span>
+          <span>
+            <strong>Mikias Abate</strong>
+            <small>AI Engineer · Full-Stack Developer</small>
+          </span>
+        </a>
+        <p className="footer-copy">© {new Date().getFullYear()} Mikias Abate. Designed &amp; built with React.</p>
+        <div className="footer-right">
+          <ul className="social-row">
+            {socials.map(({ label, href, icon: Icon }) => (
+              <li key={label}>
+                <a href={href} {...externalProps(href)} aria-label={label} className="icon-btn">
+                  <Icon />
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a href="#home" className="icon-btn" aria-label="Back to top">
+            <FiArrowUp />
           </a>
         </div>
       </div>
