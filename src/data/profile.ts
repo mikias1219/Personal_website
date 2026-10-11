@@ -21,7 +21,7 @@ export interface Social {
 
 export const socials: Social[] = [
   { label: 'GitHub', handle: 'mikias1219', href: 'https://github.com/mikias1219', icon: FiGithub },
-  { label: 'LinkedIn', handle: 'mikiyasabate', href: 'https://www.linkedin.com/in/mikiyasabate/', icon: FiLinkedin },
+  { label: 'LinkedIn', handle: 'mikiasabate', href: 'https://www.linkedin.com/in/mikiasabate', icon: FiLinkedin },
   { label: 'Email', handle: site.email, href: `mailto:${site.email}`, icon: FiMail },
 ];
 
