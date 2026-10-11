@@ -1,39 +1,28 @@
-import React from 'react';
-import Header from './components/header';
-import Hero from './pages/home';
-import TechMarquee from './components/TechMarquee';
-import AboutMe from './pages/about';
-import Services from './pages/services';
-import Projects from './pages/project';
-import Experience from './pages/experience';
-import Contact from './pages/contact';
-import Footer from './components/footer';
-import { useReveal } from './hooks/useReveal';
+import React, { lazy } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import RootLayout from './layouts/RootLayout';
+import Home from './pages/Home';
 
-const App: React.FC = () => {
-  useReveal();
+const Work = lazy(() => import('./pages/Work'));
+const CaseStudy = lazy(() => import('./pages/CaseStudy'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
-  return (
-    <>
-      <a href="#main" className="skip-link">Skip to content</a>
-      <div className="bg-decor" aria-hidden="true">
-        <div className="bg-grid" />
-        <div className="bg-orb bg-orb--1" />
-        <div className="bg-orb bg-orb--2" />
-      </div>
-      <Header />
-      <main id="main">
-        <Hero />
-        <TechMarquee />
-        <AboutMe />
-        <Services />
-        <Projects />
-        <Experience />
-        <Contact />
-      </main>
-      <Footer />
-    </>
-  );
-};
+const router = createBrowserRouter([
+  {
+    element: <RootLayout />,
+    children: [
+      { path: '/', element: <Home /> },
+      { path: '/work', element: <Work /> },
+      { path: '/work/:slug', element: <CaseStudy /> },
+      { path: '/about', element: <About /> },
+      { path: '/contact', element: <Contact /> },
+      { path: '*', element: <NotFound /> },
+    ],
+  },
+]);
+
+const App: React.FC = () => <RouterProvider router={router} />;
 
 export default App;

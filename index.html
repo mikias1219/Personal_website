@@ -1,28 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mikias Abate — Software Developer &amp; AI Engineer</title>
+    <meta name="description" content="Mikias Abate is an AI engineer in Addis Ababa building production RAG systems on Azure OpenAI and full-stack products with NestJS, Next.js, Django and Flutter." />
+    <meta name="author" content="Mikias Abate" />
+    <link rel="canonical" href="https://mikiasabate.vercel.app/" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Mikias Abate — AI Engineer and Full-Stack Developer in Addis Ababa. Azure-certified data scientist building RAG systems, data products and web applications." />
-  <meta name="theme-color" content="#0b0d12" />
-  <title>Mikias Abate · AI Engineer &amp; Full-Stack Developer</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <script>
-    // Apply saved theme (dark by default) before first paint to avoid a flash
-    try {
-      var t = localStorage.getItem('theme') || 'dark';
-      document.documentElement.dataset.theme = t;
-    } catch (e) { document.documentElement.dataset.theme = 'dark'; }
-  </script>
-</head>
+    <meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
-</body>
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mikias Abate" />
+    <meta property="og:title" content="Mikias Abate — Software Developer &amp; AI Engineer" />
+    <meta property="og:description" content="Mikias Abate is an AI engineer in Addis Ababa building production RAG systems on Azure OpenAI and full-stack products with NestJS, Next.js, Django and Flutter." />
+    <meta property="og:url" content="https://mikiasabate.vercel.app/" />
+    <meta property="og:image" content="https://mikiasabate.vercel.app/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mikias Abate — Software Developer &amp; AI Engineer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mikias Abate — Software Developer &amp; AI Engineer" />
+    <meta name="twitter:description" content="Mikias Abate is an AI engineer in Addis Ababa building production RAG systems on Azure OpenAI and full-stack products with NestJS, Next.js, Django and Flutter." />
+    <meta name="twitter:image" content="https://mikiasabate.vercel.app/og-image.jpg" />
 
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Mikias Abate",
+        "jobTitle": "Software Developer & AI Engineer",
+        "url": "https://mikiasabate.vercel.app/",
+        "image": "https://mikiasabate.vercel.app/og-image.jpg",
+        "email": "mailto:mikiyasabate003@gmail.com",
+        "worksFor": { "@type": "Organization", "name": "IE Network Solutions" },
+        "address": { "@type": "PostalAddress", "addressLocality": "Addis Ababa", "addressCountry": "ET" },
+        "alumniOf": { "@type": "CollegeOrUniversity", "name": "Addis Ababa University" },
+        "hasCredential": [
+          { "@type": "EducationalOccupationalCredential", "name": "Microsoft Certified: Azure AI Engineer Associate (AI-102)" },
+          { "@type": "EducationalOccupationalCredential", "name": "Microsoft Certified: Azure Data Scientist Associate (DP-100)" }
+        ],
+        "knowsAbout": ["Retrieval-augmented generation", "Azure OpenAI", "Azure AI Search", "NestJS", "Next.js", "Django", "Flutter", "Docker", "CI/CD"],
+        "sameAs": ["https://github.com/mikias1219", "https://www.linkedin.com/in/mikiyasabate/"]
+      }
+    </script>
+
+    <script>
+      // Set the theme before first paint: saved choice, else the OS preference.
+      (function () {
+        var theme;
+        try { theme = localStorage.getItem('theme'); } catch (e) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <p style="padding:24px;font-family:system-ui,sans-serif">This site needs JavaScript. You can reach Mikias at mikiyasabate003@gmail.com.</p>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

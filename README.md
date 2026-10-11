@@ -1,50 +1,49 @@
-# React + TypeScript + Vite
+# mikiasabate.vercel.app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal site of Mikias Abate — software developer and AI engineer. Vite + React 18 + TypeScript + React Router.
 
-Currently, two official plugins are available:
+## Run
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm install
+npm run dev       # http://localhost:5173
+npm run lint
+npm run build     # type-check + production build into dist/ (also writes sitemap.xml)
+npm run preview   # serve the production build
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Where content lives
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+| What | File |
+|------|------|
+| Name, email, socials, proof strip, stack, "How I work" | `src/data/profile.ts` |
+| Projects and case studies (`/work`, `/work/:slug`) | `src/data/projects.ts` |
+| Experience, education, certifications, CV path | `src/data/experience.ts` |
+| Downloadable CV | `public/MikiasAbate-CV.pdf` |
+| Social preview image | `public/og-image.jpg` |
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+Search the codebase for `TODO:` to find details still to fill in.
+When the CV changes, replace `public/MikiasAbate-CV.pdf` and update `src/data/experience.ts`.
+
+## Structure
+
 ```
+src/
+  layouts/     RootLayout (header, footer, command palette, toasts)
+  pages/       Home, Work, CaseStudy, About, Contact, NotFound
+  components/  UI building blocks
+  hooks/       theme, per-route meta tags, scroll reveal, local time
+  data/        all site content
+  styles/      tokens → base → layout → components → pages
+```
+
+## Deploy
+
+**Vercel (live: https://mikiasabate.vercel.app)** — the GitHub repo is connected to Vercel, so every push
+to `main` builds and deploys automatically. `vercel.json` sets the Vite build, rewrites page routes to
+`index.html` so deep links work, and caches hashed assets for a year.
+
+**Netlify (alternative)** — `netlify.toml` contains the equivalent settings.
+
+If you move to a custom domain, update `site.url` in `src/data/profile.ts`, `SITE_URL` in
+`vite.config.ts`, the absolute URLs in `index.html` and `public/robots.txt`.

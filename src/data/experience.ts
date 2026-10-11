@@ -1,48 +1,86 @@
-export interface TimelineItem {
+// Source of truth: public/MikiasAbate-CV.pdf (the downloadable CV).
+// Keep this file in sync whenever the CV changes.
+
+export interface Role {
   period: string;
   title: string;
   org: string;
+  location: string;
   points: string[];
+  tech?: string[];
   current?: boolean;
 }
 
-export const timeline: TimelineItem[] = [
+export const experience: Role[] = [
   {
-    period: '2025 — Present',
-    title: 'AI & Full-Stack Engineering',
-    org: 'Product & client work',
+    period: 'Jan 2026 — Present',
+    title: 'Software Developer',
+    org: 'IE Network Solutions',
+    location: 'Addis Ababa',
     current: true,
     points: [
-      'Building multi-tenant RAG platforms with Azure OpenAI and Azure AI Search.',
-      'Shipping NestJS, Next.js and Django products — from real-time chat to marketplaces.',
-      'Setting up CI/CD with Jenkins, Docker and GitHub Actions.',
+      'Develop and maintain full-stack applications for internal business operations.',
+      'Build backend APIs and frontend features using modern software technologies.',
+      'Work with databases, Docker and application integrations.',
     ],
+    tech: ['NestJS', 'Next.js', 'Python', 'PostgreSQL', 'Docker'],
   },
   {
-    period: 'Certification',
-    title: 'Azure Data Scientist Associate',
-    org: 'Microsoft Certified',
-    points: ['Designing and running machine learning solutions on Azure ML, with extensive AI-102 hands-on work.'],
-  },
-  {
-    period: 'Mar — Apr 2024',
-    title: 'Web Development Intern',
-    org: 'Prodigy InfoTech',
+    period: 'Jun 2025 — Jan 2026',
+    title: 'AI & Data Scientist',
+    org: 'IE Network Solutions',
+    location: 'Addis Ababa',
     points: [
-      'Built responsive front-end interfaces with React and integrated RESTful APIs.',
-      'Shipped features that improved performance by 20%.',
+      'Developed AI-powered features using Microsoft Azure AI services.',
+      'Worked on CV extraction, candidate scoring and job-matching features.',
+      'Integrated AI services with application APIs and business workflows.',
     ],
+    tech: ['Python', 'Azure AI', 'React', 'REST APIs'],
   },
   {
-    period: 'Sep — Dec 2023',
-    title: 'Networking Intern',
-    org: 'CBE',
-    points: ['Configured and troubleshot network infrastructure and worked with network security practices.'],
+    period: 'Feb 2025 — Jul 2025',
+    title: 'Full-Stack Web Developer (Freelance)',
+    org: 'Atlas Group',
+    location: 'Remote',
+    points: [
+      'Developed full-stack web applications with Next.js, NestJS and PostgreSQL, integrating backend APIs with responsive user interfaces.',
+    ],
+    tech: ['Next.js', 'NestJS', 'PostgreSQL'],
   },
   {
-    period: '2021 — 2024',
-    title: 'BSc, Information Systems',
-    org: 'Addis Ababa University · GPA 3.65',
-    points: ['Coursework across software engineering, databases, networking and data analysis.'],
+    period: 'Mar 2024 — May 2025',
+    title: 'Software Developer',
+    org: 'Private company',
+    location: 'Remote',
+    points: [
+      'Developed 5 full-stack applications and 3 backend services using Python and modern web technologies.',
+      'Integrated backend services and web infrastructure to improve application performance and user engagement by 40%.',
+    ],
+    tech: ['Python'],
   },
 ];
+
+export const education = {
+  degree: 'Bachelor’s Degree, Information Systems',
+  school: 'Addis Ababa University',
+  period: '2021 — 2024',
+  location: 'Addis Ababa, Ethiopia',
+};
+
+export interface Certification {
+  name: string;
+  issuer: string;
+  code?: string;
+  url?: string;
+}
+
+export const certifications: Certification[] = [
+  // TODO: add each credential's Microsoft Learn verification URL to `url`.
+  { name: 'Azure AI Engineer Associate', issuer: 'Microsoft Certified', code: 'AI-102' },
+  { name: 'Azure Data Scientist Associate', issuer: 'Microsoft Certified', code: 'DP-100' },
+  // TODO: add the issuer for this course (listed on the CV without one).
+  { name: 'AI Engineer for Data Scientists Associate', issuer: 'Course' },
+];
+
+export const cvUrl = '/MikiasAbate-CV.pdf';
+export const cvFileName = 'Mikias-Abate-CV.pdf';

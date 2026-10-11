@@ -1,0 +1,133 @@
+/* ==========================================================================
+   Design tokens
+   One accent (indigo), neutral greys, warm off-white in light mode.
+   ========================================================================== */
+
+:root {
+  /* Typography */
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --text-xs: 0.75rem;     /* 12 */
+  --text-sm: 0.875rem;    /* 14 */
+  --text-base: 1rem;      /* 16 */
+  --text-md: 1.0625rem;   /* 17 */
+  --text-lg: 1.25rem;     /* 20 */
+  --text-xl: 1.5rem;      /* 24 */
+  --text-2xl: clamp(1.75rem, 1.4rem + 1.4vw, 2.25rem);
+  --text-3xl: clamp(2.125rem, 1.6rem + 2.2vw, 3rem);
+  --text-display: clamp(2.25rem, 1.5rem + 3vw, 3.5rem);
+
+  --leading-tight: 1.08;
+  --leading-snug: 1.3;
+  --leading-body: 1.65;
+  --tracking-tight: -0.035em;
+  --tracking-snug: -0.02em;
+  --tracking-label: 0.02em;
+
+  /* Spacing (4px scale) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Layout */
+  --container: 1120px;
+  --gutter: 1.5rem;
+  --page-pad: 1rem;
+  --header-h: 64px;
+  --section-gap: clamp(4.5rem, 3rem + 6vw, 8rem);
+
+  /* Shape */
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --border-width: 1px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-fast: 150ms;
+  --dur: 200ms;
+  --dur-slow: 250ms;
+
+  /* Light theme (default before JS runs) */
+  --bg: #faf9f7;
+  --bg-subtle: #f3f2ee;
+  --surface: #ffffff;
+  --border: #e6e4df;
+  --border-strong: #d4d1ca;
+  --text: #18181b;
+  --text-muted: #52525b;
+  --text-subtle: #696970;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-soft: rgba(79, 70, 229, 0.08);
+  --on-inverse: #faf9f7;
+  --inverse: #18181b;
+  --success: #166534;
+  --danger: #b91c1c;
+  --overlay: rgba(24, 24, 27, 0.4);
+  --shadow-pop: 0 16px 48px -12px rgba(24, 24, 27, 0.18), 0 2px 6px rgba(24, 24, 27, 0.06);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0a0a0b;
+    --bg-subtle: #111113;
+    --surface: #131315;
+    --border: #232326;
+    --border-strong: #303035;
+    --text: #ededef;
+    --text-muted: #a1a1aa;
+    --text-subtle: #85858e;
+    --accent: #8b93f8;
+    --accent-hover: #a5abfa;
+    --accent-soft: rgba(139, 147, 248, 0.1);
+    --on-inverse: #0a0a0b;
+    --inverse: #ededef;
+    --success: #4ade80;
+    --danger: #f87171;
+    --overlay: rgba(0, 0, 0, 0.6);
+    --shadow-pop: 0 24px 64px -16px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #0a0a0b;
+  --bg-subtle: #111113;
+  --surface: #131315;
+  --border: #232326;
+  --border-strong: #303035;
+  --text: #ededef;
+  --text-muted: #a1a1aa;
+  --text-subtle: #85858e;
+  --accent: #8b93f8;
+  --accent-hover: #a5abfa;
+  --accent-soft: rgba(139, 147, 248, 0.1);
+  --on-inverse: #0a0a0b;
+  --inverse: #ededef;
+  --success: #4ade80;
+  --danger: #f87171;
+  --overlay: rgba(0, 0, 0, 0.6);
+  --shadow-pop: 0 24px 64px -16px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  color-scheme: dark;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --page-pad: 1.5rem;
+    --header-h: 68px;
+  }
+}

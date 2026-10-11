@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
 
-// Fades in elements marked with the `reveal` class as they scroll into view.
-export function useReveal() {
+/**
+ * Fades in `.reveal` elements as they enter the viewport.
+ * Call once per page; pass a key that changes when the page content changes.
+ */
+export function useReveal(key?: unknown) {
   useEffect(() => {
-    const elements = document.querySelectorAll<HTMLElement>('.reveal');
-    if (!('IntersectionObserver' in window)) {
+    const elements = Array.from(document.querySelectorAll<HTMLElement>('.reveal:not(.is-visible)'));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) {
       elements.forEach((el) => el.classList.add('is-visible'));
       return;
     }
@@ -17,9 +21,9 @@ export function useReveal() {
           }
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      { rootMargin: '0px 0px -8% 0px' }
     );
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [key]);
 }
