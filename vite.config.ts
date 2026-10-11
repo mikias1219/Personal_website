@@ -2,7 +2,7 @@ import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { projects } from './src/data/projects';
 
-const SITE_URL = 'https://mikiasabate.vercel.app';
+const SITE_URL = 'https://mikiasabatesite.vercel.app';
 
 /** Emits sitemap.xml at build time from the route list and project slugs. */
 function sitemap(): Plugin {

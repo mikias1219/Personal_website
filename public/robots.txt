@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mikiasabate.vercel.app/sitemap.xml
+Sitemap: https://mikiasabatesite.vercel.app/sitemap.xml

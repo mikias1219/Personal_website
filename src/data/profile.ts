@@ -4,7 +4,7 @@ import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 export const site = {
   name: 'Mikias Abate',
   role: 'Software Developer & AI Engineer',
-  url: 'https://mikiasabate.vercel.app',
+  url: 'https://mikiasabatesite.vercel.app',
   location: 'Addis Ababa, Ethiopia',
   timeZone: 'Africa/Addis_Ababa',
   email: 'mikiyasabate003@gmail.com',

@@ -1,4 +1,4 @@
-# mikiasabate.vercel.app
+# mikiasabatesite.vercel.app
 
 Personal site of Mikias Abate — software developer and AI engineer. Vite + React 18 + TypeScript + React Router.
 
@@ -39,7 +39,7 @@ src/
 
 ## Deploy
 
-**Vercel (live: https://mikiasabate.vercel.app)** — the GitHub repo is connected to Vercel, so every push
+**Vercel (live: https://mikiasabatesite.vercel.app)** — the GitHub repo is connected to Vercel, so every push
 to `main` builds and deploys automatically. `vercel.json` sets the Vite build, rewrites page routes to
 `index.html` so deep links work, and caches hashed assets for a year.
 
