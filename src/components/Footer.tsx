@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FiDownload } from 'react-icons/fi';
+import { FiArrowUp, FiDownload } from 'react-icons/fi';
 import { site, socials } from '../data/profile';
 import { cvFileName, cvUrl } from '../data/experience';
 import { useLocalTime } from '../hooks/useLocalTime';
@@ -49,7 +49,12 @@ const Footer: React.FC = () => {
         <div className="footer-bottom">
           <p>© {new Date().getFullYear()} {site.name}</p>
           <a href={`mailto:${site.email}`}>{site.email}</a>
+          <button type="button" className="to-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            Back to top <FiArrowUp aria-hidden="true" />
+          </button>
         </div>
+
+        <p className="footer-wordmark" aria-hidden="true">{site.name}</p>
       </div>
     </footer>
   );

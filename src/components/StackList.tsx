@@ -4,7 +4,7 @@ import { stack } from '../data/profile';
 const StackList: React.FC = () => (
   <dl className="stack-list">
     {stack.map((group) => (
-      <div key={group.group} className="stack-group reveal">
+      <div key={group.group} className="stack-group spot reveal">
         <dt className="label">{group.group}</dt>
         <dd>
           <ul>

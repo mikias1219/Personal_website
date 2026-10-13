@@ -87,14 +87,14 @@ const About: React.FC = () => {
         <div className="creds">
           <ul className="cred-cards">
             {certifications.map((c) => (
-              <li key={c.name} className="cred-card reveal">
+              <li key={c.name} className="cred-card spot reveal">
                 <p className="label">{c.issuer}{c.code ? ` · ${c.code}` : ''}</p>
                 <p className="cred-name">
                   {c.url ? <a href={c.url} target="_blank" rel="noopener noreferrer">{c.name}</a> : c.name}
                 </p>
               </li>
             ))}
-            <li className="cred-card reveal">
+            <li className="cred-card spot reveal">
               <p className="label">Education · {education.period}</p>
               <p className="cred-name">{education.degree}</p>
               <p className="muted">{education.school}</p>

@@ -105,13 +105,15 @@ const CaseStudy: React.FC = () => {
         </Section>
       </div>
 
-      <nav className="case-next" aria-label="Next project">
-        <p className="label">Next project</p>
-        <Link to={`/work/${next.slug}`} className="case-next-link">
-          <span className="h2">{next.title}</span>
-          <FiArrowRight aria-hidden="true" />
-        </Link>
-        <p className="muted">{next.summary}</p>
+      <nav className="case-next spot" aria-label="Next project">
+        <div>
+          <p className="label">Next project</p>
+          <Link to={`/work/${next.slug}`} className="case-next-link stretched-link">
+            <span className="h2">{next.title}</span>
+          </Link>
+          <p className="muted">{next.summary}</p>
+        </div>
+        <span className="case-next-arrow" aria-hidden="true"><FiArrowRight /></span>
       </nav>
     </article>
   );

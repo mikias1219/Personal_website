@@ -29,6 +29,32 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Ambient backdrop: two soft glows and a faint grid that fades out below the fold */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+body::before {
+  background:
+    radial-gradient(62rem 38rem at 10% -10%, var(--glow-1), transparent 62%),
+    radial-gradient(50rem 34rem at 94% 2%, var(--glow-2), transparent 64%);
+}
+
+body::after {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: center top;
+  -webkit-mask-image: radial-gradient(ellipse 85% 62% at 50% 0%, #000 25%, transparent 78%);
+  mask-image: radial-gradient(ellipse 85% 62% at 50% 0%, #000 25%, transparent 78%);
+}
+
 #root {
   display: flex;
   flex-direction: column;
@@ -37,6 +63,11 @@ body {
 
 main {
   flex: 1;
+}
+
+/* Focused programmatically on route change, so it needs no visible ring */
+main:focus,
+main:focus-visible {
   outline: none;
 }
 
@@ -72,7 +103,7 @@ button {
 
 ::selection {
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
 }
 
 /* Type */
@@ -97,16 +128,31 @@ p {
   font-weight: 600;
 }
 
+/* Italic serif accent inside a sans headline, painted with the brand gradient */
+.accent-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  /* Room for italic overhang so the clipped gradient is not cut off */
+  padding-inline: 0.04em 0.12em;
+  margin-inline: -0.04em -0.12em;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .h1 {
   font-size: var(--text-3xl);
-  line-height: 1.1;
+  line-height: 1.04;
   letter-spacing: var(--tracking-tight);
 }
 
 .h2 {
   font-size: var(--text-2xl);
-  line-height: 1.15;
-  letter-spacing: -0.03em;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
 }
 
 .h3 {
@@ -121,8 +167,9 @@ p {
 
 .lead {
   font-size: var(--text-md);
+  line-height: 1.6;
   color: var(--text-muted);
-  max-width: 62ch;
+  max-width: 60ch;
 }
 
 .muted {
@@ -235,18 +282,35 @@ kbd {
   transform: none;
 }
 
-/* Scroll reveal: subtle and only when motion is allowed */
+/* Scroll reveal: only when motion is allowed. Entrance properties take the
+   stagger delay (--i); hover properties on the same element stay instant. */
 @media (prefers-reduced-motion: no-preference) {
-  .reveal {
+  .reveal.reveal {
+    --reveal-delay: calc(var(--i, 0) * 80ms);
     opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 500ms var(--ease), transform 500ms var(--ease);
+    transform: translateY(18px);
+    filter: blur(6px);
+    transition:
+      opacity 700ms var(--ease-out) var(--reveal-delay),
+      transform 700ms var(--ease-out) var(--reveal-delay),
+      filter 700ms var(--ease-out) var(--reveal-delay),
+      translate var(--dur-slow) var(--ease),
+      border-color var(--dur) var(--ease),
+      box-shadow var(--dur-slow) var(--ease),
+      background-color var(--dur) var(--ease);
   }
 
-  .reveal.is-visible {
+  .reveal.reveal.is-visible {
     opacity: 1;
     transform: none;
+    filter: none;
   }
+
+  :is(.stats, .practices, .stack-list, .flagship-list, .cred-cards, .timeline) > :nth-child(2) { --i: 1; }
+  :is(.stats, .practices, .stack-list, .flagship-list, .cred-cards, .timeline) > :nth-child(3) { --i: 2; }
+  :is(.stats, .practices, .stack-list, .cred-cards, .timeline) > :nth-child(4) { --i: 3; }
+  :is(.stack-list, .cred-cards) > :nth-child(5) { --i: 4; }
+  :is(.stack-list, .cred-cards) > :nth-child(6) { --i: 5; }
 }
 
 @media (prefers-reduced-motion: reduce) {

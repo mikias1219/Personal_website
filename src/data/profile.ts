@@ -1,5 +1,6 @@
 import type { IconType } from 'react-icons';
-import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
+import { FiCloud, FiCpu, FiGithub, FiLayers, FiLinkedin, FiMail } from 'react-icons/fi';
+import { projects } from './projects';
 
 export const site = {
   name: 'Mikias Abate',
@@ -25,16 +26,17 @@ export const socials: Social[] = [
   { label: 'Email', handle: site.email, href: `mailto:${site.email}`, icon: FiMail },
 ];
 
-/** Short, verifiable facts shown under the hero. */
+/** Short, verifiable facts shown under the hero. `figure` is the headline number. */
 export const proof = [
-  { label: 'Experience', value: '2+ years shipping full-stack and AI software' },
-  { label: 'Certified', value: 'Azure AI Engineer (AI-102) & Data Scientist (DP-100)' },
-  { label: 'AI systems', value: 'Multi-tenant RAG on Azure OpenAI + AI Search' },
-  { label: 'Open source', value: '60+ public repositories on GitHub' },
+  { figure: '2+', label: 'Years of experience', value: 'Shipping full-stack and AI software' },
+  { figure: '2', label: 'Microsoft certifications', value: 'Azure AI Engineer (AI-102) & Data Scientist (DP-100)' },
+  { figure: String(projects.length), label: 'Case studies', value: 'From multi-tenant RAG on Azure to mobile apps and pipelines' },
+  { figure: '60+', label: 'Public repositories', value: 'Open source work on GitHub' },
 ];
 
 export const practices = [
   {
+    icon: FiCpu,
     title: 'AI & RAG',
     text: 'LLM features grounded in an organisation’s own documents, with retrieval scoped to the right tenant and workspace.',
     points: [
@@ -44,6 +46,7 @@ export const practices = [
     ],
   },
   {
+    icon: FiLayers,
     title: 'Full-stack products',
     text: 'Typed APIs, clear data models and interfaces that hold up when real users, payments and permissions arrive.',
     points: [
@@ -53,6 +56,7 @@ export const practices = [
     ],
   },
   {
+    icon: FiCloud,
     title: 'Cloud & DevOps',
     text: 'Reproducible environments and pipelines, so every change takes the same path from commit to running service.',
     points: [

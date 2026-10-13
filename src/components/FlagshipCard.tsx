@@ -6,7 +6,7 @@ import FlowDiagram from './FlowDiagram';
 import Tags from './Tags';
 
 const FlagshipCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => (
-  <article className="flagship-card reveal">
+  <article className="flagship-card spot reveal">
     <div className="flagship-body">
       <p className="meta-row mono">
         <span>{String(index + 1).padStart(2, '0')}</span>
@@ -24,6 +24,10 @@ const FlagshipCard: React.FC<{ project: Project; index: number }> = ({ project, 
       </span>
     </div>
     <div className="flagship-visual">
+      <p className="visual-bar mono" aria-hidden="true">
+        <i /><i /><i />
+        <span>{project.slug} / architecture</span>
+      </p>
       <FlowDiagram steps={project.caseStudy.flow} label={`${project.title} architecture`} />
     </div>
   </article>
