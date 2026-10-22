@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import emailjs from 'emailjs-com';
 import { FiAlertCircle, FiCheckCircle, FiSend } from 'react-icons/fi';
 import { site } from '../data/profile';
 
@@ -51,6 +50,8 @@ const ContactForm: React.FC = () => {
 
     setStatus('sending');
     try {
+      // Loaded on demand so the SDK stays out of the initial bundle
+      const { default: emailjs } = await import('emailjs-com');
       await emailjs.send(EMAILJS.serviceId, EMAILJS.templateId, fields, EMAILJS.publicKey);
       setStatus('success');
       setFields(EMPTY);
@@ -89,7 +90,7 @@ const ContactForm: React.FC = () => {
         {field('name', 'Name', <input type="text" autoComplete="name" required />)}
         {field('email', 'Email', <input type="email" autoComplete="email" required />)}
       </div>
-      {field('message', 'Message', <textarea rows={6} required placeholder="The role, project or problem — and any timeline." />)}
+      {field('message', 'Message', <textarea rows={6} required placeholder="The role or project, your team, and any timeline." />)}
 
       <div className="hp-field" aria-hidden="true">
         <label htmlFor="contact-company">Company</label>

@@ -1,31 +1,30 @@
 /* ==========================================================================
    Design tokens
-   Ink neutrals, one accent, and a three-stop gradient used sparingly for
-   display type, glows and card highlights.
+   Ink neutrals with a single teal accent. The accent marks what matters —
+   links, the active section, highlights, focus — and nothing else.
    ========================================================================== */
 
 :root {
   /* Typography */
   --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --font-serif: 'Instrument Serif', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
 
   --text-xs: 0.75rem;     /* 12 */
   --text-sm: 0.875rem;    /* 14 */
   --text-base: 1rem;      /* 16 */
   --text-md: 1.125rem;    /* 18 */
   --text-lg: 1.25rem;     /* 20 */
-  --text-xl: 1.625rem;    /* 26 */
-  --text-2xl: clamp(1.875rem, 1.35rem + 2vw, 2.875rem);
-  --text-3xl: clamp(2.375rem, 1.5rem + 3.4vw, 4rem);
-  --text-display: clamp(2.75rem, 1.2rem + 4.8vw, 4.75rem);
+  --text-xl: 1.5rem;      /* 24 */
+  --text-2xl: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
+  --text-3xl: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+  --text-display: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
 
-  --leading-tight: 1;
-  --leading-snug: 1.3;
+  --leading-tight: 1.02;
+  --leading-snug: 1.25;
   --leading-body: 1.65;
-  --tracking-tight: -0.045em;
+  --tracking-tight: -0.04em;
   --tracking-snug: -0.02em;
-  --tracking-label: 0.06em;
+  --tracking-label: 0.08em;
 
   /* Spacing (4px scale) */
   --space-1: 0.25rem;
@@ -40,131 +39,123 @@
   --space-16: 4rem;
   --space-20: 5rem;
   --space-24: 6rem;
-  --space-32: 8rem;
 
   /* Layout */
-  --container: 1180px;
-  --gutter: 1.5rem;
+  --container: 1200px;
   --page-pad: 1rem;
-  --header-h: 72px;
-  --section-gap: clamp(5rem, 3rem + 7vw, 9.5rem);
+  --header-h: 64px;
+  --section-gap: clamp(4.5rem, 3rem + 5vw, 7.5rem);
 
   /* Shape */
-  --radius-sm: 8px;
-  --radius: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
   --radius-pill: 999px;
-  --border-width: 1px;
 
   /* Motion */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --dur-fast: 150ms;
+  --dur-fast: 140ms;
   --dur: 220ms;
-  --dur-slow: 320ms;
+  --dur-slow: 360ms;
 
   /* Light theme (default before JS runs) */
-  --bg: #f6f5f1;
-  --bg-subtle: #eeede7;
+  --bg: #f7f7f4;
+  --bg-subtle: #efefea;
   --surface: #ffffff;
-  --surface-2: #faf9f6;
-  --border: #e3e1da;
-  --border-strong: #cdcac1;
-  --text: #111114;
-  --text-muted: #4e4e57;
-  --text-subtle: #6b6b74;
-  --accent: #3b4eea;
-  --accent-hover: #2c3dd0;
-  --accent-soft: rgba(59, 78, 234, 0.08);
-  --grad-a: #3b4eea;
-  --grad-b: #0e86ad;
-  --grad-c: #0a936f;
-  --glow-1: rgba(59, 78, 234, 0.15);
-  --glow-2: rgba(14, 165, 200, 0.13);
-  --grid-line: rgba(17, 17, 20, 0.05);
-  --glass: rgba(255, 255, 255, 0.74);
-  --on-inverse: #f6f5f1;
-  --inverse: #111114;
+  --surface-2: #f9f9f6;
+  --border: #e3e3dc;
+  --border-strong: #cbcbc2;
+  --text: #0e1013;
+  --text-muted: #474c54;
+  --text-subtle: #5f646c;
+  --accent: #0a7360;
+  --accent-hover: #075c4d;
+  --accent-soft: rgba(10, 115, 96, 0.09);
+  --accent-line: rgba(10, 115, 96, 0.35);
+  --on-accent: #ffffff;
+  --inverse: #0e1013;
+  --on-inverse: #f7f7f4;
   --success: #15803d;
-  --danger: #b91c1c;
-  --overlay: rgba(17, 17, 20, 0.4);
-  --shadow-card: 0 1px 2px rgba(17, 17, 20, 0.04), 0 14px 32px -18px rgba(17, 17, 20, 0.14);
-  --shadow-lift: 0 2px 4px rgba(17, 17, 20, 0.04), 0 30px 60px -28px rgba(40, 52, 170, 0.32);
-  --shadow-pop: 0 24px 64px -16px rgba(17, 17, 20, 0.22), 0 2px 6px rgba(17, 17, 20, 0.06);
-
-  --gradient: linear-gradient(100deg, var(--grad-a), var(--grad-b) 55%, var(--grad-c));
+  --danger: #b42318;
+  --overlay: rgba(14, 16, 19, 0.45);
+  --dot: rgba(14, 16, 19, 0.09);
+  --glow: rgba(10, 115, 96, 0.1);
+  --shadow-card: 0 1px 2px rgba(14, 16, 19, 0.04), 0 12px 28px -18px rgba(14, 16, 19, 0.16);
+  --shadow-lift: 0 2px 4px rgba(14, 16, 19, 0.04), 0 24px 48px -24px rgba(14, 16, 19, 0.24);
+  --shadow-pop: 0 24px 64px -16px rgba(14, 16, 19, 0.25), 0 2px 6px rgba(14, 16, 19, 0.06);
 
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #07080b;
-    --bg-subtle: #0c0e13;
-    --surface: #0f1117;
-    --surface-2: #141720;
-    --border: #1f222c;
-    --border-strong: #303545;
-    --text: #f1f2f5;
-    --text-muted: #a3a7b4;
-    --text-subtle: #7f8492;
-    --accent: #8a9bff;
-    --accent-hover: #aab6ff;
-    --accent-soft: rgba(138, 155, 255, 0.12);
-    --grad-a: #8a9bff;
-    --grad-b: #4fd1ee;
-    --grad-c: #6ee7c0;
-    --glow-1: rgba(92, 112, 255, 0.24);
-    --glow-2: rgba(45, 200, 230, 0.12);
-    --grid-line: rgba(255, 255, 255, 0.045);
-    --glass: rgba(15, 17, 23, 0.68);
-    --on-inverse: #07080b;
-    --inverse: #f1f2f5;
+    --bg: #0a0c0f;
+    --bg-subtle: #0f1216;
+    --surface: #111419;
+    --surface-2: #151920;
+    --border: #232931;
+    --border-strong: #343c47;
+    --text: #eef1f4;
+    --text-muted: #a6aeb8;
+    --text-subtle: #8a929d;
+    --accent: #4fd6b0;
+    --accent-hover: #7ae3c5;
+    --accent-soft: rgba(79, 214, 176, 0.1);
+    --accent-line: rgba(79, 214, 176, 0.4);
+    --on-accent: #04140f;
+    --inverse: #eef1f4;
+    --on-inverse: #0a0c0f;
     --success: #4ade80;
     --danger: #f87171;
-    --overlay: rgba(0, 0, 0, 0.62);
-    --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.02), 0 18px 40px -24px rgba(0, 0, 0, 0.8);
-    --shadow-lift: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 32px 70px -30px rgba(92, 112, 255, 0.4);
-    --shadow-pop: 0 24px 64px -16px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.04);
+    --overlay: rgba(0, 0, 0, 0.65);
+    --dot: rgba(255, 255, 255, 0.07);
+    --glow: rgba(79, 214, 176, 0.08);
+    --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.015), 0 16px 36px -24px rgba(0, 0, 0, 0.85);
+    --shadow-lift: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 28px 60px -28px rgba(0, 0, 0, 0.9);
+    --shadow-pop: 0 24px 64px -16px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.04);
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
-  --bg: #07080b;
-  --bg-subtle: #0c0e13;
-  --surface: #0f1117;
-  --surface-2: #141720;
-  --border: #1f222c;
-  --border-strong: #303545;
-  --text: #f1f2f5;
-  --text-muted: #a3a7b4;
-  --text-subtle: #7f8492;
-  --accent: #8a9bff;
-  --accent-hover: #aab6ff;
-  --accent-soft: rgba(138, 155, 255, 0.12);
-  --grad-a: #8a9bff;
-  --grad-b: #4fd1ee;
-  --grad-c: #6ee7c0;
-  --glow-1: rgba(92, 112, 255, 0.24);
-  --glow-2: rgba(45, 200, 230, 0.12);
-  --grid-line: rgba(255, 255, 255, 0.045);
-  --glass: rgba(15, 17, 23, 0.68);
-  --on-inverse: #07080b;
-  --inverse: #f1f2f5;
+  --bg: #0a0c0f;
+  --bg-subtle: #0f1216;
+  --surface: #111419;
+  --surface-2: #151920;
+  --border: #232931;
+  --border-strong: #343c47;
+  --text: #eef1f4;
+  --text-muted: #a6aeb8;
+  --text-subtle: #8a929d;
+  --accent: #4fd6b0;
+  --accent-hover: #7ae3c5;
+  --accent-soft: rgba(79, 214, 176, 0.1);
+  --accent-line: rgba(79, 214, 176, 0.4);
+  --on-accent: #04140f;
+  --inverse: #eef1f4;
+  --on-inverse: #0a0c0f;
   --success: #4ade80;
   --danger: #f87171;
-  --overlay: rgba(0, 0, 0, 0.62);
-  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.02), 0 18px 40px -24px rgba(0, 0, 0, 0.8);
-  --shadow-lift: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 32px 70px -30px rgba(92, 112, 255, 0.4);
-  --shadow-pop: 0 24px 64px -16px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --overlay: rgba(0, 0, 0, 0.65);
+  --dot: rgba(255, 255, 255, 0.07);
+  --glow: rgba(79, 214, 176, 0.08);
+  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.015), 0 16px 36px -24px rgba(0, 0, 0, 0.85);
+  --shadow-lift: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 28px 60px -28px rgba(0, 0, 0, 0.9);
+  --shadow-pop: 0 24px 64px -16px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.04);
   color-scheme: dark;
 }
 
 @media (min-width: 768px) {
   :root {
     --page-pad: 1.5rem;
-    --header-h: 80px;
+    --header-h: 72px;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --page-pad: 2rem;
   }
 }

@@ -22,7 +22,7 @@ const photos = {
 };
 
 /** Which photo the site shows. Change to 'suit' to use the formal portrait everywhere. */
-const ACTIVE_PHOTO: keyof typeof photos = 'casual';
+const ACTIVE_PHOTO: keyof typeof photos = 'suit';
 
 interface Props {
   priority?: boolean;

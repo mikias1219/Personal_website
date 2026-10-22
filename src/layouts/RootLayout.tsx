@@ -5,13 +5,10 @@ import Footer from '../components/Footer';
 import CommandPalette from '../components/CommandPalette';
 import Toaster from '../components/Toaster';
 import ScrollManager from '../components/ScrollManager';
-import { useSpotlight } from '../hooks/useSpotlight';
 
 const RootLayout: React.FC = () => {
   const [paletteOpen, setPaletteOpen] = useState(false);
-  const openPalette = useCallback(() => setPaletteOpen(true), []);
   const closePalette = useCallback(() => setPaletteOpen(false), []);
-  useSpotlight();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -28,7 +25,7 @@ const RootLayout: React.FC = () => {
     <>
       <a href="#main" className="skip-link">Skip to content</a>
       <ScrollManager />
-      <Header onOpenPalette={openPalette} />
+      <Header />
       <main id="main" tabIndex={-1}>
         <Suspense fallback={<div className="page-loading" aria-busy="true" />}>
           <Outlet />

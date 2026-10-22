@@ -2,12 +2,12 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { IconType } from 'react-icons';
 import {
-  FiHome, FiGrid, FiUser, FiMail, FiFileText, FiCopy, FiDownload, FiGithub, FiLinkedin, FiMoon, FiSearch, FiCornerDownLeft,
+  FiHome, FiGrid, FiHash, FiFileText, FiCopy, FiDownload, FiGithub, FiLinkedin, FiMoon, FiSearch, FiCornerDownLeft,
 } from 'react-icons/fi';
 import { projects } from '../data/projects';
 import { socials } from '../data/profile';
 import { cvFileName, cvUrl } from '../data/experience';
-import { copyEmail } from '../lib';
+import { copyEmail, scrollToSection, sections } from '../lib';
 import { useTheme } from '../hooks/useTheme';
 
 interface Command {
@@ -39,11 +39,24 @@ const CommandPalette: React.FC<Props> = ({ open, onClose }) => {
     const openUrl = (url: string) => () => window.open(url, '_blank', 'noopener,noreferrer');
     const github = socials.find((s) => s.label === 'GitHub')!;
     const linkedin = socials.find((s) => s.label === 'LinkedIn')!;
+    // On the home page scroll to the section; elsewhere navigate to it
+    const section = (id: string) => () => {
+      if (window.location.pathname !== '/' || !scrollToSection(id)) navigate(`/#${id}`);
+    };
+    const sectionKeywords: Record<string, string> = {
+      about: 'bio background',
+      skills: 'stack technologies tools',
+      experience: 'jobs roles work history cv resume',
+      projects: 'portfolio case studies',
+      certifications: 'azure microsoft ai-102 dp-100 education degree',
+      contact: 'hire email message',
+    };
     return [
       { id: 'home', group: 'Pages', label: 'Home', icon: FiHome, run: go('/') },
-      { id: 'work', group: 'Pages', label: 'Work', hint: 'All projects', keywords: 'projects portfolio', icon: FiGrid, run: go('/work') },
-      { id: 'about', group: 'Pages', label: 'About', hint: 'Experience & certifications', keywords: 'experience cv resume', icon: FiUser, run: go('/about') },
-      { id: 'contact', group: 'Pages', label: 'Contact', keywords: 'hire email message', icon: FiMail, run: go('/contact') },
+      ...sections.map<Command>((s) => ({
+        id: s.id, group: 'Pages', label: s.label, hint: 'Section', keywords: sectionKeywords[s.id], icon: FiHash, run: section(s.id),
+      })),
+      { id: 'work', group: 'Pages', label: 'All projects', hint: 'Archive', keywords: 'projects portfolio work', icon: FiGrid, run: go('/work') },
       ...projects.map<Command>((p) => ({
         id: `project-${p.slug}`,
         group: 'Projects',

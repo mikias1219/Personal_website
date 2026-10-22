@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { FiArrowLeft, FiArrowRight, FiExternalLink, FiGithub } from 'react-icons/fi';
+import { FiArrowLeft, FiArrowRight, FiDownload, FiExternalLink, FiGithub } from 'react-icons/fi';
+import SectionLink from '../components/SectionLink';
+import { cvFileName, cvUrl } from '../data/experience';
 import { getProject, projects } from '../data/projects';
 import FlowDiagram from '../components/FlowDiagram';
 import Tags from '../components/Tags';
@@ -35,10 +37,10 @@ const CaseStudy: React.FC = () => {
   return (
     <article className="container page case">
       <Link to="/work" className="back-link">
-        <FiArrowLeft aria-hidden="true" /> All work
+        <FiArrowLeft aria-hidden="true" /> All projects
       </Link>
 
-      <header className="case-header reveal">
+      <header className="case-header">
         <p className="label">{project.category} · {project.year}</p>
         <h1 className="h1">{project.title}</h1>
         <p className="lead">{project.summary}</p>
@@ -59,11 +61,16 @@ const CaseStudy: React.FC = () => {
           <div>
             <dt className="label">Links</dt>
             <dd className="case-links">
-              <a href={project.githubLink} target="_blank" rel="noopener noreferrer">
+              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
                 <FiGithub aria-hidden="true" /> Source code
               </a>
+              {project.moreLinks?.map((l) => (
+                <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
+                  <FiGithub aria-hidden="true" /> {l.label}
+                </a>
+              ))}
               {project.demoLink && (
-                <a href={project.demoLink} target="_blank" rel="noopener noreferrer">
+                <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">
                   <FiExternalLink aria-hidden="true" /> Live demo
                 </a>
               )}
@@ -74,7 +81,7 @@ const CaseStudy: React.FC = () => {
 
       <figure className="case-figure reveal">
         <FlowDiagram steps={cs.flow} variant="full" label={`${project.title} architecture flow`} />
-        <figcaption className="mono">Architecture overview</figcaption>
+        <figcaption className="label">Architecture overview</figcaption>
       </figure>
 
       <div className="case-body">
@@ -87,7 +94,7 @@ const CaseStudy: React.FC = () => {
         </Section>
 
         <Section title="Key features" id="features">
-          <ul className="dash-list">
+          <ul className="check-list">
             {cs.features.map((f) => <li key={f}>{f}</li>)}
           </ul>
         </Section>
@@ -98,19 +105,29 @@ const CaseStudy: React.FC = () => {
 
         <Section title="Outcome" id="outcome">
           <p>{cs.result}</p>
-          <h3 className="h4">What I learned</h3>
-          <ul className="dash-list">
+        </Section>
+
+        <Section title="Key decisions & lessons" id="decisions">
+          <ul className="check-list">
             {cs.learnings.map((l) => <li key={l}>{l}</li>)}
           </ul>
         </Section>
       </div>
 
-      <nav className="case-next spot" aria-label="Next project">
+      <aside className="case-cta" aria-label="Get in touch">
+        <p>Want to talk about how I built {project.title}, or something similar for your team?</p>
+        <div className="actions">
+          <SectionLink to="contact" className="btn btn-primary">Get in touch</SectionLink>
+          <a href={cvUrl} download={cvFileName} className="btn btn-secondary">
+            <FiDownload aria-hidden="true" /> Download CV
+          </a>
+        </div>
+      </aside>
+
+      <nav className="case-next" aria-label="Next project">
         <div>
           <p className="label">Next project</p>
-          <Link to={`/work/${next.slug}`} className="case-next-link stretched-link">
-            <span className="h2">{next.title}</span>
-          </Link>
+          <Link to={`/work/${next.slug}`} className="case-next-link stretched-link">{next.title}</Link>
           <p className="muted">{next.summary}</p>
         </div>
         <span className="case-next-arrow" aria-hidden="true"><FiArrowRight /></span>

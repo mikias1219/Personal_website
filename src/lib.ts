@@ -26,3 +26,24 @@ export async function copyEmail() {
 }
 
 export const isMac = () => /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+
+/** Home-page sections, in page order. Used by the header, mobile menu, footer and command palette. */
+export const sections = [
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'certifications', label: 'Certifications' },
+  { id: 'contact', label: 'Contact' },
+] as const;
+
+export const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/** Smooth-scrolls to a section on the current page and records it in the URL without a new history entry. */
+export function scrollToSection(id: string) {
+  const el = document.getElementById(id);
+  if (!el) return false;
+  el.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
+  history.replaceState(history.state, '', `${window.location.pathname}${window.location.search}#${id}`);
+  return true;
+}

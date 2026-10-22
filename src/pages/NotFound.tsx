@@ -18,7 +18,7 @@ const NotFound: React.FC = () => {
       <div className="actions">
         <Link to="/" className="btn btn-primary">Back home</Link>
         <Link to="/work" className="btn btn-secondary">
-          See work <FiArrowRight aria-hidden="true" />
+          See projects <FiArrowRight aria-hidden="true" />
         </Link>
       </div>
     </div>

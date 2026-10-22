@@ -11,7 +11,7 @@ function sitemap(): Plugin {
     apply: 'build',
     generateBundle() {
       const today = new Date().toISOString().slice(0, 10);
-      const paths = ['/', '/work', '/about', '/contact', ...projects.map((p) => `/work/${p.slug}`)];
+      const paths = ['/', '/work', ...projects.map((p) => `/work/${p.slug}`)];
       const urls = paths
         .map((p) => `  <url><loc>${SITE_URL}${p}</loc><lastmod>${today}</lastmod></url>`)
         .join('\n');

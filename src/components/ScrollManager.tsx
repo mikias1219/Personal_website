@@ -1,17 +1,22 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
-/** Scrolls to the top (or to a #hash) on route change and moves focus to <main> for screen readers. */
+/**
+ * On route change: jumps to the #hash section if there is one, otherwise to the top,
+ * and moves focus to <main> so screen readers start at the new content.
+ * In-page section links scroll themselves (see SectionLink), so this only handles navigation.
+ */
 const ScrollManager = () => {
   const { pathname, hash } = useLocation();
   const first = useRef(true);
 
   useEffect(() => {
-    if (hash) {
-      document.getElementById(hash.slice(1))?.scrollIntoView();
-      return;
+    const target = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
+    if (target) {
+      target.scrollIntoView({ behavior: 'instant', block: 'start' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
-    window.scrollTo(0, 0);
     if (first.current) {
       first.current = false;
       return;
