@@ -13,7 +13,7 @@ const setMeta = (selector: string, attr: 'content' | 'href', value: string) => {
 };
 
 /** Updates the document title, description, canonical URL and social tags per route. */
-export function useMeta({ title, description = site.description, path }: Meta) {
+export function useMeta({ title, description = site.statement, path }: Meta) {
   useEffect(() => {
     const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
     const url = `${site.url}${path}`;

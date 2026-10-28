@@ -1,115 +1,112 @@
-// Source of truth: public/MikiasAbate-CV.pdf (the downloadable CV).
-// Keep this file in sync whenever the CV changes. Bullets are rephrased from
-// the CV; no responsibilities, metrics or employers are added here.
+// Source of truth: public/MikiasAbate-CV.pdf (the downloadable CV, v7).
+// Keep this file in sync whenever the CV changes. Bullets are condensed from
+// the CV; no responsibilities, employers or dates are added here.
 
 export interface Role {
   period: string;
   title: string;
   org: string;
-  location: string;
-  /** e.g. "Full-time", "Freelance" */
+  location?: string;
   type?: string;
   summary?: string;
   points: string[];
-  tech?: string[];
-  /** Project slugs from data/projects.ts built in this role */
-  projects?: string[];
   current?: boolean;
 }
 
 export const experience: Role[] = [
   {
-    period: 'Jan 2026 — Present',
-    title: 'Software Developer',
+    period: 'Apr 2026 — Present',
+    title: 'Software Engineer (Full-Stack)',
     org: 'IE Network Solutions',
     location: 'Addis Ababa',
     current: true,
-    summary: 'Full-stack development of internal business applications.',
+    summary: 'Full-stack internal business applications.',
     points: [
-      'Develop and maintain full-stack applications that support internal business operations.',
-      'Build backend APIs and the front-end features that consume them, using NestJS, Next.js and Python.',
-      'Model and query data in PostgreSQL, containerise services with Docker and integrate applications with existing systems.',
+      'Design, build and maintain full-stack internal business applications using NestJS, Next.js, PostgreSQL and Python.',
+      'Develop backend REST APIs and responsive frontend features; containerize and deploy services with Docker.',
+      'Integrate applications with external systems and AI services to automate business workflows.',
     ],
-    tech: ['NestJS', 'Next.js', 'Python', 'PostgreSQL', 'Docker'],
-    projects: ['realtime-chat-backend', 'cicd-devops-lab'],
   },
   {
-    period: 'Jun 2025 — Jan 2026',
-    title: 'AI & Data Scientist',
+    period: 'Jun 2025 — Apr 2026',
+    title: 'Junior AI Engineer',
     org: 'IE Network Solutions',
     location: 'Addis Ababa',
     summary: 'AI features for recruitment workflows on Microsoft Azure.',
     points: [
-      'Developed AI-powered features with Microsoft Azure AI services.',
-      'Built CV extraction, candidate scoring and job-matching capabilities for recruitment workflows.',
-      'Integrated AI services with application APIs and business workflows.',
+      'Built AI recruitment features on Microsoft Azure AI: automated CV extraction, candidate scoring and job matching.',
+      'Connected AI services to application APIs (Python, REST) and React.js interfaces within business workflows.',
+      'Earned Azure AI Engineer (AI-102) and Azure Data Scientist (DP-100) certifications during this role.',
     ],
-    tech: ['Python', 'Azure AI Services', 'Azure OpenAI', 'React', 'REST APIs'],
-    projects: ['ai-job-matching'],
   },
   {
     period: 'Feb 2025 — Jul 2025',
-    title: 'Full-Stack Web Developer',
+    title: 'Freelance Full-Stack Developer',
     org: 'Atlas Group',
     location: 'Remote',
     type: 'Freelance',
     points: [
-      'Developed full-stack web applications with Next.js, NestJS and PostgreSQL.',
-      'Integrated backend APIs with responsive user interfaces.',
+      'Delivered full-stack web applications with Next.js, NestJS and PostgreSQL, integrating backend APIs with responsive user interfaces.',
     ],
-    tech: ['Next.js', 'NestJS', 'PostgreSQL'],
   },
   {
-    period: 'Mar 2024 — May 2025',
-    title: 'Software Developer',
-    org: 'Private company',
+    period: 'Mar 2024 — May 2024',
+    title: 'Web Development Intern',
+    org: 'Prodigy InfoTech',
     location: 'Remote',
-    points: [
-      'Developed 5 full-stack applications and 3 backend services using Python and modern web technologies.',
-      'Integrated backend services and web infrastructure, improving application performance and user engagement by 40%.',
-    ],
-    tech: ['Python', 'REST APIs'],
+    type: 'Internship',
+    points: ['Built web applications using Python and web infrastructure tooling.'],
   },
+  {
+    period: 'Feb 2024 — Mar 2024',
+    title: 'Full-Stack Developer Intern',
+    org: 'Addis Ababa University',
+    type: 'Internship',
+    points: ['Developed SQL-backed full-stack web features.'],
+  },
+];
+
+/** Selected projects, straight from the CV. */
+export interface CvProject {
+  name: string;
+  kind: 'AI Project' | 'Software Project';
+  summary: string;
+  points: string[];
+}
+
+export const cvProjects: CvProject[] = [
+  {
+    name: 'Selamnew Workspace',
+    kind: 'AI Project',
+    summary: 'HR system with an AI Copilot.',
+    points: [
+      'Built an AI Copilot for HR that answers natural-language questions about workforce data, such as who is late, who is absent, who is on leave and who has planned their OKRs.',
+      'Built an AI planning assistant that helps employees and HR create and track daily and weekly plans and OKR plans.',
+    ],
+  },
+  {
+    name: 'Selamnew Collaboration',
+    kind: 'Software Project',
+    summary: 'Team collaboration platform.',
+    points: [
+      'Built and configured a full collaboration platform: NestJS backend, Next.js web app and React Native mobile app, with audio and video calling.',
+      'Implemented role-based access control, search and @mentions for team collaboration.',
+    ],
+  },
+];
+
+export const certifications = [
+  { name: 'Azure AI Engineer Associate', issuer: 'Microsoft', code: 'AI-102' },
+  { name: 'AI Engineer for Developers Associate', issuer: 'DataCamp' },
+  { name: 'AI Engineer for Data Scientists Associate', issuer: 'DataCamp' },
+  { name: 'Data Engineer Associate', issuer: 'DataCamp' },
 ];
 
 export const education = {
-  degree: 'Bachelor’s Degree in Information Systems',
+  degree: 'B.Sc. Information Systems',
   school: 'Addis Ababa University',
-  period: '2021 — 2024',
-  location: 'Addis Ababa, Ethiopia',
+  period: '2020 – 2024',
 };
 
-export interface Certification {
-  name: string;
-  issuer: string;
-  code?: string;
-  /** One line on what the certification covers */
-  scope?: string;
-  /** Credential verification link (Microsoft Learn transcript or credential page) */
-  url?: string;
-}
-
-export const certifications: Certification[] = [
-  // TODO: add each credential's Microsoft Learn verification URL to `url`; a "Verify" link then appears.
-  {
-    name: 'Azure AI Engineer Associate',
-    issuer: 'Microsoft Certified',
-    code: 'AI-102',
-    scope: 'Designing and implementing Azure AI solutions: Azure OpenAI, AI Search, Document Intelligence, Vision, Language and Speech.',
-  },
-  {
-    name: 'Azure Data Scientist Associate',
-    issuer: 'Microsoft Certified',
-    code: 'DP-100',
-    scope: 'Designing and running machine learning workloads on Azure Machine Learning: data, training, evaluation and deployment.',
-  },
-];
-
-/** Training listed on the CV that is not a Microsoft certification. */
-export const training: Certification[] = [
-  // TODO: add the provider for this course (listed on the CV without one).
-  { name: 'AI Engineer for Data Scientists Associate', issuer: 'Professional training' },
-];
-
 export const cvUrl = '/MikiasAbate-CV.pdf';
-export const cvFileName = 'Mikias-Abate-CV.pdf';
+export const cvFileName = 'Mikias_Abate_CV_Full-Stack_AI_Engineer_v7.pdf';

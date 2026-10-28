@@ -763,3 +763,34 @@
   min-height: 60vh;
   align-content: center;
 }
+
+/* Simple skill groups (CV CORE SKILLS layout) */
+.skill-groups { display: grid; gap: clamp(1.75rem, 1.4rem + 0.8vw, 2.25rem); }
+.skill-group h3 { margin-bottom: 0.75rem; }
+
+/* Compact featured (CV-selected) project cards */
+.featured-card {
+  border: 1px solid var(--border, rgb(128 128 128 / 0.2));
+  border-radius: 1rem;
+  padding: clamp(1.25rem, 1rem + 0.8vw, 1.75rem);
+  display: grid;
+  gap: 0.6rem;
+}
+.featured-title { font-size: 1.25rem; margin: 0; }
+.featured-card .meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+}
+.theme-inline { margin-top: 1rem; }
+
+/* Highlights as a check list — single column at every width */
+.highlights {
+  list-style: none;
+  margin: clamp(2rem, 1.2rem + 2.5vw, 3.25rem) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+}

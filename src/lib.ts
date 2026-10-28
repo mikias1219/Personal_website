@@ -27,7 +27,7 @@ export async function copyEmail() {
 
 export const isMac = () => /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
 
-/** Home-page sections, in page order. Used by the header, mobile menu, footer and command palette. */
+/** Home-page sections, in page order. Used by the header, mobile menu and footer. */
 export const sections = [
   { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },

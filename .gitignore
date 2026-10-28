@@ -32,3 +32,6 @@ assets/audio
 
 .vercel
 
+# Secrets — never commit
+.env
+.env*

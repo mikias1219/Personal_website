@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { FiArrowUp, FiDownload } from 'react-icons/fi';
+import { FiArrowUp, FiDownload, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 import SectionLink from './SectionLink';
-import { sections, isMac } from '../lib';
+import { sections } from '../lib';
 import { site, socials } from '../data/profile';
 import { cvFileName, cvUrl } from '../data/experience';
 
@@ -25,20 +24,22 @@ const Footer: React.FC = () => (
             {sections.map((s) => (
               <li key={s.id}><SectionLink to={s.id}>{s.label}</SectionLink></li>
             ))}
-            <li><Link to="/work">All projects</Link></li>
           </ul>
         </nav>
 
         <div className="footer-col">
           <p className="label">Connect</p>
           <ul>
-            {socials.map(({ label, href, icon: Icon }) => (
-              <li key={label}>
-                <a href={href} {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
-                  <Icon aria-hidden="true" /> {label === 'Email' ? site.email : label}
-                </a>
-              </li>
-            ))}
+            {socials.map(({ label, href }) => {
+              const Icon = label === 'GitHub' ? FiGithub : label === 'LinkedIn' ? FiLinkedin : FiMail;
+              return (
+                <li key={label}>
+                  <a href={href} {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+                    <Icon aria-hidden="true" /> {label === 'Email' ? site.email : label}
+                  </a>
+                </li>
+              );
+            })}
             <li>
               <a href={cvUrl} download={cvFileName}><FiDownload aria-hidden="true" /> Download CV (PDF)</a>
             </li>
@@ -48,9 +49,6 @@ const Footer: React.FC = () => (
 
       <div className="footer-bottom">
         <p>© {new Date().getFullYear()} {site.name}. Built with React and TypeScript.</p>
-        <p className="footer-hint">
-          Press <kbd>{isMac() ? '⌘' : 'Ctrl'}</kbd> <kbd>K</kbd> to search
-        </p>
         <button type="button" className="to-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           Back to top <FiArrowUp aria-hidden="true" />
         </button>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { FiDownload, FiMenu, FiX } from 'react-icons/fi';
 import ThemeToggle from './ThemeToggle';
 import SectionLink from './SectionLink';
@@ -57,7 +57,7 @@ const Header: React.FC = () => {
           <span className="wordmark-mark" aria-hidden="true">MA</span>
           <span className="wordmark-text">
             <span className="wordmark-name">{site.name}</span>
-            <span className="wordmark-role">Software & AI Engineer</span>
+            <span className="wordmark-role">{site.role}</span>
           </span>
         </SectionLink>
 
@@ -120,7 +120,6 @@ const Header: React.FC = () => {
                 </SectionLink>
               </li>
             ))}
-            <li><Link to="/work" className="mobile-link">All projects</Link></li>
           </ul>
           <div className="mobile-actions">
             <a href={cvUrl} download={cvFileName} className="btn btn-secondary">
