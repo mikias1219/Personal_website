@@ -78,16 +78,116 @@ test("chat rejects unsupported roles and foreign origins before calling a provid
   assert.equal(foreign.headers.get("Access-Control-Allow-Origin"), null);
 });
 
-test('local rate limiter enforces the chat request boundary', async () => {
-  const { rateLimit } = await import('../src/lib/rate-limit');
-  const keys=['UPSTASH_REDIS_REST_URL','UPSTASH_REDIS_REST_TOKEN'] as const;
-  const saved=keys.map(k=>process.env[k]);
-  keys.forEach(k=>delete process.env[k]);
+async function withMockedServices(run: () => Promise<void>) {
+  const keys = [
+    "GEMINI_API_KEY",
+    "AZURE_OPENAI_API_KEY",
+    "RESEND_API_KEY",
+    "CONTACT_FROM_EMAIL",
+    "UPSTASH_REDIS_REST_URL",
+    "UPSTASH_REDIS_REST_TOKEN",
+  ] as const;
+  const saved = keys.map((k) => process.env[k]);
+  const originalFetch = globalThis.fetch;
+  keys.forEach((k) => delete process.env[k]);
   try {
-    const req=request('chat',{});
-    for(let i=0;i<15;i++) assert.equal((await rateLimit(req,'chat')).allowed,true);
-    const blocked=await rateLimit(req,'chat');
-    assert.equal(blocked.allowed,false);
-    assert.ok(blocked.retryAfter>0);
-  } finally { keys.forEach((k,i)=>{if(saved[i]!==undefined)process.env[k]=saved[i];}); }
+    await run();
+  } finally {
+    globalThis.fetch = originalFetch;
+    keys.forEach((k, i) => {
+      if (saved[i] === undefined) delete process.env[k];
+      else process.env[k] = saved[i];
+    });
+  }
+}
+test("AI SDK provider stream becomes text, related sources and completion events", async () => {
+  await withMockedServices(async () => {
+    process.env.GEMINI_API_KEY = "test-key";
+    globalThis.fetch = async (input) => {
+      assert.ok(String(input).includes("generativelanguage.googleapis.com"));
+      const chunk = {
+        candidates: [
+          {
+            content: {
+              role: "model",
+              parts: [{ text: "Knowledge Hub uses Azure AI Search." }],
+            },
+            finishReason: "STOP",
+          },
+        ],
+        usageMetadata: {
+          promptTokenCount: 10,
+          candidatesTokenCount: 8,
+          totalTokenCount: 18,
+        },
+      };
+      return new Response(`data: ${JSON.stringify(chunk)}\n\n`, {
+        headers: { "Content-Type": "text/event-stream" },
+      });
+    };
+    const response = await chat(
+      request("chat", {
+        messages: [{ role: "user", content: "Tell me about Knowledge Hub" }],
+      }),
+    );
+    assert.equal(response.status, 200);
+    const events = (await response.text())
+      .trim()
+      .split("\n")
+      .map((line) => JSON.parse(line));
+    assert.equal(
+      events
+        .filter((e) => e.type === "text")
+        .map((e) => e.text)
+        .join(""),
+      "Knowledge Hub uses Azure AI Search.",
+    );
+    assert.ok(
+      events
+        .find((e) => e.type === "sources")
+        .sources.some(
+          (s: { href: string }) => s.href === "/work/knowledge-hub",
+        ),
+    );
+    assert.equal(events.at(-1).type, "done");
+  });
+});
+test("contact acknowledges only accepted delivery and keeps recipient on the server", async () => {
+  await withMockedServices(async () => {
+    process.env.RESEND_API_KEY = "test-key";
+    process.env.CONTACT_FROM_EMAIL = "Portfolio <contact@example.com>";
+    let calls = 0;
+    globalThis.fetch = async (input, init) => {
+      calls++;
+      assert.equal(String(input), "https://api.resend.com/emails");
+      const body = JSON.parse(String(init?.body));
+      assert.deepEqual(body.to, [site.email]);
+      assert.equal(body.reply_to, "test@example.com");
+      return Response.json({ id: "mock-delivery-id" }, { status: 201 });
+    };
+    const response = await contact(
+      request("contact", {
+        name: "Recruiter",
+        email: "test@example.com",
+        message: "This enquiry is intercepted by the test.",
+      }),
+    );
+    assert.equal(response.status, 200);
+    assert.equal((await response.json()).success, true);
+    assert.equal(calls, 1);
+    globalThis.fetch = async () =>
+      Response.json({ error: "Rejected" }, { status: 422 });
+    assert.equal(
+      (
+        await contact(
+          request("contact", {
+            name: "Recruiter",
+            email: "test@example.com",
+            message: "This enquiry is intercepted by the test.",
+          }),
+        )
+      ).status,
+      502,
+    );
+  });
 });

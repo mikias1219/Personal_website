@@ -51,7 +51,9 @@ export function CvDownload() {
         Download CV ↓
       </a>
       <span className="mono muted">
-        {cv.outdated ? "PDF awaiting update · see Experience for current details" : "PDF format"}
+        {cv.outdated
+          ? "PDF awaiting update · see Experience for current details"
+          : "PDF format"}
       </span>
     </div>
   );

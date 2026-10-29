@@ -37,10 +37,12 @@ export default function Experience() {
           <CvDownload />
           <PrintButton />
         </div>
-        {cv.outdated && <p className="cv-notice">
-          This page contains current information. The downloadable PDF is
-          outdated and is awaiting replacement.
-        </p>}
+        {cv.outdated && (
+          <p className="cv-notice">
+            This page contains current information. The downloadable PDF is
+            outdated and is awaiting replacement.
+          </p>
+        )}
       </Section>
       <Section>
         <SectionHeading
