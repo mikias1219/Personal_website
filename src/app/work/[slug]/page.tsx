@@ -14,7 +14,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { absoluteUrl } from "@/lib/config";
 export const dynamicParams = false;
 export function generateStaticParams() {
-  return featuredProjects.slice(0, 1).map((p) => ({ slug: p.slug }));
+  return featuredProjects.map((p) => ({ slug: p.slug }));
 }
 export async function generateMetadata({
   params,
