@@ -1,6 +1,6 @@
 # Content handoff
 
-Confirmed facts in `src/data/*` override the outdated public PDF.
+Confirmed facts in `src/data/*` remain authoritative for website content. The CV download uses the user-selected v7 PDF.
 
 ## CONFIRM
 
@@ -12,7 +12,7 @@ The three remaining items have `// CONFIRM` comments in `src/data/experience.ts`
 
 ## TODO
 
-- Replace `public/MikiasAbate-CV.pdf`. The original binary still has incorrect facts; links warn that it awaits an update. `/experience` is generated from current typed data.
+- CV download updated to the supplied `Mikias_Abate_CV_Full-Stack_AI_Engineer_v7.pdf`, copied unchanged to `public/MikiasAbate-CV.pdf`. `/experience` remains generated from current typed data.
 - All six credential verification URLs are supplied. Two Microsoft PDF print copies and four original DataCamp PDFs are saved; see `docs/CREDENTIALS.md`.
 - For each of Selamnew Workspace, Knowledge Hub, OKDE and BanglaChatPro: supply original problem/constraints, personal ownership/collaborators, verified architecture, actual screenshots, a real decision/trade-off, and a measured outcome with evaluation method/time period.
 - Supply a public repository/demo for Selamnew Workspace if shareable.

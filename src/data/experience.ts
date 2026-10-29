@@ -260,9 +260,10 @@ export const education = {
   school: "Addis Ababa University",
   period: "Jun 2020 – Jul 2024",
 };
-// TODO: replace public/MikiasAbate-CV.pdf; outdated dates, LinkedIn and employment claims remain in that binary.
+// User-selected CV: Mikias_Abate_CV_Full-Stack_AI_Engineer_v7.pdf (29 Oct 2026).
+// Keep website facts sourced from typed records rather than parsing this PDF.
 export const cv = {
   url: "/MikiasAbate-CV.pdf",
   filename: "MikiasAbate-CV.pdf",
-  outdated: true,
+  outdated: false,
 };

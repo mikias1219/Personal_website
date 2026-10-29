@@ -31,7 +31,7 @@ Local site: http://localhost:3000. The supported Webpack builder avoids Turbopac
 - `src/lib/`: canonical config, metadata, generated assistant context, provider adapter, validation and API guards.
 - `public/portraits/`: existing optimized WebP portraits.
 
-The public PDF is outdated and never parsed to generate pages or assistant context. Replace it before distributing it as current, then set `cv.outdated` to `false` in the data file. [Content checklist](docs/CONTENT-CHECKLIST.md) lists all CONFIRM items, verification URLs and missing screenshots/metrics.
+The public CV download is the user-selected v7 PDF, copied unchanged on 29 October 2026. It is never parsed to generate pages or assistant context. [Content checklist](docs/CONTENT-CHECKLIST.md) lists all CONFIRM items, verification URLs and missing screenshots/metrics.
 
 Open `/`, `/work`, `/work/selamnew-workspace`, `/work/knowledge-hub`, `/work/okde`, `/work/banglachatpro`, `/about`, `/experience`, `/contact` and any nonexistent path for review.
 
