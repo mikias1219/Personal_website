@@ -35,3 +35,11 @@ assets/audio
 # Secrets — never commit
 .env
 .env*
+
+# Next.js and local verification artifacts
+.next/
+*.tsbuildinfo
+reports/
+playwright-report/
+test-results/
+!.env.example

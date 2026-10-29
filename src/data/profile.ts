@@ -1,77 +1,77 @@
-// Single source of truth for who Mikias is, matching the v7 CV exactly.
-// Keep every fact here checkable against public/MikiasAbate-CV.pdf.
+// User-confirmed facts override the outdated downloadable PDF.
+import { SITE_URL } from "@/lib/config";
 
 export const site = {
-  name: 'Mikias Abate',
-  role: 'Full-Stack AI Engineer',
-  url: 'https://mikiasabatesite.vercel.app',
-  location: 'Addis Ababa, Ethiopia',
-  timeZone: 'Africa/Addis_Ababa',
-  utcOffset: 'UTC+3',
-  email: 'mikiyasabate003@gmail.com',
-  phone: '+251 922 578 745',
-  availability: 'Open to full-time roles and contracts',
+  name: "Mikias Abate",
+  role: "Software Developer & AI Engineer",
+  url: SITE_URL,
+  location: "Addis Ababa, Ethiopia",
+  timeZone: "Africa/Addis_Ababa",
+  utcOffset: "UTC+3",
+  email: "mikiyasabate003@gmail.com",
+  availability: "Open to full-time roles and contracts",
   statement:
-    'Full-stack AI engineer who ships both the application and the AI behind it — REST APIs, web and mobile apps with NestJS, Next.js, React Native and PostgreSQL, with Microsoft Azure AI services integrated into live business workflows.',
-};
+    "I build full-stack products and the AI inside them. From APIs and interfaces to grounded answers over your data.",
+  linkedin: "https://www.linkedin.com/in/mikiasabate/",
+  github: "https://github.com/mikias1219",
+} as const;
 
-export interface Social {
-  label: string;
-  handle: string;
-  href: string;
-}
-
-export const socials: Social[] = [
-  { label: 'GitHub', handle: 'mikias1219', href: 'https://github.com/mikias1219' },
-  { label: 'LinkedIn', handle: 'mikiasabate', href: 'https://linkedin.com/in/mikiasabate' },
-  { label: 'Email', handle: site.email, href: `mailto:${site.email}` },
+export const socials = [
+  { label: "GitHub", href: site.github },
+  { label: "LinkedIn", href: site.linkedin },
+  { label: "Email", href: `mailto:${site.email}` },
 ];
 
-/** Short facts lifted from the CV — shown in the hero "at a glance" strip. */
-export const quickFacts = [
-  { value: 'AI-102', detail: 'Microsoft Certified: Azure AI Engineer Associate' },
-  { value: 'Full-time', detail: 'Full-stack engineer at IE Network Solutions since Jun 2025' },
-  { value: 'B.Sc. IS', detail: 'Information Systems, Addis Ababa University' },
+export const about = [
+  "I’m a software developer and AI engineer based in Addis Ababa. At IE Network Solutions, I work on internal business applications and AI features that connect directly to everyday workflows.",
+  "My work spans NestJS APIs, Next.js interfaces, PostgreSQL data, Python services and Azure AI. I’ve built recruitment features for CV extraction and candidate matching, HR copilots, and web and mobile collaboration tools.",
+  "I studied Information Systems at Addis Ababa University. I like working across the whole product: understanding the question, shaping the data and building an interface that makes the answer useful.",
 ];
 
-/** Condensed highlights for the About section, drawn from the CV bullets. */
-export const highlights = [
-  'Built an AI Copilot for HR at IE Network Solutions — natural-language answers over workforce data (late, absent, leave, OKRs).',
-  'Built an AI planning assistant that helps employees and HR create and track daily, weekly and OKR plans.',
-  'Automated CV extraction, candidate scoring and job matching on Microsoft Azure AI for recruitment workflows.',
-  'Shipped a collaboration platform with NestJS, Next.js and React Native clients, including audio and video calling.',
-  'Delivered freelance full-stack web applications with Next.js, NestJS and PostgreSQL for Atlas Group.',
+export const capabilities = [
+  {
+    title: "AI systems",
+    number: "01",
+    description:
+      "Document retrieval, grounded chat, copilots and AI workflows.",
+    projects: ["knowledge-hub", "selamnew-workspace", "banglachatpro"],
+  },
+  {
+    title: "Full-stack products",
+    number: "02",
+    description: "APIs, interfaces and data models that work together.",
+    projects: ["okde", "shop-manager", "delala"],
+  },
+  {
+    title: "Cloud & DevOps",
+    number: "03",
+    description:
+      "Containers, infrastructure as code and automated deployments.",
+    projects: ["knowledge-hub", "azure-ai-solution", "cicd-devops-lab"],
+  },
 ];
 
-/* -------------------------------------------------------------------------- */
-/* Skills — exactly the four CORE SKILLS groups on the CV                      */
-/* -------------------------------------------------------------------------- */
-
-export interface SkillGroup {
-  id: string;
-  title: string;
-  items: string[];
-}
-
-export const skills: SkillGroup[] = [
+export const skills = [
   {
-    id: 'ai',
-    title: 'AI & Machine Learning',
-    items: ['Azure AI Services', 'Azure Machine Learning', 'LLM Applications', 'AI Agents', 'AI Integration', 'Python'],
+    title: "AI systems",
+    items: [
+      "Azure AI Services",
+      "Azure OpenAI",
+      "Azure AI Search",
+      "RAG",
+      "Python",
+    ],
   },
   {
-    id: 'backend',
-    title: 'Backend & APIs',
-    items: ['NestJS', 'Node.js', 'FastAPI', 'Django', 'REST API Design', 'PostgreSQL', 'MongoDB', 'Redis'],
+    title: "Backend & data",
+    items: ["NestJS", "FastAPI", "Django", "PostgreSQL", "Redis"],
   },
   {
-    id: 'frontend',
-    title: 'Frontend & Mobile',
-    items: ['Next.js', 'React.js', 'React Native', 'TypeScript', 'JavaScript', 'Tailwind CSS', 'Redux'],
+    title: "Frontend & mobile",
+    items: ["Next.js", "React", "TypeScript", "React Native", "Flutter"],
   },
   {
-    id: 'cloud',
-    title: 'Cloud & DevOps',
-    items: ['Microsoft Azure', 'Docker', 'CI/CD', 'Jenkins', 'GitHub Actions', 'Git', 'Linux', 'Nginx'],
+    title: "Cloud & delivery",
+    items: ["Azure", "Docker", "GitHub Actions", "Jenkins", "Bicep"],
   },
 ];
