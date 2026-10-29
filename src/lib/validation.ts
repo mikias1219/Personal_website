@@ -15,16 +15,11 @@ export const contactSchema = z.object({
 });
 export const chatSchema = z
   .object({
-    messages: z
-      .array(
-        z.object({
-          role: z.enum(["user", "assistant"]),
-          content: z.string().trim().min(1).max(2000),
-        }),
-      )
-      .min(1)
-      .max(12),
+    messages: z.array(z.discriminatedUnion("role", [
+      z.object({role: z.literal("user"), content: z.string().trim().min(1).max(2000)}),
+      z.object({role: z.literal("assistant"), content: z.string().trim().min(1).max(24000)}),
+    ])).min(1).max(20),
   })
-  .refine((v) => v.messages.at(-1)?.role === "user", {
-    message: "The last message must be a user question.",
-  });
+  .refine(v => v.messages[0]?.role === "user" && v.messages.at(-1)?.role === "user", { message: "Start and end with a user question." })
+  .refine(v => v.messages.every((m,i) => i === 0 || m.role !== v.messages[i-1].role), { message: "Conversation turns must alternate." })
+  .refine(v => v.messages.reduce((n,m) => n+m.content.length,0) <= 60000, {message: "Conversation context is too long."});

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { ChatProvider } from "@/components/ChatProvider";
 import { Header } from "@/components/Header";
 import { ChatLauncher } from "@/components/ChatLauncher";
 import { Footer } from "@/components/Footer";
@@ -93,12 +94,14 @@ export default function RootLayout({
         <a className="skip-link" href="#main">
           Skip to content
         </a>
+        <ChatProvider>
         <Header />
         <main id="main" tabIndex={-1}>
           {children}
         </main>
         <Footer />
         <ChatLauncher />
+        </ChatProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

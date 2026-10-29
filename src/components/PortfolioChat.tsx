@@ -1,138 +1,39 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { ChatAnswer } from "./ChatAnswer";
+import { usePortfolioConversation } from "./ChatProvider";
 import type { PortfolioSource } from "@/lib/portfolio-context";
-interface Message {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-  sources?: PortfolioSource[];
-  lookup?: boolean;
-}
+
+/** Suggestions from the trusted records; sending one is like asking the question. */
 const suggestions = [
+  "Tell me everything about your background — roles, skills and education.",
   "What have you built with Azure AI?",
-  "Tell me about Knowledge Hub",
-  "What is your current role?",
+  "Walk me through Knowledge Hub or OKDE.",
+  "Which certifications do you hold, and are they verified?",
 ];
+
 export function PortfolioChat({ autofocus = false }: { autofocus?: boolean }) {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const { messages, busy, error, announcement, send, stop, reset, retry } =
+    usePortfolioConversation();
   const [input, setInput] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
-  const [announcement, setAnnouncement] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const controller = useRef<AbortController | null>(null);
+
   useEffect(() => {
     if (autofocus) inputRef.current?.focus();
-    return () => controller.current?.abort();
   }, [autofocus]);
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
   }, [messages, busy]);
-  async function send(question: string) {
-    if (busy || !question.trim()) return;
-    const content = question.trim();
-    if (content.length > 2000) {
-      setError("Please keep your question under 2,000 characters.");
-      return;
-    }
-    const user: Message = { id: crypto.randomUUID(), role: "user", content };
-    const id = crypto.randomUUID();
-    const history = [...messages.filter((m) => m.content), user].slice(-11);
-    setMessages([...history, { id, role: "assistant", content: "" }]);
+
+  function submit() {
+    const question = input.trim();
+    if (!question || busy) return;
+    send(question);
     setInput("");
-    setError("");
-    setBusy(true);
-    setAnnouncement("Finding an answer…");
-    controller.current = new AbortController();
-    let answer = "";
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: history.map(({ role, content }) => ({ role, content })),
-        }),
-        signal: controller.current.signal,
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Could not reach the assistant.");
-      }
-      const reader = res.body?.getReader();
-      if (!reader) throw new Error("No answer was received.");
-      const decoder = new TextDecoder();
-      let buffer = "";
-      let completed = false;
-      const consume = (line: string) => {
-        if (!line.trim()) return;
-        const event = JSON.parse(line);
-        if (event.type === "error") throw new Error(event.error);
-        if (event.type === "fallback") {
-          answer = event.text;
-          setMessages((m) =>
-            m.map((item) =>
-              item.id === id
-                ? {
-                    ...item,
-                    content: answer,
-                    sources: event.sources,
-                    lookup: true,
-                  }
-                : item,
-            ),
-          );
-        }
-        if (event.type === "text") {
-          answer += event.text;
-          setMessages((m) =>
-            m.map((item) =>
-              item.id === id ? { ...item, content: answer } : item,
-            ),
-          );
-        }
-        if (event.type === "sources")
-          setMessages((m) =>
-            m.map((item) =>
-              item.id === id ? { ...item, sources: event.sources } : item,
-            ),
-          );
-        if (event.type === "done") completed = true;
-      };
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split("\n");
-          buffer = lines.pop() || "";
-          for (const line of lines) consume(line);
-        }
-        buffer += decoder.decode();
-        if (buffer) consume(buffer);
-      } finally {
-        await reader.cancel().catch(() => {});
-        reader.releaseLock();
-      }
-      if (!completed || !answer.trim())
-        throw new Error("The answer was interrupted. Please try again.");
-      setAnnouncement(`Answer: ${answer}`);
-    } catch (e) {
-      if (e instanceof Error && e.name === "AbortError")
-        setAnnouncement("Answer stopped.");
-      else {
-        setError(
-          e instanceof Error ? e.message : "The assistant is unavailable.",
-        );
-        setAnnouncement("Could not complete the answer.");
-      }
-      if (!answer) setMessages((m) => m.filter((item) => item.id !== id));
-    } finally {
-      setBusy(false);
-      inputRef.current?.focus();
-    }
   }
+
   return (
     <div className="portfolio-chat">
       <div className="chat-topbar">
@@ -153,7 +54,10 @@ export function PortfolioChat({ autofocus = false }: { autofocus?: boolean }) {
               ✳
             </span>
             <h3>What would you like to know?</h3>
-            <p className="muted">Projects, experience, tools — ask away.</p>
+            <p className="muted">
+              Projects, experience, skills, certifications — every answer comes
+              from the recorded facts.
+            </p>
           </div>
         ) : (
           messages.map((m) => (
@@ -171,13 +75,29 @@ export function PortfolioChat({ autofocus = false }: { autofocus?: boolean }) {
                   facts.
                 </p>
               )}
-              <p className="message-text">
-                {m.content || "Finding an answer…"}
-              </p>
+              {m.notice && <p className="chat-notice">{m.notice}</p>}
+              {m.role === "assistant" ? (
+                <ChatAnswer content={m.content} />
+              ) : (
+                <p className="message-text">{m.content}</p>
+              )}
+              {m.role === "assistant" && !m.content && (
+                <p className="message-text muted">Finding an answer…</p>
+              )}
+              {m.stopped && !m.content && (
+                <p className="chat-notice">The answer was stopped.</p>
+              )}
+              {m.stopped && m.content && !busy && (
+                <div className="chat-retry-row">
+                  <button className="chat-retry" onClick={retry}>
+                    Try again ↻
+                  </button>
+                </div>
+              )}
               {m.sources && (
                 <div className="source-chips">
                   <span className="mono muted">Explore related work</span>
-                  {m.sources.map((s) => (
+                  {m.sources.map((s: PortfolioSource) => (
                     <Link key={s.href} href={s.href}>
                       {s.label} ↗
                     </Link>
@@ -199,14 +119,29 @@ export function PortfolioChat({ autofocus = false }: { autofocus?: boolean }) {
       )}
       {error && (
         <div className="chat-error" role="alert">
-          {error} <Link href="/contact">Contact Mikias ↗</Link>
+          {error}{" "}
+          <button className="chat-retry" onClick={retry}>
+            Try again ↻
+          </button>{" "}
+          <Link href="/#contact">Contact Mikias ↗</Link>
+        </div>
+      )}
+      {messages.length > 0 && !busy && (
+        <div className="chat-reset-row">
+          <button
+            className="chat-retry"
+            onClick={reset}
+            aria-label="Start a new conversation"
+          >
+            New conversation
+          </button>
         </div>
       )}
       <form
         className="chat-form"
         onSubmit={(e) => {
           e.preventDefault();
-          void send(input);
+          submit();
         }}
       >
         <label
@@ -228,7 +163,7 @@ export function PortfolioChat({ autofocus = false }: { autofocus?: boolean }) {
           className="chat-send"
           type={busy ? "button" : "submit"}
           disabled={!busy && !input.trim()}
-          onClick={busy ? () => controller.current?.abort() : undefined}
+          onClick={busy ? () => stop() : undefined}
           aria-label={busy ? "Stop answer" : "Send question"}
         >
           {busy ? "■" : "↑"}
