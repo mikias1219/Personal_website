@@ -1,4 +1,6 @@
-import Image from "next/image";
+import { HeroVisual } from "@/components/HeroVisual";
+import { Icon } from "@/components/Icon";
+import { SocialLinks } from "@/components/SocialLinks";
 import Link from "next/link";
 import {
   Container,
@@ -7,7 +9,7 @@ import {
   SectionHeading,
   Card,
 } from "@/components/ui";
-import { site, capabilities, socials } from "@/data/profile";
+import { site, capabilities } from "@/data/profile";
 import { experience, certifications } from "@/data/experience";
 import { featuredProjects, projectBySlug } from "@/data/projects";
 import { SystemTrace } from "@/components/SystemTrace";
@@ -34,53 +36,39 @@ export default function Home() {
                 <span className="signal" />
                 {site.availability}
               </div>
+              <p className="hero-greeting">
+                Hi, I’m <span>Mikias Abate.</span>
+              </p>
               <p className="eyebrow hero-role">{site.role}</p>
               <h1 id="hero-title">
-                I build products.
+                Full-stack software.
                 <br />
-                <span className="accent">
-                  And the AI
-                  <br className="hero-break" /> inside.
-                </span>
+                <span className="accent">AI with purpose.</span>
               </h1>
               <p className="lead">
-                Full-stack applications. Grounded AI systems.
-                <br />
-                Built to turn complex workflows into useful software.
+                I build full-stack products and connect them with useful AI.
+                From the first interface to the APIs, data and intelligence
+                behind it.
               </p>
               <div className="actions">
-                <Button href="/#work">View work ↓</Button>
+                <Button href="/#work">
+                  Explore my work <Icon name="arrow-down" />
+                </Button>
                 <CvDownload />
               </div>
-              <div className="hero-links">
-                {socials.map((s) => (
-                  <a key={s.label} className="text-link" href={s.href}>
-                    {s.label} ↗
-                  </a>
-                ))}
-              </div>
-              <div className="hero-person">
-                <Image
-                  src="/portraits/portrait-casual-480.webp"
-                  width={44}
-                  height={44}
-                  alt=""
-                  priority
-                />
-                <div>
-                  <p>{site.name}</p>
-                  <span className="mono muted">
-                    <LocalTime />
-                  </span>
-                </div>
-              </div>
+              <SocialLinks className="hero-links" />
+              <p className="hero-location mono">
+                <Icon name="globe" /> {site.location}
+                <span className="hero-location-divider" />
+                <LocalTime />
+              </p>
             </div>
-            <SystemTrace />
+            <HeroVisual />
           </section>
           <div className="proof-strip">
             <div>
               <span className="proof-mark" aria-hidden="true">
-                ✳
+                <Icon name="award" />
               </span>
               <p>
                 {certifications[0].issuer} Certified
@@ -92,7 +80,7 @@ export default function Home() {
             </div>
             <div>
               <span className="proof-mark" aria-hidden="true">
-                ↳
+                <Icon name="briefcase" />
               </span>
               <p>
                 {experience[0].org}
@@ -103,7 +91,7 @@ export default function Home() {
             </div>
             <div>
               <span className="proof-mark" aria-hidden="true">
-                ◎
+                <Icon name="globe" />
               </span>
               <p>
                 From Addis, to anywhere
@@ -124,7 +112,7 @@ export default function Home() {
             title="Built to solve real problems."
           >
             <a className="text-link" href="#all-projects">
-              Browse every project ↓
+              Browse every project <Icon name="arrow-down" />
             </a>
           </SectionHeading>
           <div className="projects-grid">
@@ -151,7 +139,20 @@ export default function Home() {
           <div className="capability-grid">
             {capabilities.map((c) => (
               <Card className="capability" key={c.title}>
-                <span className="mono accent">{c.number} /</span>
+                <div className="capability-top">
+                  <span className="feature-icon">
+                    <Icon
+                      name={
+                        c.number === "01"
+                          ? "brain"
+                          : c.number === "02"
+                            ? "code"
+                            : "cloud"
+                      }
+                    />
+                  </span>
+                  <span className="mono muted">{c.number} /</span>
+                </div>
                 <h3>{c.title}</h3>
                 <p className="muted">{c.description}</p>
                 <ul>
@@ -167,7 +168,7 @@ export default function Home() {
                                 : p.githubLink || "/work"
                             }
                           >
-                            {p.title} ↗
+                            {p.title} <Icon name="arrow-up-right" />
                           </Link>
                         </li>
                       )
@@ -192,6 +193,7 @@ export default function Home() {
                 Ask about my projects, experience or how I build. Answers come
                 from the same facts you see here.
               </p>
+              <SystemTrace />
             </div>
             <PortfolioChat />
           </div>

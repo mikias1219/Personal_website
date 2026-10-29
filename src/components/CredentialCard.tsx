@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Icon } from "./Icon";
 import type { Credential } from "@/data/experience";
 import { Card } from "./ui";
 export function CredentialCard({
@@ -102,11 +103,11 @@ export function CredentialCard({
           className="text-link"
           aria-label={`Verify ${c.name} with ${c.issuer}`}
         >
-          Verify credential ↗
+          Verify credential <Icon name="arrow-up-right" />
         </a>
         {c.pdfUrl && (
           <a className="credential-pdf" href={c.pdfUrl} download>
-            Download PDF ↓
+            <Icon name="download" /> PDF
           </a>
         )}
       </div>

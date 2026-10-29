@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Icon } from "./Icon";
 import type { Project } from "@/data/projects";
 import { ProjectVisual } from "./ProjectVisual";
 import { Card } from "./ui";
@@ -21,13 +22,23 @@ export function ProjectCard({ project }: { project: Project }) {
         <h3>
           <Link href={href}>
             {project.title}
-            <span aria-hidden="true">↗</span>
+            <Icon name="arrow-up-right" />
           </Link>
         </h3>
         <p className="muted">{project.outcome || project.summary}</p>
         <p className="mono stack-line">{project.stack?.join(" · ")}</p>
         <Link href={href} className="text-link">
-          {project.caseStudy ? "Read case study" : "View project"} ↗
+          <Icon
+            name={
+              project.caseStudy
+                ? "layers"
+                : project.githubLink
+                  ? "github"
+                  : "globe"
+            }
+          />{" "}
+          {project.caseStudy ? "Read case study" : "View project"}{" "}
+          <Icon name="arrow-up-right" />
         </Link>
       </div>
     </Card>

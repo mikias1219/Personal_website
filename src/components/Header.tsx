@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { Icon } from "./Icon";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
@@ -51,8 +52,12 @@ export function Header() {
           href="/#top"
           aria-label="Mikias Abate — home"
         >
-          MA
-          <span className="signal" />
+          <span className="brand-symbol">
+            m<span>.</span>
+          </span>
+          <span className="brand-name">
+            mikias<span className="muted"> / engineer</span>
+          </span>
         </Link>
         <nav className="desktop-nav" aria-label="Primary">
           {navigation
@@ -73,9 +78,10 @@ export function Header() {
           <ThemeToggle />
           <Link
             className="button button-secondary contact-nav"
+            aria-label="Contact"
             href="/#contact"
           >
-            Contact <span aria-hidden="true">↗</span>
+            Let’s talk <Icon name="arrow-up-right" />
           </Link>
           <button
             ref={toggle}
@@ -85,7 +91,7 @@ export function Header() {
             aria-label={open ? "Close navigation" : "Open navigation"}
             onClick={() => setOpen(!open)}
           >
-            {open ? "✕" : "☰"}
+            <Icon name={open ? "close" : "menu"} />
           </button>
         </div>
         {open && (

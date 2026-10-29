@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Icon } from "./Icon";
 import type { Project } from "@/data/projects";
 import { ArchitectureDiagram } from "./ArchitectureDiagram";
 export type CaseSection =
@@ -104,14 +105,15 @@ export function CaseStudySections({
           {project.githubLink && (
             <p>
               <a className="text-link" href={project.githubLink}>
-                Source on GitHub ↗
+                <Icon name="github" /> Source on GitHub{" "}
+                <Icon name="arrow-up-right" />
               </a>
             </p>
           )}
           {project.demoLink && (
             <p>
               <a className="text-link" href={project.demoLink}>
-                Live demo ↗
+                <Icon name="globe" /> Live demo <Icon name="arrow-up-right" />
               </a>
             </p>
           )}

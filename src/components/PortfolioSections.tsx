@@ -1,6 +1,8 @@
 import Image from "next/image";
+import { Icon } from "./Icon";
+import { SocialLinks } from "./SocialLinks";
 import Link from "next/link";
-import { about, site, skills, socials } from "@/data/profile";
+import { about, site, skills } from "@/data/profile";
 import { experience, earlierExperience, education } from "@/data/experience";
 import { projects, projectBySlug } from "@/data/projects";
 import { Section, SectionHeading, Card } from "./ui";
@@ -44,13 +46,7 @@ export function AboutSection() {
               </dd>
             </div>
           </dl>
-          <div className="hero-links">
-            {socials.map((s) => (
-              <a className="text-link" key={s.label} href={s.href}>
-                {s.label} ↗
-              </a>
-            ))}
-          </div>
+          <SocialLinks className="hero-links" />
         </div>
         <figure className="about-portrait">
           <Image
@@ -91,9 +87,25 @@ export function SkillsSection() {
         title="Tools for the whole product."
       />
       <div className="skills-grid">
-        {skills.map((s) => (
+        {skills.map((s, index) => (
           <Card className="skill-group" key={s.title}>
-            <h3>{s.title}</h3>
+            <div className="skill-group-heading">
+              <span className="feature-icon">
+                <Icon
+                  name={
+                    index === 0
+                      ? "brain"
+                      : index === 1
+                        ? "code"
+                        : index === 2
+                          ? "layers"
+                          : "cloud"
+                  }
+                />
+              </span>
+              <h3>{s.title}</h3>
+              <span className="mono muted">0{index + 1}</span>
+            </div>
             <ul className="skill-items">
               {s.items.map((item) => (
                 <li key={item}>{item}</li>
@@ -118,7 +130,7 @@ export function FullExperienceSection() {
         <span className="confirmation">({earlierExperience.confirmation})</span>
       </p>
       <Link className="text-link experience-print-link" href="/experience">
-        Print-friendly experience ↗
+        Print-friendly experience <Icon name="arrow-up-right" />
       </Link>
     </Section>
   );
@@ -177,16 +189,10 @@ export function ContactSection() {
           </div>
           <h3>Direct is good, too.</h3>
           <a className="contact-email" href={`mailto:${site.email}`}>
-            {site.email} ↗
+            <Icon name="mail" /> {site.email} <Icon name="arrow-up-right" />
           </a>
           <nav aria-label="Contact profiles" className="contact-socials">
-            {socials
-              .filter((s) => s.label !== "Email")
-              .map((s) => (
-                <a key={s.label} className="text-link" href={s.href}>
-                  {s.label} ↗
-                </a>
-              ))}
+            <SocialLinks includeEmail={false} />
           </nav>
           <p className="mono muted">
             {site.location}

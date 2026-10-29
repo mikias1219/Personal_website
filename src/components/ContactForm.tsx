@@ -1,4 +1,5 @@
 "use client";
+import { Icon } from "./Icon";
 import { useState, useRef } from "react";
 import { site } from "@/data/profile";
 type Fields = "name" | "email" | "message";
@@ -112,11 +113,17 @@ export function ContactForm() {
         className="button button-primary"
         disabled={status === "sending"}
       >
-        {status === "sending" ? "Sending…" : "Send message ↗"}
+        {status === "sending" ? (
+          "Sending…"
+        ) : (
+          <>
+            Send message <Icon name="arrow-up-right" />
+          </>
+        )}
       </button>
       {status === "error" && emailDraft && (
         <a className="button button-secondary" href={emailDraft}>
-          Send with your email app ↗
+          Send with your email app <Icon name="mail" />
         </a>
       )}
       <p

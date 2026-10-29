@@ -1,4 +1,5 @@
 import { Button } from "./ui";
+import { Icon } from "./Icon";
 import { site } from "@/data/profile";
 export function ContactCTA() {
   return (
@@ -14,7 +15,9 @@ export function ContactCTA() {
           {site.availability} · {site.location}, {site.utcOffset}
         </p>
       </div>
-      <Button href="/#contact">Start a conversation ↗</Button>
+      <Button href="/#contact">
+        Start a conversation <Icon name="arrow-up-right" />
+      </Button>
     </div>
   );
 }

@@ -4,21 +4,18 @@ Next.js 16.4.3 / React 19.3.1 production build. Lint, strict TypeScript build an
 
 The production browser suite passed 11 routes with **zero automated accessibility violations and zero browser errors**. It checks same-document scrolling, all 17 projects, filters, themes, mobile overflow, keyboard focus, contact draft retention, actual saved-data chat fallback and WCAG A/AA rules. Reports and screenshots are local in ignored `reports/`.
 
-## Lighthouse
+## Current visual redesign
 
-Chrome Lighthouse 13.6.0 default mobile simulation against the local production build. Browser verification ran concurrently; these are lab measurements and deployment results can differ.
+The final browser suite passed 11 routes with zero automated WCAG violations and no browser errors. Five viewport widths (320, 390, 768, 1024 and 1440px) were checked for horizontal overflow. Portraits, main sections, contact and footer were inspected visually in dark and light themes. A deferred-layout issue that obscured mobile PDF link hit targets was removed. The hero uses a directly served 45KB AVIF with the original WebP as fallback, avoiding first-request conversion latency.
+
+Chrome Lighthouse 13.6.0 default mobile simulation against the final local production build:
 
 | Route | Performance | Accessibility | Best practices | SEO | LCP | CLS |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `/` | 92 | 100 | 100 | 100 | 1.20s | 0.0000 |
-| `/certifications` | 96 | 100 | 100 | 100 | 0.92s | 0.0000 |
-| `/experience` | 94 | 100 | 100 | 100 | 0.76s | 0.0000 |
-| `/work/selamnew-workspace` | 97 | 100 | 100 | 100 | 0.76s | 0.0000 |
-| `/work/knowledge-hub` | 90 | 100 | 100 | 100 | 0.82s | 0.0000 |
-| `/work/okde` | 97 | 100 | 100 | 100 | 0.76s | 0.0000 |
-| `/work/banglachatpro` | 99 | 100 | 100 | 100 | 0.76s | 0.0000 |
+| `/` | 95 | 100 | 100 | 100 | 2.93s | 0 |
+| `/certifications` | 99 | 100 | 100 | 100 | 0.87s | 0 |
 
-The certification page meets the ≥95 target in every category. Some longer pages remain below the performance target; all measured pages have LCP below 2 seconds and zero measured layout shift. Reproduce with `TEST_BASE_URL=http://127.0.0.1:3302 node tests/lighthouse.mjs / /certifications /experience /work/selamnew-workspace /work/knowledge-hub /work/okde /work/banglachatpro`.
+These are local lab measurements; deployment behavior can differ. Both pages meet the score target; the main page remains above the original 2-second LCP target under simulated slow mobile conditions. The case-study and print pages were route/accessibility checked; earlier Lighthouse scores were not reused as current measurements. Full JSON/HTML reports and screenshots remain in ignored `reports/`.
 
 ## External services and evidence
 

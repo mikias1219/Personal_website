@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Icon } from "./Icon";
 import { certifications, cv } from "@/data/experience";
 import { CredentialCard } from "./CredentialCard";
 export function Credentials({
@@ -21,7 +22,7 @@ export function Credentials({
           verification links
         </p>
         <Link href="/certifications" className="text-link">
-          Explore credentials & PDFs ↗
+          Explore credentials & PDFs <Icon name="arrow-up-right" />
         </Link>
       </div>
     </>
@@ -35,7 +36,7 @@ export function CvDownload() {
         href={cv.url}
         download={cv.filename}
       >
-        Download CV ↓
+        <Icon name="download" /> Download CV
       </a>
       <span className="mono muted">
         {cv.outdated

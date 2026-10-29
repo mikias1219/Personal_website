@@ -73,3 +73,7 @@ Chat uses the AI SDK when the provider returns an answer. Errors and empty model
 Mail configuration was inspected by variable names only in Vercel. Credentials were not copied locally. The one authorized live Gemini call returned no visible text; the empty-stream bug was fixed, reasoning configured for short answers, and fallback behavior tested without more paid calls.
 
 Credential sources, dates and all six available PDF copies are documented in [docs/CREDENTIALS.md](docs/CREDENTIALS.md).
+
+## Visual system
+
+The portfolio uses graphite and teal in dark mode, a matching light palette, Geist typography, shared SVG icons, clear numbered section headings and aligned card grids. The hero pairs the introduction with the existing portrait and a software-to-AI flow. `Icon.tsx`, `SocialLinks.tsx` and `HeroVisual.tsx` centralize the visuals without an extra icon dependency. The hero uses a compressed static AVIF portrait with the original WebP fallback. Navigation remains in one document; detailed credentials, case studies and print experience are optional views. Offscreen section layout is rendered normally so anchors and PDF link hit areas stay stable.

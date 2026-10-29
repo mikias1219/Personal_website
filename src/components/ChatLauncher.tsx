@@ -1,5 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
+import { Icon } from "./Icon";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 const Chat = dynamic(
@@ -33,7 +34,7 @@ function FloatingChat() {
         aria-haspopup="dialog"
         onClick={() => setOpen(true)}
       >
-        ✳ <span>Ask my portfolio</span>
+        <Icon name="message" /> <span>Ask my portfolio</span>
       </button>
       <dialog
         ref={dialog}
@@ -58,7 +59,7 @@ function FloatingChat() {
             aria-label="Close assistant"
             onClick={() => setOpen(false)}
           >
-            ✕
+            <Icon name="close" />
           </button>
         </div>
         {open && <Chat autofocus />}
