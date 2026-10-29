@@ -15,6 +15,7 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { ExperienceTimeline } from "@/components/ExperienceTimeline";
 import { Credentials, CvDownload } from "@/components/Credentials";
 import { ContactCTA } from "@/components/ContactCTA";
+import { PortfolioChat } from "@/components/PortfolioChat";
 export default function Home() {
   return (
     <>
@@ -173,7 +174,7 @@ export default function Home() {
                 from the same facts you see here.
               </p>
             </div>
-            <Card className="chat-preview"><p className="mono accent">ASK MY PORTFOLIO</p><p>What have you built with Azure AI?</p><p className="muted">Explore document-grounded chat and HR copilots.</p><Button href="/contact" variant="secondary">Contact Mikias ↗</Button></Card>
+            <PortfolioChat />
           </div>
         </Section>
         <Section id="experience">

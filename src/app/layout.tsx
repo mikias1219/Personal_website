@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Header } from "@/components/Header";
+import { ChatLauncher } from "@/components/ChatLauncher";
 import { Footer } from "@/components/Footer";
 import { site } from "@/data/profile";
 import { experience, education, certifications } from "@/data/experience";
@@ -97,7 +98,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        
+        <ChatLauncher />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
