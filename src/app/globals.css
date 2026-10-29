@@ -2213,3 +2213,10 @@ summary .mono {
     contain-intrinsic-size: none;
   }
 }
+
+.credential-footer-note > .text-link,
+.site-footer .wordmark {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
