@@ -1,13 +1,34 @@
 import { SITE_URL } from "./config";
+/** Loopback previews are explicit and can never bypass hosted Vercel policy. */
+export function isLocalPreview(req: Request) {
+  if (process.env.VERCEL || process.env.LOCAL_PREVIEW !== "1") return false;
+  const hostname = new URL(req.url).hostname;
+  return (
+    hostname === "localhost" || hostname === "127.0.0.1" || hostname === "[::1]"
+  );
+}
 export function allowedOrigin(req: Request) {
   const origin = req.headers.get("origin");
   if (req.headers.get("sec-fetch-site") === "cross-site") return false;
   if (!origin) return true;
   const allowed = new Set([new URL(SITE_URL).origin]);
-  if (process.env.NODE_ENV !== "production") {
-    allowed.add("http://localhost:3000");
-    allowed.add("http://127.0.0.1:3000");
+  // These origins come from Vercel, never from visitor-controlled Host headers.
+  for (const host of [
+    process.env.VERCEL_URL,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL,
+  ]) {
+    if (host && /^[a-zA-Z0-9.-]+$/.test(host)) allowed.add(`https://${host}`);
   }
+  const url = new URL(req.url);
+  const loopback = ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
+  if (
+    isLocalPreview(req) ||
+    (process.env.NODE_ENV !== "production" && loopback)
+  )
+    for (const hostname of ["localhost", "127.0.0.1", "[::1]"])
+      allowed.add(
+        `${url.protocol}//${hostname}${url.port ? `:${url.port}` : ""}`,
+      );
   return allowed.has(origin);
 }
 export function corsHeaders(req: Request): Record<string, string> {

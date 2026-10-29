@@ -7,6 +7,7 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   sources?: PortfolioSource[];
+  lookup?: boolean;
 }
 const suggestions = [
   "What have you built with Azure AI?",
@@ -68,6 +69,21 @@ export function PortfolioChat({ autofocus = false }: { autofocus?: boolean }) {
         if (!line.trim()) return;
         const event = JSON.parse(line);
         if (event.type === "error") throw new Error(event.error);
+        if (event.type === "fallback") {
+          answer = event.text;
+          setMessages((m) =>
+            m.map((item) =>
+              item.id === id
+                ? {
+                    ...item,
+                    content: answer,
+                    sources: event.sources,
+                    lookup: true,
+                  }
+                : item,
+            ),
+          );
+        }
         if (event.type === "text") {
           answer += event.text;
           setMessages((m) =>
@@ -143,8 +159,18 @@ export function PortfolioChat({ autofocus = false }: { autofocus?: boolean }) {
           messages.map((m) => (
             <div className={`chat-message ${m.role}`} key={m.id}>
               <p className="mono">
-                {m.role === "user" ? "YOU" : "PORTFOLIO ASSISTANT"}
+                {m.role === "user"
+                  ? "YOU"
+                  : m.lookup
+                    ? "PORTFOLIO LOOKUP"
+                    : "PORTFOLIO ASSISTANT"}
               </p>
+              {m.lookup && (
+                <p className="lookup-note">
+                  AI service unavailable. This answer uses saved portfolio
+                  facts.
+                </p>
+              )}
               <p className="message-text">
                 {m.content || "Finding an answer…"}
               </p>

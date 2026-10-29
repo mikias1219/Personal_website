@@ -1,5 +1,6 @@
 import { streamText } from "ai";
-import { portfolioModel } from "@/lib/ai-provider";
+import { portfolioLookup } from "@/lib/portfolio-lookup";
+import { portfolioModel, portfolioProviderOptions } from "@/lib/ai-provider";
 import { buildSystemPrompt, relatedSources } from "@/lib/portfolio-context";
 import { chatSchema } from "@/lib/validation";
 import { rateLimit, RateLimitUnavailable } from "@/lib/rate-limit";
@@ -29,14 +30,6 @@ export async function POST(req: Request) {
         { status: 400, headers },
       );
     const model = portfolioModel();
-    if (!model)
-      return Response.json(
-        {
-          error:
-            "The assistant is not configured yet. Please contact Mikias directly.",
-        },
-        { status: 503, headers },
-      );
     const limit = await rateLimit(req, "chat");
     if (!limit.allowed)
       return Response.json(
@@ -56,12 +49,23 @@ export async function POST(req: Request) {
           if (!cancelled)
             controller.enqueue(encoder.encode(JSON.stringify(event) + "\n"));
         };
+        const fallback = () => {
+          const reply = portfolioLookup(messages.at(-1)!.content);
+          send({ type: "fallback", text: reply.text, sources: reply.sources });
+          send({ type: "done" });
+        };
         try {
+          if (!model) {
+            fallback();
+            return;
+          }
+          let answer = "";
           const result = streamText({
             model,
             system: buildSystemPrompt(),
             messages,
-            maxOutputTokens: 600,
+            maxOutputTokens: 1024,
+            providerOptions: portfolioProviderOptions(),
             abortSignal: AbortSignal.any([
               req.signal,
               abort.signal,
@@ -72,19 +76,24 @@ export async function POST(req: Request) {
               /* Do not log messages or provider bodies. */
             },
           });
-          for await (const text of result.textStream)
-            send({ type: "text", text });
+          for await (const part of result.fullStream) {
+            if (part.type === "error") throw part.error;
+            if (part.type === "text-delta") {
+              answer += part.text;
+              send({ type: "text", text: part.text });
+            }
+          }
+          if (!answer.trim()) {
+            fallback();
+            return;
+          }
           send({
             type: "sources",
             sources: relatedSources(messages.at(-1)!.content),
           });
           send({ type: "done" });
         } catch {
-          send({
-            type: "error",
-            error:
-              "The assistant is unavailable right now. Please try again or use the contact page.",
-          });
+          if (!cancelled) fallback();
         } finally {
           if (!cancelled) controller.close();
         }

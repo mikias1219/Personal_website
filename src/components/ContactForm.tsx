@@ -1,6 +1,5 @@
 "use client";
 import { useState, useRef } from "react";
-import { contactSchema } from "@/lib/validation";
 import { site } from "@/data/profile";
 type Fields = "name" | "email" | "message";
 export function ContactForm() {
@@ -9,26 +8,37 @@ export function ContactForm() {
   >("idle");
   const [errors, setErrors] = useState<Partial<Record<Fields, string>>>({});
   const [error, setError] = useState("");
+  const [emailDraft, setEmailDraft] = useState<string | null>(null);
   const statusRef = useRef<HTMLParagraphElement>(null);
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    const parsed = contactSchema.safeParse(
-      Object.fromEntries(new FormData(form)),
-    );
-    if (!parsed.success) {
-      const e = parsed.error.flatten().fieldErrors;
-      setErrors({
-        name: e.name?.[0],
-        email: e.email?.[0],
-        message: e.message?.[0],
-      });
+    const data = new FormData(form);
+    const values = {
+      name: String(data.get("name") || "").trim(),
+      email: String(data.get("email") || "").trim(),
+      message: String(data.get("message") || "").trim(),
+      company: String(data.get("company") || ""),
+    };
+    const issues: Partial<Record<Fields, string>> = {};
+    if (values.name.length < 2)
+      issues.name = "Please enter at least 2 characters.";
+    const email = form.querySelector<HTMLInputElement>("[name=email]");
+    if (!values.email || !email?.validity.valid)
+      issues.email = "Please enter a valid email address.";
+    if (values.message.length < 10)
+      issues.message = "Please write at least 10 characters.";
+    if (Object.keys(issues).length) {
+      setErrors(issues);
       const key = (["name", "email", "message"] as const).find(
-        (k) => e[k]?.length,
+        (k) => issues[k],
       );
       if (key) form.querySelector<HTMLElement>(`[name="${key}"]`)?.focus();
       return;
     }
+    setEmailDraft(
+      `mailto:${site.email}?subject=${encodeURIComponent(`Portfolio enquiry from ${values.name}`)}&body=${encodeURIComponent(`${values.message}\n\nFrom: ${values.name}\nReply to: ${values.email}`)}`,
+    );
     setErrors({});
     setError("");
     setStatus("sending");
@@ -36,7 +46,7 @@ export function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed.data),
+        body: JSON.stringify(values),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Could not send.");
@@ -104,6 +114,11 @@ export function ContactForm() {
       >
         {status === "sending" ? "Sending…" : "Send message ↗"}
       </button>
+      {status === "error" && emailDraft && (
+        <a className="button button-secondary" href={emailDraft}>
+          Send with your email app ↗
+        </a>
+      )}
       <p
         ref={statusRef}
         tabIndex={-1}

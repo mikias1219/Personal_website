@@ -7,19 +7,26 @@ import {
   SectionHeading,
   Card,
 } from "@/components/ui";
-import { site, capabilities } from "@/data/profile";
+import { site, capabilities, socials } from "@/data/profile";
 import { experience, certifications } from "@/data/experience";
 import { featuredProjects, projectBySlug } from "@/data/projects";
 import { SystemTrace } from "@/components/SystemTrace";
 import { ProjectCard } from "@/components/ProjectCard";
-import { ExperienceTimeline } from "@/components/ExperienceTimeline";
-import { Credentials, CvDownload } from "@/components/Credentials";
-import { ContactCTA } from "@/components/ContactCTA";
+import { CvDownload } from "@/components/Credentials";
+import {
+  AboutSection,
+  SkillsSection,
+  FullExperienceSection,
+  CredentialsSection,
+  ContactSection,
+  AllProjects,
+} from "@/components/PortfolioSections";
+import { LocalTime } from "@/components/LocalTime";
 import { PortfolioChat } from "@/components/PortfolioChat";
 export default function Home() {
   return (
     <>
-      <div className="hero-backdrop">
+      <div className="hero-backdrop" id="top">
         <Container>
           <section className="hero" aria-labelledby="hero-title">
             <div className="hero-copy">
@@ -42,8 +49,15 @@ export default function Home() {
                 Built to turn complex workflows into useful software.
               </p>
               <div className="actions">
-                <Button href="/work">View work ↗</Button>
+                <Button href="/#work">View work ↓</Button>
                 <CvDownload />
+              </div>
+              <div className="hero-links">
+                {socials.map((s) => (
+                  <a key={s.label} className="text-link" href={s.href}>
+                    {s.label} ↗
+                  </a>
+                ))}
               </div>
               <div className="hero-person">
                 <Image
@@ -56,7 +70,7 @@ export default function Home() {
                 <div>
                   <p>{site.name}</p>
                   <span className="mono muted">
-                    {site.location} / {site.utcOffset}
+                    <LocalTime />
                   </span>
                 </div>
               </div>
@@ -103,14 +117,15 @@ export default function Home() {
       </div>
       <Container>
         <Section id="work">
+          <span id="projects" className="anchor-alias" aria-hidden="true" />
           <SectionHeading
             number="01"
             label="Selected work"
             title="Built to solve real problems."
           >
-            <Link className="text-link" href="/work">
-              All projects ↗
-            </Link>
+            <a className="text-link" href="#all-projects">
+              Browse every project ↓
+            </a>
           </SectionHeading>
           <div className="projects-grid">
             {featuredProjects.slice(0, 3).map((p) => (
@@ -123,10 +138,13 @@ export default function Home() {
               BanglaChatPro — AI customer care across channels ↗
             </Link>
           </p>
+          <AllProjects />
         </Section>
+        <AboutSection />
+        <SkillsSection />
         <Section id="capabilities">
           <SectionHeading
-            number="02"
+            number="04"
             label="What I build"
             title="The whole system, connected."
           />
@@ -161,9 +179,10 @@ export default function Home() {
           </div>
         </Section>
         <Section id="ask">
+          <span id="chat" className="anchor-alias" aria-hidden="true" />
           <div className="chat-showcase">
             <div>
-              <p className="eyebrow">03 / Ask my portfolio</p>
+              <p className="eyebrow">Ask my portfolio</p>
               <h2>
                 A conversation.
                 <br />
@@ -177,29 +196,9 @@ export default function Home() {
             <PortfolioChat />
           </div>
         </Section>
-        <Section id="experience">
-          <SectionHeading
-            number="04"
-            label="Experience"
-            title="Building across the stack."
-          >
-            <Link className="text-link" href="/experience">
-              Full experience ↗
-            </Link>
-          </SectionHeading>
-          <ExperienceTimeline compact />
-        </Section>
-        <Section id="credentials">
-          <SectionHeading
-            number="05"
-            label="Credentials"
-            title="A foundation to build on."
-          />
-          <Credentials />
-        </Section>
-        <Section>
-          <ContactCTA />
-        </Section>
+        <FullExperienceSection />
+        <CredentialsSection />
+        <ContactSection />
       </Container>
     </>
   );

@@ -78,52 +78,169 @@ export const earlierExperience = {
 export interface Credential {
   id: string;
   name: string;
-  issuer: string;
+  issuer: "Microsoft" | "DataCamp";
   code?: string;
   issued?: string;
   validTo?: string;
-  verifyUrl: string | null;
+  credentialId?: string;
+  certificationNumber?: string;
+  level: "Associate" | "Career certification";
+  category: "AI engineering" | "Machine learning" | "Data engineering";
+  summary: string;
+  skills: string[];
+  status: "Active" | "Expired" | "Pending";
+  verifyUrl: string;
+  recordUrl?: string;
+  pdfUrl?: string;
+  previewUrl?: string;
+  pdfKind?: "issuer-record-print" | "issuer-original";
+  detailsSource: string;
   confirmation?: string;
 }
+// Microsoft records checked 29 Oct 2026. DataCamp dates/IDs match Mikias's
+// public LinkedIn profile; DataCamp blocks automated certificate access.
 export const certifications: Credential[] = [
-  // TODO: add individual credential verification URLs supplied by Mikias.
   {
     id: "ai-102",
     name: "Microsoft Certified: Azure AI Engineer Associate",
     issuer: "Microsoft",
     code: "AI-102",
-    issued: "Apr 2026",
-    validTo: "Apr 2027",
-    verifyUrl: null,
-  }, // TODO URL
+    issued: "Apr 8, 2026",
+    validTo: "Apr 9, 2027",
+    credentialId: "9CBA5A4FC0E8DBE8",
+    certificationNumber: "04AAEK-B04657",
+    level: "Associate",
+    category: "AI engineering",
+    status: "Active",
+    summary:
+      "Azure AI solutions across generative AI, agents, computer vision, natural language processing and knowledge mining.",
+    skills: [
+      "Plan and manage Azure AI solutions",
+      "Generative AI",
+      "Agentic solutions",
+      "Computer vision",
+      "Natural language processing",
+      "Knowledge mining and information extraction",
+    ],
+    verifyUrl:
+      "https://learn.microsoft.com/api/credentials/share/en-us/mikiasabate-1946/9CBA5A4FC0E8DBE8?sharingId=ED5C9A47B84A3590",
+    recordUrl:
+      "https://learn.microsoft.com/en-us/users/mikiasabate-1946/credentials/9CBA5A4FC0E8DBE8",
+    pdfUrl: "/certificates/microsoft-azure-ai-engineer-associate.pdf",
+    previewUrl: "/certificates/microsoft-azure-ai-engineer-associate.webp",
+    pdfKind: "issuer-record-print",
+    detailsSource: "Microsoft Learn public credential record",
+  },
+  {
+    id: "dp-100",
+    name: "Microsoft Certified: Azure Data Scientist Associate",
+    issuer: "Microsoft",
+    code: "DP-100",
+    issued: "Jun 2, 2025",
+    validTo: "Jun 3, 2027",
+    credentialId: "E13F0127DECF94B4",
+    certificationNumber: "AE5516-EBF6EL",
+    level: "Associate",
+    category: "Machine learning",
+    status: "Active",
+    summary:
+      "Designing machine-learning solutions, running experiments, training and deploying models, and optimizing language models on Azure.",
+    skills: [
+      "Design and prepare machine-learning solutions",
+      "Data exploration and experiments",
+      "Model training and deployment",
+      "Language-model optimization",
+    ],
+    verifyUrl:
+      "https://learn.microsoft.com/api/credentials/share/en-us/mikiasabate-1946/E13F0127DECF94B4?sharingId=ED5C9A47B84A3590",
+    recordUrl:
+      "https://learn.microsoft.com/en-us/users/mikiasabate-1946/credentials/E13F0127DECF94B4",
+    pdfUrl: "/certificates/microsoft-azure-data-scientist-associate.pdf",
+    previewUrl: "/certificates/microsoft-azure-data-scientist-associate.webp",
+    pdfKind: "issuer-record-print",
+    detailsSource: "Microsoft Learn public credential record",
+  },
   {
     id: "datacamp-data-engineer",
     name: "Data Engineer",
     issuer: "DataCamp",
+    credentialId: "DE0012274611368",
     issued: "Sep 2025",
-    verifyUrl: null,
-  }, // TODO URL
+    validTo: "Sep 2027",
+    level: "Career certification",
+    category: "Data engineering",
+    status: "Active",
+    summary:
+      "Making data usable through data management, analysis and programming for engineering.",
+    skills: [
+      "Data management",
+      "Exploratory analysis",
+      "Programming for engineering",
+    ],
+    verifyUrl: "https://www.datacamp.com/certificate/DE0012274611368",
+    detailsSource: "User-provided credential link and public LinkedIn record",
+    // TODO: attach the original DataCamp PDF; automated downloads are blocked.
+  },
+  {
+    id: "datacamp-data-engineer-associate",
+    name: "Data Engineer Associate",
+    issuer: "DataCamp",
+    credentialId: "DEA0012533890898",
+    issued: "Aug 2025",
+    validTo: "Aug 2027",
+    level: "Associate",
+    category: "Data engineering",
+    status: "Active",
+    summary:
+      "Associate-level data-engineering certification focused on data management and engineering foundations.",
+    skills: ["Data management", "Data-engineering foundations"],
+    verifyUrl: "https://www.datacamp.com/certificate/DEA0012533890898",
+    detailsSource: "User-provided credential link and public LinkedIn record",
+    // TODO: attach the original DataCamp PDF; automated downloads are blocked.
+  },
   {
     id: "datacamp-developers",
     name: "AI Engineer for Developers Associate",
     issuer: "DataCamp",
-    verifyUrl: null,
-  }, // TODO URL
+    credentialId: "AIEDA0015379738598",
+    issued: "Aug 2025",
+    validTo: "Aug 2027",
+    level: "Associate",
+    category: "AI engineering",
+    status: "Active",
+    summary:
+      "Building AI-powered applications with programming, model development and responsible AI practices.",
+    skills: [
+      "Programming for AI",
+      "Model development",
+      "Data governance for AI",
+    ],
+    verifyUrl: "https://www.datacamp.com/certificate/AIEDA0015379738598",
+    detailsSource: "User-provided credential link and public LinkedIn record",
+    // TODO: attach the original DataCamp PDF; automated downloads are blocked.
+  },
   {
     id: "datacamp-data-scientists",
     name: "AI Engineer for Data Scientists Associate",
     issuer: "DataCamp",
-    verifyUrl: null,
-  }, // TODO URL
-  // CONFIRM: DP-100 certification status, dates and verification URL before treating it as verified proof.
-  {
-    id: "dp-100",
-    name: "Azure Data Scientist Associate",
-    issuer: "Microsoft",
-    code: "DP-100",
-    verifyUrl: null,
-    confirmation: "Certification status to be confirmed.",
-  }, // TODO URL
+    credentialId: "AEDS0019404147147",
+    issued: "Aug 2025",
+    validTo: "Aug 2027",
+    level: "Associate",
+    category: "AI engineering",
+    status: "Active",
+    summary:
+      "AI data-science foundations across data management, exploratory analysis, model development and governance.",
+    skills: [
+      "Data management",
+      "Exploratory analysis",
+      "Model development for AI",
+      "Data governance for AI",
+    ],
+    verifyUrl: "https://www.datacamp.com/certificate/AEDS0019404147147",
+    detailsSource: "User-provided credential link and public LinkedIn record",
+    // TODO: attach the original DataCamp PDF; automated downloads are blocked.
+  },
 ];
 export const education = {
   degree: "B.Sc. Information Systems",

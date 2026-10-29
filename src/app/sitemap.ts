@@ -4,10 +4,8 @@ import { absoluteUrl } from "@/lib/config";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     "/",
-    "/work",
-    "/about",
     "/experience",
-    "/contact",
+    "/certifications",
     ...featuredProjects.map((p) => `/work/${p.slug}`),
   ].map((path) => ({
     url: absoluteUrl(path),

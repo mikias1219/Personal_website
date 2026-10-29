@@ -42,7 +42,7 @@ export const projects: Project[] = [
   {
     title: "Selamnew Collaboration",
     slug: "selamnew-collaboration",
-    categories: ["Full-stack"],
+    categories: ["Full-stack", "Mobile"],
     archive: false,
     featured: false,
     caseStudy: false,
@@ -119,7 +119,7 @@ export const projects: Project[] = [
   {
     title: "Selamnew AI Job Matching",
     slug: "selamnew-ai-job-matching",
-    categories: ["Full-stack"],
+    categories: ["AI & LLM"],
     archive: false,
     featured: false,
     caseStudy: false,
@@ -246,7 +246,7 @@ export const projects: Project[] = [
   {
     title: "Life OS Mobile",
     slug: "life-os-mobile",
-    categories: ["Full-stack"],
+    categories: ["Full-stack", "Mobile"],
     archive: false,
     featured: false,
     caseStudy: false,

@@ -14,7 +14,7 @@ export function ContactCTA() {
           {site.availability} · {site.location}, {site.utcOffset}
         </p>
       </div>
-      <Button href="/contact">Start a conversation ↗</Button>
+      <Button href="/#contact">Start a conversation ↗</Button>
     </div>
   );
 }

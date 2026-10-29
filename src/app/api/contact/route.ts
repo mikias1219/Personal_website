@@ -27,11 +27,11 @@ export async function POST(req: Request) {
       );
     if (parsed.data.company)
       return Response.json({ success: true }, { headers });
-    if (!process.env.RESEND_API_KEY || !process.env.CONTACT_FROM_EMAIL)
+    if (!process.env.RESEND_API_KEY)
       return Response.json(
         {
           error:
-            "The form is not configured yet. Please email Mikias directly.",
+            "Direct delivery is unavailable. You can send this message using your email app.",
         },
         { status: 503, headers },
       );
@@ -52,8 +52,9 @@ export async function POST(req: Request) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: process.env.CONTACT_FROM_EMAIL,
-        to: [site.email],
+        from:
+          process.env.CONTACT_FROM_EMAIL || "Portfolio <onboarding@resend.dev>",
+        to: [process.env.CONTACT_TO_EMAIL || site.email],
         reply_to: email,
         subject: `Portfolio enquiry from ${name.replace(/[\r\n]/g, " ")}`,
         text: `From: ${name}\nReply to: ${email}\n\n${message}`,

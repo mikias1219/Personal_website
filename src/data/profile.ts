@@ -53,25 +53,52 @@ export const capabilities = [
 
 export const skills = [
   {
-    title: "AI systems",
+    title: "AI & Machine Learning",
     items: [
       "Azure AI Services",
-      "Azure OpenAI",
-      "Azure AI Search",
-      "RAG",
+      "Azure Machine Learning",
+      "LLM Applications",
+      "AI Agents",
+      "AI Integration",
       "Python",
     ],
   },
   {
-    title: "Backend & data",
-    items: ["NestJS", "FastAPI", "Django", "PostgreSQL", "Redis"],
+    title: "Backend & APIs",
+    items: [
+      "NestJS",
+      "Node.js",
+      "FastAPI",
+      "Django",
+      "REST API Design",
+      "PostgreSQL",
+      "MongoDB",
+      "Redis",
+    ],
   },
   {
-    title: "Frontend & mobile",
-    items: ["Next.js", "React", "TypeScript", "React Native", "Flutter"],
+    title: "Frontend & Mobile",
+    items: [
+      "Next.js",
+      "React.js",
+      "React Native",
+      "TypeScript",
+      "JavaScript",
+      "Tailwind CSS",
+      "Redux",
+    ],
   },
   {
-    title: "Cloud & delivery",
-    items: ["Azure", "Docker", "GitHub Actions", "Jenkins", "Bicep"],
+    title: "Cloud & DevOps",
+    items: [
+      "Microsoft Azure",
+      "Docker",
+      "CI/CD",
+      "Jenkins",
+      "GitHub Actions",
+      "Git",
+      "Linux",
+      "Nginx",
+    ],
   },
 ];

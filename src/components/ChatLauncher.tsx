@@ -14,7 +14,7 @@ const Chat = dynamic(
 );
 export function ChatLauncher() {
   const pathname = usePathname();
-  return pathname === "/" ? null : <FloatingChat key={pathname} />;
+  return <FloatingChat key={pathname} />;
 }
 function FloatingChat() {
   const [open, setOpen] = useState(false);
@@ -39,6 +39,9 @@ function FloatingChat() {
         ref={dialog}
         className="chat-dialog"
         aria-labelledby="chat-dialog-title"
+        onClick={(event) => {
+          if ((event.target as HTMLElement).closest("a")) setOpen(false);
+        }}
         onCancel={() => {
           setOpen(false);
           launcher.current?.focus();

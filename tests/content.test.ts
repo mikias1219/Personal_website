@@ -21,9 +21,13 @@ test("confirmed facts reach chat without obsolete claims or phone data", () => {
   assert.equal(education.period, "Jun 2020 – Jul 2024");
   assert.equal(
     certifications.find((c) => c.code === "AI-102")?.validTo,
-    "Apr 2027",
+    "Apr 9, 2027",
   );
-  assert.ok(certifications.find((c) => c.code === "DP-100")?.confirmation);
+  assert.equal(
+    certifications.find((c) => c.code === "DP-100")?.status,
+    "Active",
+  );
+  assert.equal(certifications.length, 6);
 });
 test("curation and related links use real routes", () => {
   assert.equal(archiveProjects.length, 8);
@@ -84,4 +88,52 @@ test("body reader enforces actual byte limit", async () => {
     ),
     (e) => e instanceof BodyError && e.status === 413,
   );
+});
+
+test("local preview and verified Vercel preview origins work without allowing foreign sites", () => {
+  const keys = ["LOCAL_PREVIEW", "VERCEL", "VERCEL_URL"] as const;
+  const saved = keys.map((k) => process.env[k]);
+  try {
+    process.env.LOCAL_PREVIEW = "1";
+    delete process.env.VERCEL;
+    assert.equal(
+      allowedOrigin(
+        new Request("http://127.0.0.1:3200/api/chat", {
+          headers: { Origin: "http://127.0.0.1:3200" },
+        }),
+      ),
+      true,
+    );
+    assert.equal(
+      allowedOrigin(
+        new Request("http://127.0.0.1:3200/api/chat", {
+          headers: { Origin: "https://attacker.example" },
+        }),
+      ),
+      false,
+    );
+    process.env.VERCEL = "1";
+    process.env.VERCEL_URL = "portfolio-preview.vercel.app";
+    assert.equal(
+      allowedOrigin(
+        new Request("https://portfolio-preview.vercel.app/api/chat", {
+          headers: { Origin: "https://portfolio-preview.vercel.app" },
+        }),
+      ),
+      true,
+    );
+    assert.equal(
+      allowedOrigin(
+        new Request("https://portfolio-preview.vercel.app/api/chat", {
+          headers: { Origin: "https://attacker.example" },
+        }),
+      ),
+      false,
+    );
+  } finally {
+    keys.forEach((k, i) => {
+      if (saved[i] === undefined) delete process.env[k];
+      else process.env[k] = saved[i];
+    });
+  }
 });

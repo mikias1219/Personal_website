@@ -118,7 +118,7 @@ export function CaseStudySections({
           {!project.githubLink && !project.demoLink && (
             <p>
               A public repository or demo has not been supplied.{" "}
-              <Link className="text-link" href="/contact">
+              <Link className="text-link" href="/#contact">
                 Ask about this project ↗
               </Link>
             </p>

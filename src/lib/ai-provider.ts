@@ -1,3 +1,4 @@
+import type { streamText } from "ai";
 import { createAzure } from "@ai-sdk/azure";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 export function portfolioModel() {
@@ -21,4 +22,17 @@ export function portfolioModel() {
       process.env.GEMINI_MODEL || "gemini-3.8-flash",
     );
   return null;
+}
+
+export function portfolioProviderOptions(): NonNullable<
+  Parameters<typeof streamText>[0]["providerOptions"]
+> {
+  const model = process.env.GEMINI_MODEL || "gemini-3.8-flash";
+  if (model.startsWith("gemini-3") && model.includes("flash"))
+    return {
+      google: { thinkingConfig: { thinkingLevel: "minimal" as const } },
+    };
+  if (model.startsWith("gemini-2.5") && model.includes("flash"))
+    return { google: { thinkingConfig: { thinkingBudget: 0 } } };
+  return {};
 }

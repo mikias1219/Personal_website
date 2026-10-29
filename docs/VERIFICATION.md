@@ -1,38 +1,33 @@
 # Verification — 29 October 2026
 
-Production build: Next.js 16.4.3 / React 19.3.1. Chrome Lighthouse 13.6.0, default mobile simulation, local production server. These are local lab measurements; deployed network/server behavior can differ.
+Next.js 16.4.3 / React 19.3.1 production build. Lint, strict TypeScript build and all **16 unit/API tests** passed. Tests cover credential IDs and real PDF files, confirmed content, origin checks, validation, rate limits, mocked AI streams, disclosed provider fallback and intercepted Resend success/rejection.
 
-## Automated checks
+The production browser suite passed 11 routes with **zero automated accessibility violations and zero browser errors**. It checks same-document scrolling, all 17 projects, filters, themes, mobile overflow, keyboard focus, contact draft retention, actual saved-data chat fallback and WCAG A/AA rules. Reports and screenshots are local in ignored `reports/`.
 
-- All six migration checkpoints: lint, strict type-check and production build passed. Logs: `reports/phase-a.log` through `reports/phase-f.log` (local, ignored).
-- Final unit/API suite: **10 tests passed**. Includes actual AI SDK provider-stream conversion with a mocked Gemini response, intercepted Resend acceptance/rejection, rate-limit boundary, origin/validation/body caps and confirmed-fact propagation.
-- Production browser suite: **10 routes passed**, **zero WCAG violations** (A/AA through WCAG 2.2 automated rules), **zero browser errors**. Dark/light themes, persistence, mobile overflow, reduced motion, project filters, contact validation and retained draft, chat source chips and modal focus/Escape verified.
-- All four case-study pages were rechecked after fixing an SVG title/description hydration mismatch.
-- Generated Home/per-page OG images returned valid PNGs; Person JSON-LD contains the confirmed LinkedIn and positioning. Sitemap has nine canonical entries and robots references it.
-- Portraits and the Home layout were visually inspected on desktop and mobile. Experience print output was generated for review.
+## Lighthouse
 
-## Lighthouse results
+Chrome Lighthouse 13.6.0 default mobile simulation against the local production build. Browser verification ran concurrently; these are lab measurements and deployment results can differ.
 
 | Route | Performance | Accessibility | Best practices | SEO | LCP | CLS |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `/` | 99 | 100 | 100 | 100 | 0.93s | 0.0034 |
-| `/work` | 99 | 100 | 100 | 100 | 0.81s | 0.0000 |
-| `/work/selamnew-workspace` | 99 | 100 | 100 | 100 | 0.76s | 0.0000 |
-| `/work/knowledge-hub` | 99 | 100 | 100 | 100 | 0.76s | 0.0000 |
-| `/work/okde` | 99 | 100 | 100 | 100 | 0.76s | 0.0000 |
-| `/work/banglachatpro` | 98 | 100 | 100 | 100 | 0.76s | 0.0000 |
-| `/about` | 100 | 100 | 100 | 100 | 0.78s | 0.0000 |
-| `/experience` | 96 | 100 | 100 | 100 | 0.76s | 0.0000 |
-| `/contact` | 97 | 100 | 100 | 100 | 0.76s | 0.0000 |
+| `/` | 92 | 100 | 100 | 100 | 1.20s | 0.0000 |
+| `/certifications` | 96 | 100 | 100 | 100 | 0.92s | 0.0000 |
+| `/experience` | 94 | 100 | 100 | 100 | 0.76s | 0.0000 |
+| `/work/selamnew-workspace` | 97 | 100 | 100 | 100 | 0.76s | 0.0000 |
+| `/work/knowledge-hub` | 90 | 100 | 100 | 100 | 0.82s | 0.0000 |
+| `/work/okde` | 97 | 100 | 100 | 100 | 0.76s | 0.0000 |
+| `/work/banglachatpro` | 99 | 100 | 100 | 100 | 0.76s | 0.0000 |
 
-Every measured page meets the ≥95 target in all four categories and LCP <2s. Maximum measured LCP is under 0.93s; maximum CLS is 0.0034.
+The certification page meets the ≥95 target in every category. Some longer pages remain below the performance target; all measured pages have LCP below 2 seconds and zero measured layout shift. Reproduce with `TEST_BASE_URL=http://127.0.0.1:3302 node tests/lighthouse.mjs / /certifications /experience /work/selamnew-workspace /work/knowledge-hub /work/okde /work/banglachatpro`.
 
-Full HTML/JSON Lighthouse reports and screenshots are in local `reports/` (ignored). Reproduce with `node tests/lighthouse.mjs`; set `TEST_BASE_URL` for another local port. `npm run test:browser` runs browser checks. Chrome must be available, or supply `CHROME_PATH`.
+## External services and evidence
 
-## External service limitations
+One explicitly authorized live Gemini call returned no visible text. Empty/error stream handling was corrected, short-answer reasoning configured, and the clearly labeled saved-data fallback tested without additional model calls. Mocked tests validate primary streaming but do not prove live provider availability.
 
-No real email was sent and no paid model call was made. Live Azure/Gemini, Redis-backed production limits and real Resend delivery require account/environment configuration. Mocked provider success/error tests verify the application contract, not account permissions or provider availability. The preview disables delivery/model keys and restricts browser API origins to the configured `SITE_URL`.
+No real email was sent. Existing Vercel environment variable names were inspected; mail credentials remain only on Vercel as requested. Local contact retains the draft and offers an email-app fallback. Resend delivery still needs a deployment/live check; its default test sender is restricted to the account owner.
 
-## Review routes
+Temporary bounded per-instance limits were explicitly authorized because Redis is absent. Shared Redis remains preferred; `REQUIRE_SHARED_RATE_LIMIT=1` enforces it. No push, deployment or Vercel settings changes were performed.
 
-`/`, `/work`, the four `/work/[slug]` pages, `/about`, `/experience`, `/contact`, and a nonexistent path for the custom 404. See the content checklist for confirmations and evidence placeholders.
+Two Microsoft certificate-panel print PDFs were saved and checked visually and with `pdftotext`. Four DataCamp original PDFs remain pending because automated access is blocked. See [credential evidence](CREDENTIALS.md). The CV PDF remains outdated and separate from data-driven experience.
+
+Main content is one scrolling page. `/about`, `/contact` and `/work` redirect to its sections. Optional pages: `/certifications`, `/experience` and four case studies. Sitemap contains seven canonical entries.

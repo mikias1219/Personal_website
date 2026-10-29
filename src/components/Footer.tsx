@@ -15,6 +15,7 @@ export function Footer() {
         </p>
       </div>
       <nav aria-label="Social profiles">
+        <Link href="/#top">Back to top ↑</Link>
         {socials.map((s) => (
           <a key={s.label} href={s.href}>
             {s.label} <span aria-hidden="true">↗</span>

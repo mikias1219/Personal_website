@@ -56,7 +56,7 @@ export default async function CaseStudy({
   return (
     <Container>
       <Section>
-        <Link href="/work" className="text-link">
+        <Link href="/#work" className="text-link">
           ← All work
         </Link>
         <header className="case-header">

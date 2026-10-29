@@ -5,10 +5,17 @@ import { Card } from "./ui";
 export function ProjectCard({ project }: { project: Project }) {
   const href = project.caseStudy
     ? `/work/${project.slug}`
-    : project.githubLink || project.demoLink || "/contact";
+    : project.githubLink || project.demoLink || "/#contact";
   return (
     <Card className="project-card">
-      <ProjectVisual project={project} compact />
+      {project.diagram?.length ? (
+        <ProjectVisual project={project} compact />
+      ) : (
+        <div className="project-stack-visual">
+          <span className="mono accent">{project.categories.join(" / ")}</span>
+          <p>{project.stack?.slice(0, 3).join(" · ")}</p>
+        </div>
+      )}
       <div className="project-copy">
         <p className="eyebrow">{project.categories.join(" / ")}</p>
         <h3>

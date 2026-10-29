@@ -36,12 +36,18 @@ export async function rateLimit(req: Request, bucket: "chat" | "contact") {
       );
     }
   }
-  if (process.env.NODE_ENV === "production")
-    throw new RateLimitUnavailable("Rate limiting is not configured.");
+  // Temporary per-instance fallback approved by the site owner.
+  // Configuring Redis automatically restores a shared limit.
+  if (process.env.REQUIRE_SHARED_RATE_LIMIT === "1")
+    throw new RateLimitUnavailable("Shared rate limiting is not configured.");
   const now = Date.now();
   for (const [k, v] of local) if (v.reset <= now) local.delete(k);
   let entry = local.get(key);
   if (!entry) {
+    if (local.size >= 10000)
+      throw new RateLimitUnavailable(
+        "Request limiting is temporarily unavailable.",
+      );
     entry = { count: 0, reset: now + 600000 };
     local.set(key, entry);
   }

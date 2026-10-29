@@ -191,3 +191,62 @@ test("contact acknowledges only accepted delivery and keeps recipient on the ser
     );
   });
 });
+
+test("existing Resend configuration works with its account test sender and recipient override", async () => {
+  await withMockedServices(async () => {
+    const previous = process.env.CONTACT_TO_EMAIL;
+    process.env.RESEND_API_KEY = "test-key";
+    delete process.env.CONTACT_FROM_EMAIL;
+    process.env.CONTACT_TO_EMAIL = "owner@example.com";
+    try {
+      globalThis.fetch = async (_input, init) => {
+        const body = JSON.parse(String(init?.body));
+        assert.equal(body.from, "Portfolio <onboarding@resend.dev>");
+        assert.deepEqual(body.to, ["owner@example.com"]);
+        return Response.json({ id: "mock" }, { status: 201 });
+      };
+      const response = await contact(
+        request("contact", {
+          name: "Recruiter",
+          email: "test@example.com",
+          message: "A mocked compatibility test message.",
+        }),
+      );
+      assert.equal(response.status, 200);
+    } finally {
+      if (previous === undefined) delete process.env.CONTACT_TO_EMAIL;
+      else process.env.CONTACT_TO_EMAIL = previous;
+    }
+  });
+});
+
+test("provider errors fall back to disclosed portfolio facts instead of an empty successful stream", async () => {
+  await withMockedServices(async () => {
+    process.env.GEMINI_API_KEY = "test-key";
+    globalThis.fetch = async () =>
+      Response.json(
+        {
+          error: {
+            code: 429,
+            status: "RESOURCE_EXHAUSTED",
+            message: "private provider detail",
+          },
+        },
+        { status: 429 },
+      );
+    const response = await chat(
+      request("chat", {
+        messages: [{ role: "user", content: "What is the current role?" }],
+      }),
+    );
+    const events = (await response.text())
+      .trim()
+      .split("\n")
+      .map((line) => JSON.parse(line));
+    const fallback = events.find((e) => e.type === "fallback");
+    assert.ok(fallback.text.includes("Software Engineer"));
+    assert.ok(fallback.text.includes("IE Network Solutions"));
+    assert.ok(!JSON.stringify(events).includes("private provider detail"));
+    assert.equal(events.at(-1).type, "done");
+  });
+});
