@@ -97,8 +97,8 @@ export interface Credential {
   detailsSource: string;
   confirmation?: string;
 }
-// Microsoft records checked 29 Oct 2026. DataCamp dates/IDs match Mikias's
-// public LinkedIn profile; DataCamp blocks automated certificate access.
+// Microsoft records checked 29 Oct 2026. DataCamp issue dates and IDs checked
+// against supplied original PDFs; expiry months match the public LinkedIn record.
 export const certifications: Credential[] = [
   {
     id: "ai-102",
@@ -165,7 +165,7 @@ export const certifications: Credential[] = [
     name: "Data Engineer",
     issuer: "DataCamp",
     credentialId: "DE0012274611368",
-    issued: "Sep 2025",
+    issued: "Sep 9, 2025",
     validTo: "Sep 2027",
     level: "Career certification",
     category: "Data engineering",
@@ -178,15 +178,18 @@ export const certifications: Credential[] = [
       "Programming for engineering",
     ],
     verifyUrl: "https://www.datacamp.com/certificate/DE0012274611368",
-    detailsSource: "User-provided credential link and public LinkedIn record",
-    // TODO: attach the original DataCamp PDF; automated downloads are blocked.
+    pdfUrl: "/certificates/datacamp-data-engineer.pdf",
+    previewUrl: "/certificates/datacamp-data-engineer.webp",
+    pdfKind: "issuer-original",
+    detailsSource:
+      "User-supplied original DataCamp certificate PDF; expiry month from public LinkedIn record",
   },
   {
     id: "datacamp-data-engineer-associate",
     name: "Data Engineer Associate",
     issuer: "DataCamp",
     credentialId: "DEA0012533890898",
-    issued: "Aug 2025",
+    issued: "Aug 14, 2025",
     validTo: "Aug 2027",
     level: "Associate",
     category: "Data engineering",
@@ -195,15 +198,18 @@ export const certifications: Credential[] = [
       "Associate-level data-engineering certification focused on data management and engineering foundations.",
     skills: ["Data management", "Data-engineering foundations"],
     verifyUrl: "https://www.datacamp.com/certificate/DEA0012533890898",
-    detailsSource: "User-provided credential link and public LinkedIn record",
-    // TODO: attach the original DataCamp PDF; automated downloads are blocked.
+    pdfUrl: "/certificates/datacamp-data-engineer-associate.pdf",
+    previewUrl: "/certificates/datacamp-data-engineer-associate.webp",
+    pdfKind: "issuer-original",
+    detailsSource:
+      "User-supplied original DataCamp certificate PDF; expiry month from public LinkedIn record",
   },
   {
     id: "datacamp-developers",
     name: "AI Engineer for Developers Associate",
     issuer: "DataCamp",
     credentialId: "AIEDA0015379738598",
-    issued: "Aug 2025",
+    issued: "Aug 19, 2025",
     validTo: "Aug 2027",
     level: "Associate",
     category: "AI engineering",
@@ -216,15 +222,18 @@ export const certifications: Credential[] = [
       "Data governance for AI",
     ],
     verifyUrl: "https://www.datacamp.com/certificate/AIEDA0015379738598",
-    detailsSource: "User-provided credential link and public LinkedIn record",
-    // TODO: attach the original DataCamp PDF; automated downloads are blocked.
+    pdfUrl: "/certificates/datacamp-ai-engineer-developers-associate.pdf",
+    previewUrl: "/certificates/datacamp-ai-engineer-developers-associate.webp",
+    pdfKind: "issuer-original",
+    detailsSource:
+      "User-supplied original DataCamp certificate PDF; expiry month from public LinkedIn record",
   },
   {
     id: "datacamp-data-scientists",
     name: "AI Engineer for Data Scientists Associate",
     issuer: "DataCamp",
     credentialId: "AEDS0019404147147",
-    issued: "Aug 2025",
+    issued: "Aug 21, 2025",
     validTo: "Aug 2027",
     level: "Associate",
     category: "AI engineering",
@@ -238,8 +247,12 @@ export const certifications: Credential[] = [
       "Data governance for AI",
     ],
     verifyUrl: "https://www.datacamp.com/certificate/AEDS0019404147147",
-    detailsSource: "User-provided credential link and public LinkedIn record",
-    // TODO: attach the original DataCamp PDF; automated downloads are blocked.
+    pdfUrl: "/certificates/datacamp-ai-engineer-data-scientists-associate.pdf",
+    previewUrl:
+      "/certificates/datacamp-ai-engineer-data-scientists-associate.webp",
+    pdfKind: "issuer-original",
+    detailsSource:
+      "User-supplied original DataCamp certificate PDF; expiry month from public LinkedIn record",
   },
 ];
 export const education = {

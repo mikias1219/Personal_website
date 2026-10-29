@@ -72,4 +72,4 @@ Chat uses the AI SDK when the provider returns an answer. Errors and empty model
 
 Mail configuration was inspected by variable names only in Vercel. Credentials were not copied locally. The one authorized live Gemini call returned no visible text; the empty-stream bug was fixed, reasoning configured for short answers, and fallback behavior tested without more paid calls.
 
-Credential sources, dates and the four pending DataCamp PDF originals are documented in [docs/CREDENTIALS.md](docs/CREDENTIALS.md).
+Credential sources, dates and all six available PDF copies are documented in [docs/CREDENTIALS.md](docs/CREDENTIALS.md).

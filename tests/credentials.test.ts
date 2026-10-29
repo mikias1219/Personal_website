@@ -29,12 +29,14 @@ test("all six supplied credential identifiers have real issuer verification link
   assert.equal(dp100.confirmation, undefined);
 });
 test("PDF download links reference actual PDF files and honest provenance", () => {
-  for (const c of certifications.filter((c) => c.pdfUrl)) {
+  assert.equal(certifications.filter((c) => c.pdfUrl).length, 6);
+  for (const c of certifications) {
     const bytes = readFileSync(`public${c.pdfUrl}`);
     assert.equal(bytes.subarray(0, 5).toString(), "%PDF-");
-    assert.equal(c.pdfKind, "issuer-record-print");
+    assert.equal(
+      c.pdfKind,
+      c.issuer === "Microsoft" ? "issuer-record-print" : "issuer-original",
+    );
     assert.ok(c.previewUrl && existsSync(`public${c.previewUrl}`));
   }
-  for (const c of certifications.filter((c) => c.issuer === "DataCamp"))
-    assert.equal(c.pdfUrl, undefined);
 });

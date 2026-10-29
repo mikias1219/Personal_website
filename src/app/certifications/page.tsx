@@ -101,7 +101,8 @@ export default function Certifications() {
             <h2>Certificate PDF library.</h2>
             <p className="muted">
               The Microsoft PDFs are print copies of the public issuer records,
-              including the credential identifiers and dates.
+              including the credential identifiers and dates. The DataCamp PDFs
+              are the original certificates.
             </p>
           </div>
           <div className="pdf-library-list">

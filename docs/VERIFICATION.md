@@ -28,6 +28,6 @@ No real email was sent. Existing Vercel environment variable names were inspecte
 
 Temporary bounded per-instance limits were explicitly authorized because Redis is absent. Shared Redis remains preferred; `REQUIRE_SHARED_RATE_LIMIT=1` enforces it. No push, deployment or Vercel settings changes were performed.
 
-Two Microsoft certificate-panel print PDFs were saved and checked visually and with `pdftotext`. Four DataCamp original PDFs remain pending because automated access is blocked. See [credential evidence](CREDENTIALS.md). The CV PDF remains outdated and separate from data-driven experience.
+Two Microsoft certificate-panel print PDFs were saved and checked visually and with `pdftotext`. Four user-supplied original DataCamp PDFs are now saved with previews and exact issue dates. See [credential evidence](CREDENTIALS.md). The CV PDF remains outdated and separate from data-driven experience.
 
 Main content is one scrolling page. `/about`, `/contact` and `/work` redirect to its sections. Optional pages: `/certifications`, `/experience` and four case studies. Sitemap contains seven canonical entries.

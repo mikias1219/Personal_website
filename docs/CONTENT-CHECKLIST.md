@@ -13,7 +13,7 @@ The three remaining items have `// CONFIRM` comments in `src/data/experience.ts`
 ## TODO
 
 - Replace `public/MikiasAbate-CV.pdf`. The original binary still has incorrect facts; links warn that it awaits an update. `/experience` is generated from current typed data.
-- All six credential verification URLs are supplied. Two Microsoft PDF print copies are saved. Attach the four original DataCamp PDFs; see `docs/CREDENTIALS.md`.
+- All six credential verification URLs are supplied. Two Microsoft PDF print copies and four original DataCamp PDFs are saved; see `docs/CREDENTIALS.md`.
 - For each of Selamnew Workspace, Knowledge Hub, OKDE and BanglaChatPro: supply original problem/constraints, personal ownership/collaborators, verified architecture, actual screenshots, a real decision/trade-off, and a measured outcome with evaluation method/time period.
 - Supply a public repository/demo for Selamnew Workspace if shareable.
 - Configure AI, Redis and Resend environment variables for deployment.
