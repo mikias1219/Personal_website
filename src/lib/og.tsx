@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { site } from "@/data/profile";
+
 export function ogImage(title: string) {
   return new ImageResponse(
     (
@@ -11,8 +12,8 @@ export function ogImage(title: string) {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "70px",
-          background: "#0f1914",
-          color: "#e8f0ea",
+          background: "#0b1220",
+          color: "#e8eef8",
           fontFamily: "sans-serif",
         }}
       >
@@ -24,7 +25,7 @@ export function ogImage(title: string) {
           }}
         >
           <span>MA · {site.name}</span>
-          <span style={{ color: "#f5bd1f" }}>Software & AI</span>
+          <span style={{ color: "#60a5fa" }}>Software & AI</span>
         </div>
         <div
           style={{
@@ -41,10 +42,10 @@ export function ogImage(title: string) {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            borderTop: "1px solid #2a3c32",
+            borderTop: "1px solid #243044",
             paddingTop: 24,
             fontSize: 22,
-            color: "#a3b4aa",
+            color: "#94a3b8",
           }}
         >
           <span>{site.role}</span>

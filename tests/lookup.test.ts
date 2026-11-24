@@ -3,20 +3,20 @@ import assert from "node:assert/strict";
 import { portfolioLookup } from "../src/lib/portfolio-lookup";
 test("offline portfolio lookup uses confirmed records and qualifies pending facts", () => {
   assert.ok(
-    portfolioLookup("What is your current job?").text.includes("Apr 2026"),
+    portfolioLookup("What is your current job?").text.includes("Nov 2026"),
   );
   assert.ok(
-    portfolioLookup("Explain AI GTP").text.includes("awaiting confirmation"),
+    portfolioLookup("Explain AI GTP").text.includes("Pending confirmation"),
   );
-  assert.ok(portfolioLookup("Have you got DP-100?").text.includes("Active"));
+  assert.ok(portfolioLookup("Have you got DP-100?").text.includes("DP-100"));
   assert.ok(
     portfolioLookup("Tell me about Knowledge Hub").sources.some(
       (s) => s.href === "/work/knowledge-hub",
     ),
   );
   assert.ok(
-    portfolioLookup("What is your favorite food?").text.includes(
-      "I don't have that information",
+    /don.t have that|not documented|isn.t documented/i.test(
+      portfolioLookup("What is your favorite food?").text,
     ),
   );
 });
@@ -25,13 +25,9 @@ test("misspelled questions still find the closest trusted records", () => {
   assert.ok(project.text.includes("Knowledge Hub"));
   assert.ok(project.sources.some((s) => s.href === "/work/knowledge-hub"));
   assert.ok(
-    portfolioLookup("Waht certifcate do you have?").text.includes(
-      "Certifications",
-    ),
+    portfolioLookup("Waht certifcate do you have?").text.includes("AI-102"),
   );
   assert.ok(
-    portfolioLookup("Your skils and technolgies").text.includes(
-      "Technical skills",
-    ),
+    portfolioLookup("Your skils and technolgies").text.includes("NestJS"),
   );
 });

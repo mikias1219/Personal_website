@@ -17,6 +17,8 @@ export interface Project {
   stack?: string[];
   githubLink?: string;
   demoLink?: string;
+  /** Optional real screenshot; when set, replaces the generated diagram visual. */
+  image?: string;
 }
 
 const gh = (repo: string) => `https://github.com/mikias1219/${repo}`;

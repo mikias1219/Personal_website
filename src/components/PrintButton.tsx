@@ -1,14 +1,16 @@
 "use client";
-import { Icon } from "./Icon";
+
+import { Printer } from "lucide-react";
+import { Button } from "./ui";
 
 export function PrintButton() {
   return (
-    <button
-      type="button"
-      className="button button-secondary button-small"
+    <Button
+      variant="secondary"
+      className="no-print"
       onClick={() => window.print()}
     >
-      <Icon name="download" /> Print this page
-    </button>
+      <Printer className="size-4" /> Print
+    </Button>
   );
 }

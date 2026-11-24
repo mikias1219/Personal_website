@@ -3,16 +3,16 @@ import { SITE_URL } from "@/lib/config";
 
 export const site = {
   name: "Mikias Abate",
-  role: "Software Developer & AI Engineer",
+  role: "Tech / Product Engineer",
   url: SITE_URL,
   location: "Addis Ababa, Ethiopia",
   timeZone: "Africa/Addis_Ababa",
   utcOffset: "UTC+3",
   email: "mikiyasabate003@gmail.com",
-  availability: "Open to full-time roles and contracts",
+  availability: "Open to full-time remote or hybrid roles worldwide",
   headline: "I build full-stack products and the AI inside them.",
   statement:
-    "I build full-stack products and the AI inside them. From APIs and interfaces to grounded answers over your data.",
+    "NestJS APIs, Next.js web, React Native mobile, and Azure AI wired into tools teams already use.",
   linkedin: "https://www.linkedin.com/in/mikiasabate/",
   github: "https://github.com/mikias1219",
 } as const;
@@ -24,9 +24,9 @@ export const socials = [
 ];
 
 export const about = [
-  "I’m a software developer and AI engineer based in Addis Ababa. At IE Network Solutions, I work on internal business applications and AI features that connect directly to everyday workflows.",
-  "My work spans NestJS APIs, Next.js interfaces, PostgreSQL data, Python services and Azure AI. I’ve built recruitment features for CV extraction and candidate matching, HR copilots, and web and mobile collaboration tools.",
-  "I studied Information Systems at Addis Ababa University. I like working across the whole product: understanding the question, shaping the data and building an interface that makes the answer useful.",
+  "I’m a tech / product engineer based in Addis Ababa. At IE Network Solutions I own feature scope, delivery and release readiness across internal products.",
+  "I ship NestJS APIs, Next.js web and React Native mobile end to end, and integrate Azure AI — copilots, document intelligence and explainable matching — into tools teams already use.",
+  "I studied Information Systems at Addis Ababa University. I’m open to full-time remote or hybrid roles worldwide.",
 ];
 
 export const capabilities = [

@@ -1,11 +1,11 @@
-import { Container } from "@/components/ui";
 import { Hero } from "@/components/Hero";
+import { AskBar } from "@/components/AskBar";
 import {
   WorkSection,
-  AboutSection,
   ExperienceSection,
   SkillsSection,
   CredentialsSection,
+  AboutSection,
   ContactSection,
 } from "@/components/Sections";
 
@@ -13,14 +13,13 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Container>
-        <WorkSection />
-        <AboutSection />
-        <ExperienceSection />
-        <SkillsSection />
-        <CredentialsSection />
-        <ContactSection />
-      </Container>
+      <AskBar />
+      <WorkSection />
+      <ExperienceSection />
+      <SkillsSection />
+      <CredentialsSection />
+      <AboutSection />
+      <ContactSection />
     </>
   );
 }

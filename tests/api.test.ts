@@ -82,6 +82,10 @@ async function withMockedServices(run: () => Promise<void>) {
   const keys = [
     "GEMINI_API_KEY",
     "AZURE_OPENAI_API_KEY",
+    "OPENAI_COMPAT_API_KEY",
+    "OPENAI_COMPAT_BASE_URL",
+    "HERMES_API_KEY",
+    "HERMES_BASE_URL",
     "RESEND_API_KEY",
     "CONTACT_FROM_EMAIL",
     "UPSTASH_REDIS_REST_URL",
@@ -244,7 +248,7 @@ test("provider errors fall back to disclosed portfolio facts instead of an empty
       .split("\n")
       .map((line) => JSON.parse(line));
     const fallback = events.find((e) => e.type === "fallback");
-    assert.ok(fallback.text.includes("Software Engineer"));
+    assert.ok(fallback.text.includes("Tech / Product Engineer"));
     assert.ok(fallback.text.includes("IE Network Solutions"));
     assert.ok(!JSON.stringify(events).includes("private provider detail"));
     assert.equal(events.at(-1).type, "done");

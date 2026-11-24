@@ -1,4 +1,4 @@
-// Source of truth: facts confirmed by Mikias, not public/MikiasAbate-CV.pdf.
+// Source of truth: facts confirmed by Mikias. Downloadable PDF: public/Mikias_Abate_CV.pdf.
 export interface Role {
   period: string;
   title: string;
@@ -11,14 +11,24 @@ export interface Role {
 }
 export const experience: Role[] = [
   {
-    period: "Apr 2026 – present",
-    title: "Software Engineer",
+    period: "Nov 2026 – present",
+    title: "Tech / Product Engineer",
     org: "IE Network Solutions",
     location: "Addis Ababa",
     current: true,
     points: [
-      "Design, build and maintain full-stack internal business applications with NestJS, Next.js, PostgreSQL and Python.",
-      "Build REST APIs and responsive interfaces, integrate AI services and deploy with Docker.",
+      "Own product and engineering delivery across internal platforms: scope features, set priorities, and clear release readiness.",
+      "Ship NestJS APIs, Next.js web and React Native mobile end to end, and integrate Azure AI into live business workflows.",
+    ],
+  },
+  {
+    period: "Apr 2026 – Nov 2026",
+    title: "Software Engineer",
+    org: "IE Network Solutions",
+    location: "Addis Ababa",
+    points: [
+      "Designed and shipped full-stack internal products on NestJS, Next.js and React Native.",
+      "Built real-time collaboration features and standardized Docker packaging and CI pipelines.",
     ],
   },
   {
@@ -27,8 +37,8 @@ export const experience: Role[] = [
     org: "IE Network Solutions",
     location: "Addis Ababa",
     points: [
-      "Built AI recruitment features on Microsoft Azure AI: CV extraction, candidate scoring and job matching.",
-      "Connected AI services to Python REST APIs and React interfaces.",
+      "Delivered production hiring AI on Microsoft Azure: CV extraction, candidate scoring and job matching.",
+      "Connected Azure OpenAI and Document Intelligence to Python APIs and React UIs.",
     ],
   },
   {
@@ -41,14 +51,24 @@ export const experience: Role[] = [
     confirmation: "Title expansion and role description to be confirmed.",
   },
   {
-    // CONFIRM: Atlas Group freelance engagement is retained from the existing data; not on LinkedIn.
     period: "Feb 2025 – Jul 2025",
     title: "Freelance Full-Stack Developer",
     org: "Atlas Group",
     location: "Remote",
     type: "Freelance",
-    points: ["Delivered web applications with Next.js, NestJS and PostgreSQL."],
-    confirmation: "Engagement details to be confirmed.",
+    points: [
+      "Delivered client web products with Next.js, NestJS and PostgreSQL.",
+    ],
+  },
+  {
+    period: "Oct 2024 – Mar 2025",
+    title: "Software Developer",
+    org: "Self-employed",
+    location: "Addis Ababa",
+    type: "Private client",
+    points: [
+      "Built an inventory management system with Next.js, FastAPI and MySQL.",
+    ],
   },
   {
     period: "Mar 2024 – May 2024",
@@ -66,7 +86,6 @@ export const experience: Role[] = [
     points: ["Developed SQL-backed full-stack web features."],
   },
 ];
-// CONFIRM: retain this earlier experience as one short line; scope/details pending.
 export const earlierExperience = {
   period: "Sep 2022 – Mar 2024",
   title: "Full-stack developer",
@@ -260,10 +279,11 @@ export const education = {
   school: "Addis Ababa University",
   period: "Jun 2020 – Jul 2024",
 };
-// User-selected CV: Mikias_Abate_CV_Full-Stack_AI_Engineer_v7.pdf (29 Oct 2026).
+// User-selected CV: Mikias_Abate_CV.pdf (24 Nov 2026).
 // Keep website facts sourced from typed records rather than parsing this PDF.
+// Never surface phone numbers from the PDF on the site or in the assistant.
 export const cv = {
-  url: "/MikiasAbate-CV.pdf",
-  filename: "MikiasAbate-CV.pdf",
+  url: "/Mikias_Abate_CV.pdf",
+  filename: "Mikias_Abate_CV.pdf",
   outdated: false,
 };

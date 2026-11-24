@@ -1,7 +1,11 @@
 import { streamText } from "ai";
 import { contextualQuestion } from "@/lib/chat-history";
 import { portfolioLookup } from "@/lib/portfolio-lookup";
-import { portfolioModel, portfolioProviderOptions } from "@/lib/ai-provider";
+import {
+  CHAT_MAX_OUTPUT_TOKENS,
+  portfolioModel,
+  portfolioProviderOptions,
+} from "@/lib/ai-provider";
 import { buildSystemPrompt, relatedSources } from "@/lib/portfolio-context";
 import { chatSchema } from "@/lib/validation";
 import { rateLimit, RateLimitUnavailable } from "@/lib/rate-limit";
@@ -65,7 +69,7 @@ export async function POST(req: Request) {
             model,
             system: buildSystemPrompt(),
             messages,
-            maxOutputTokens: 4096,
+            maxOutputTokens: CHAT_MAX_OUTPUT_TOKENS,
             providerOptions: portfolioProviderOptions(),
             abortSignal: AbortSignal.any([
               req.signal,

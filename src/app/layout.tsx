@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import { GeistSans } from "geist/font/sans";
 import { ChatProvider } from "@/components/ChatProvider";
 import { Header } from "@/components/Header";
 import { ChatLauncher } from "@/components/ChatLauncher";
@@ -8,20 +8,7 @@ import { site } from "@/data/profile";
 import { experience, education, certifications } from "@/data/experience";
 import { absoluteUrl } from "@/lib/config";
 import "./globals.css";
-const display = localFont({
-  src: "./fonts/bricolage-grotesque-latin.woff2",
-  variable: "--font-display",
-  weight: "200 800",
-  display: "swap",
-  preload: true,
-});
-const body = localFont({
-  src: "./fonts/figtree-latin.woff2",
-  variable: "--font-body",
-  weight: "300 900",
-  display: "swap",
-  preload: true,
-});
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
@@ -49,13 +36,17 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
   icons: { icon: "/favicon.svg" },
 };
+
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0f1914" },
-    { media: "(prefers-color-scheme: light)", color: "#f3f6f3" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b1220" },
+    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
   ],
 };
-const themeScript = `(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(e){try{if(localStorage.getItem('theme'))return}catch(x){}var n=e.matches?'dark':'light';document.documentElement.dataset.theme=n;document.documentElement.style.colorScheme=n;dispatchEvent(new Event('themechange'))})})();`;
+
+/* Light-first for recruiters; only follow OS dark when the visitor has no stored choice. */
+const themeScript = `(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark')t='light';document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(e){try{if(localStorage.getItem('theme'))return}catch(x){}var n=e.matches?'dark':'light';document.documentElement.dataset.theme=n;document.documentElement.style.colorScheme=n;dispatchEvent(new Event('themechange'))})})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -85,22 +76,23 @@ export default function RootLayout({
       addressCountry: "ET",
     },
   };
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={GeistSans.variable}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${display.variable} ${body.variable}`}>
+      <body className="font-sans antialiased">
         <a className="skip-link" href="#main">
           Skip to content
         </a>
         <ChatProvider>
-        <Header />
-        <main id="main" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer />
-        <ChatLauncher />
+          <Header />
+          <main id="main" tabIndex={-1}>
+            {children}
+          </main>
+          <Footer />
+          <ChatLauncher />
         </ChatProvider>
         <script
           type="application/ld+json"

@@ -3,9 +3,10 @@ export interface ChatTurn {
   content: string;
 }
 export const MAX_QUESTION = 2000;
-export const MAX_ANSWER = 24000;
-export const MAX_HISTORY_CHARS = 60000;
-export const MAX_HISTORY_MESSAGES = 20;
+/** Keep streamed answers short so the hiring agent stays scannable. */
+export const MAX_ANSWER = 4000;
+export const MAX_HISTORY_CHARS = 24000;
+export const MAX_HISTORY_MESSAGES = 12;
 /** Keep recent complete turns while preserving room for detailed assistant replies. */
 export function prepareHistory<T extends ChatTurn>(messages: T[]): T[] {
   const normalized: T[] = [];

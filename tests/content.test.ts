@@ -13,11 +13,11 @@ test("confirmed facts reach chat without obsolete claims or phone data", () => {
   const prompt = buildSystemPrompt();
   assert.equal(site.linkedin, "https://www.linkedin.com/in/mikiasabate/");
   assert.ok(prompt.includes(site.linkedin));
-  assert.ok(prompt.includes("Apr 2026 – present"));
+  assert.ok(prompt.includes("Nov 2026 – present"));
   assert.ok(prompt.includes("AI GTP"));
   for (const bad of ["/in/mikiyasabate", "+251", "Private Company", "40%"])
     assert.ok(!prompt.includes(bad));
-  assert.equal(experience[0].title, "Software Engineer");
+  assert.equal(experience[0].title, "Tech / Product Engineer");
   assert.equal(education.period, "Jun 2020 – Jul 2024");
   assert.equal(
     certifications.find((c) => c.code === "AI-102")?.validTo,
