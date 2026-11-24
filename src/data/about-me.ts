@@ -45,6 +45,6 @@ export const personalFacts: PersonalFact[] = [
   {
     question: "What AI projects has Mikias built?",
     answer:
-      "Featured AI work includes Selamnew Workspace (HR AI Copilot), Knowledge Hub (multi-tenant RAG), OKDE (knowledge and decision engine), and BanglaChatPro (Bangla customer care).",
+      "His AI projects are OKDE (a multi-tenant knowledge and decision engine with RAG chat) and Azure AI Solution (nine Azure AI capabilities, deployed automatically). At IE Network Solutions he also delivered hiring AI on Azure: CV extraction, candidate scoring and job matching.",
   },
 ];

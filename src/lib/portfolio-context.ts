@@ -27,9 +27,10 @@ export const portfolioKnowledge = {
   credentials: certifications,
   projects: projects.map((p) => ({
     ...p,
-    portfolioUrl: p.caseStudy
-      ? absoluteUrl(`/work/${p.slug}`)
-      : absoluteUrl("/#all-projects"),
+    portfolioUrl: absoluteUrl(`/work/${p.slug}`),
+    ...(p.private
+      ? { note: "Company code in a private repository; no public source link." }
+      : {}),
     diagramStatus: p.diagram
       ? "Conceptual overview; not verified production architecture"
       : undefined,
@@ -50,7 +51,6 @@ export const portfolioKnowledge = {
   },
   navigation: {
     work: absoluteUrl("/#work"),
-    allProjects: absoluteUrl("/#all-projects"),
     about: absoluteUrl("/#about"),
     skills: absoluteUrl("/#skills"),
     experience: absoluteUrl("/#experience"),
@@ -226,12 +226,10 @@ export function relatedSources(question: string): PortfolioSource[] {
     .slice(0, 2)
     .map(({ project: p }) => ({
       label: p.title,
-      href: p.caseStudy
-        ? `/work/${p.slug}`
-        : p.githubLink || "/#all-projects",
+      href: `/work/${p.slug}`,
     }));
   if (matched.length)
-    matched.push({ label: "Full project archive", href: "/#all-projects" });
+    matched.push({ label: "All selected work", href: "/#work" });
   if (
     /certif|credential|ai.?102|dp.?100|datacamp/.test(q) ||
     mentionsTopic(question, [

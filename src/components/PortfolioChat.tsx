@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowUp,
@@ -14,6 +13,7 @@ import {
   Layers,
   Mail,
   RotateCcw,
+  Sparkles,
   Square,
   X,
   type LucideIcon,
@@ -24,6 +24,7 @@ import { usePortfolioConversation } from "./ChatProvider";
 import type { PortfolioSource } from "@/lib/portfolio-context";
 import { cv } from "@/data/experience";
 import { site } from "@/data/profile";
+import { FIT_PREFIX } from "@/lib/fit-check";
 
 /** Verified questions the assistant answers well. Kept exported for other surfaces. */
 export const starters = [
@@ -85,7 +86,7 @@ const topics: { icon: LucideIcon; title: string; hint: string; q: string }[] = [
 const followUps = [
   "Is he open to work?",
   "How do I contact him?",
-  "Tell me about Knowledge Hub",
+  "Tell me about OKDE",
   "devops experience",
   "mobile apps?",
   "Where did Mikias go to university?",
@@ -100,20 +101,11 @@ const greeting = `Hi, I’m ${site.name.split(" ")[0]}’s AI assistant. I answe
 function Avatar({ size = 36 }: { size?: number }) {
   return (
     <span
-      className="relative inline-block shrink-0"
+      className="btn-grad relative inline-grid shrink-0 place-items-center rounded-full text-on-accent"
       style={{ width: size, height: size }}
+      aria-hidden
     >
-      <Image
-        src="/portraits/portrait-suit-480.webp"
-        alt=""
-        width={size * 2}
-        height={size * 2}
-        className="size-full rounded-full object-cover object-[50%_15%] ring-2 ring-accent/40"
-      />
-      <span
-        className="pulse-dot absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full bg-ok ring-2 ring-surface"
-        aria-hidden
-      />
+      <Sparkles style={{ width: size * 0.5, height: size * 0.5 }} />
     </span>
   );
 }
@@ -123,11 +115,18 @@ export function PortfolioChat({
   headingId = "chat-title",
   autofocus = false,
   onClose,
+  closeIcon: CloseIcon = X,
+  closeLabel = "Close chat",
+  dragProps,
 }: {
   variant?: "hero" | "drawer";
   headingId?: string;
   autofocus?: boolean;
   onClose?: () => void;
+  closeIcon?: LucideIcon;
+  closeLabel?: string;
+  /** Pointer handlers that make the header a drag handle for the floating window. */
+  dragProps?: React.HTMLAttributes<HTMLElement>;
 }) {
   const { messages, busy, error, announcement, send, stop, reset, retry } =
     usePortfolioConversation();
@@ -164,7 +163,7 @@ export function PortfolioChat({
     const raw = (text ?? input).trim();
     if (!raw || busy) return;
     const question = fitMode
-      ? `Here is a role I’m hiring for. Say honestly how Mikias fits, using only his portfolio facts:\n\n${raw}`.slice(
+      ? `${FIT_PREFIX} Say honestly how Mikias fits, using only his portfolio facts:\n\n${raw}`.slice(
           0,
           2000,
         )
@@ -199,7 +198,18 @@ export function PortfolioChat({
       className="flex h-full min-h-0 flex-col"
       aria-labelledby={headingId}
     >
-      <header className="flex items-center gap-3 border-b border-line px-4 py-3.5">
+      <header
+        {...dragProps}
+        className={`relative flex items-center gap-3 border-b border-line px-4 py-3.5 ${
+          dragProps ? "cursor-grab touch-none select-none active:cursor-grabbing" : ""
+        }`}
+      >
+        {dragProps ? (
+          <span
+            className="absolute left-1/2 top-1.5 h-1 w-10 -translate-x-1/2 rounded-full bg-line"
+            aria-hidden
+          />
+        ) : null}
         <Avatar />
         <div className="min-w-0 flex-1">
           <h2 className="text-[0.95rem] font-semibold" id={headingId}>
@@ -207,7 +217,7 @@ export function PortfolioChat({
           </h2>
           <p className="flex items-center gap-1.5 text-xs text-muted">
             <span className="size-1.5 rounded-full bg-ok" aria-hidden />
-            Online · answers from his real records
+            AI assistant · answers from his real records
           </p>
         </div>
         <div className="flex items-center gap-1">
@@ -224,10 +234,10 @@ export function PortfolioChat({
             <button
               type="button"
               className="inline-grid size-10 place-items-center rounded-full transition hover:bg-surface-2"
-              aria-label="Close chat"
+              aria-label={closeLabel}
               onClick={onClose}
             >
-              <X className="size-4" />
+              <CloseIcon className="size-4" />
             </button>
           ) : null}
         </div>
@@ -262,7 +272,7 @@ export function PortfolioChat({
                 <button
                   key={t.title}
                   type="button"
-                  className="group flex items-start gap-3 rounded-2xl border border-line bg-bg/60 p-3 text-left transition hover:-translate-y-0.5 hover:border-accent/60 hover:bg-accent-soft disabled:opacity-50"
+                  className="group flex items-start gap-3 rounded-2xl border border-line bg-surface p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-accent/60 hover:bg-accent-soft disabled:opacity-50"
                   onClick={() => send(t.q)}
                   disabled={busy}
                 >
@@ -310,7 +320,7 @@ export function PortfolioChat({
               key={m.id}
             >
               <span className="sr-only">You: </span>
-              {m.content.startsWith("Here is a role I’m hiring for")
+              {m.content.startsWith(FIT_PREFIX)
                 ? "📄 Job description fit check"
                 : m.content}
             </div>
@@ -441,7 +451,7 @@ export function PortfolioChat({
               <button
                 key={s}
                 type="button"
-                className="rounded-full border border-line bg-bg/60 px-3 py-1.5 text-left text-xs text-muted transition hover:border-accent hover:text-text disabled:opacity-50"
+                className="rounded-full border border-line bg-surface px-3 py-1.5 text-left text-xs text-muted transition hover:border-accent hover:text-text disabled:opacity-50"
                 onClick={() => send(s)}
                 disabled={busy}
               >
@@ -467,7 +477,7 @@ export function PortfolioChat({
       ) : null}
 
       <form
-        className="m-3 mb-2 rounded-2xl border border-line bg-bg/70 p-1.5 focus-within:border-accent focus-within:ring-4 focus-within:ring-accent/15"
+        className="m-3 mb-2 rounded-2xl border border-line bg-surface p-1.5 shadow-sm focus-within:border-accent focus-within:ring-4 focus-within:ring-accent/15"
         onSubmit={(e) => {
           e.preventDefault();
           submit();
@@ -512,10 +522,10 @@ export function PortfolioChat({
             }
             autoComplete="off"
             enterKeyHint="send"
-            className="max-h-40 min-h-10 min-w-0 flex-1 resize-none border-0 bg-transparent px-2.5 py-2 text-sm outline-none placeholder:text-muted"
+            className="max-h-40 min-h-10 min-w-0 flex-1 resize-none border-0 bg-transparent px-2.5 py-2 text-sm outline-none focus:outline-none focus-visible:outline-none placeholder:text-muted"
           />
           <button
-            className="btn-grad inline-grid size-10 shrink-0 place-items-center rounded-xl text-on-accent transition active:scale-95 disabled:opacity-40 disabled:shadow-none"
+            className="btn-grad inline-grid size-10 shrink-0 place-items-center rounded-xl text-on-accent transition active:scale-95 disabled:cursor-not-allowed disabled:bg-surface-2 disabled:bg-none disabled:text-muted disabled:shadow-none"
             type={busy ? "button" : "submit"}
             disabled={!busy && !input.trim()}
             onClick={busy ? () => stop() : undefined}

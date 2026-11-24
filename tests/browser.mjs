@@ -37,10 +37,10 @@ const overflow = () =>
 try {
   for (const route of [
     "/",
-    "/work/selamnew-workspace",
-    "/work/knowledge-hub",
+    "/work/selamnew-collaboration",
+    "/work/workforce-intelligence",
     "/work/okde",
-    "/work/banglachatpro",
+    "/work/azure-ai-solution",
     "/experience",
     "/certifications",
     "/missing-page",
@@ -72,7 +72,6 @@ try {
     "credentials",
     "contact",
     "ask",
-    "all-projects",
   ])
     if ((await page.locator(`#${id}`).count()) !== 1)
       throw new Error(`Missing section: ${id}`);
@@ -102,16 +101,11 @@ try {
       throw new Error("Section link reloaded the document");
   }
 
-  const archive = page.locator("#all-projects");
-  await archive.scrollIntoViewIfNeeded();
-  if ((await archive.locator(".project-item").count()) !== 6)
-    throw new Error("Expected 6 more-project rows before expanding");
-  await archive.getByRole("button", { name: /^Show all/ }).click();
-  if ((await archive.locator(".project-item").count()) !== 13)
-    throw new Error("Expected 13 more projects after expand");
-  await archive.getByRole("button", { name: "Mobile", exact: true }).click();
-  if ((await archive.locator(".project-item").count()) !== 3)
-    throw new Error("Mobile projects missing");
+  // Curated work: exactly five project cards (2 company, 3 personal).
+  const cards = page.locator("#work article");
+  await cards.first().scrollIntoViewIfNeeded();
+  if ((await cards.count()) !== 5)
+    throw new Error(`Expected 5 curated project cards, found ${await cards.count()}`);
 
   await page.route("**/api/chat", (r) =>
     r.fulfill({
@@ -119,10 +113,10 @@ try {
       contentType: "application/x-ndjson",
       body:
         [
-          { type: "text", text: "Knowledge Hub uses Azure AI Search." },
+          { type: "text", text: "OKDE uses queued document ingestion." },
           {
             type: "sources",
-            sources: [{ label: "Knowledge Hub", href: "/work/knowledge-hub" }],
+            sources: [{ label: "OKDE", href: "/work/okde" }],
           },
           { type: "done" },
         ]
@@ -138,7 +132,7 @@ try {
   await page.getByRole("dialog").waitFor();
   await page
     .getByRole("dialog")
-    .getByRole("link", { name: "Knowledge Hub" })
+    .getByRole("link", { name: "OKDE" })
     .waitFor();
   await page.unroute("**/api/chat");
   await page.locator("#floating-question").fill("What is his current role?");
@@ -198,7 +192,7 @@ try {
   for (const [old, hash] of [
     ["/about", "#about"],
     ["/contact", "#contact"],
-    ["/work", "#all-projects"],
+    ["/work", "#work"],
   ]) {
     await page.goto(base + old, { waitUntil: "networkidle" });
     if (

@@ -114,7 +114,7 @@ test("AI SDK provider stream becomes text, related sources and completion events
           {
             content: {
               role: "model",
-              parts: [{ text: "Knowledge Hub uses Azure AI Search." }],
+              parts: [{ text: "OKDE uses queued document ingestion." }],
             },
             finishReason: "STOP",
           },
@@ -131,7 +131,7 @@ test("AI SDK provider stream becomes text, related sources and completion events
     };
     const response = await chat(
       request("chat", {
-        messages: [{ role: "user", content: "Tell me about Knowledge Hub" }],
+        messages: [{ role: "user", content: "Tell me about OKDE" }],
       }),
     );
     assert.equal(response.status, 200);
@@ -144,13 +144,13 @@ test("AI SDK provider stream becomes text, related sources and completion events
         .filter((e) => e.type === "text")
         .map((e) => e.text)
         .join(""),
-      "Knowledge Hub uses Azure AI Search.",
+      "OKDE uses queued document ingestion.",
     );
     assert.ok(
       events
         .find((e) => e.type === "sources")
         .sources.some(
-          (s: { href: string }) => s.href === "/work/knowledge-hub",
+          (s: { href: string }) => s.href === "/work/okde",
         ),
     );
     assert.equal(events.at(-1).type, "done");

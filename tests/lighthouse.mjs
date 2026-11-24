@@ -7,10 +7,10 @@ const routes = process.argv.slice(2).length
   : [
       "/",
       "/work",
-      "/work/selamnew-workspace",
-      "/work/knowledge-hub",
+      "/work/selamnew-collaboration",
+      "/work/workforce-intelligence",
       "/work/okde",
-      "/work/banglachatpro",
+      "/work/azure-ai-solution",
       "/about",
       "/experience",
       "/contact",

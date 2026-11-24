@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, Code2 } from "lucide-react";
+import { ArrowUpRight, Building2, Code2, Lock } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { Badge } from "./ui";
 import { ProjectVisual } from "./ProjectVisual";
@@ -12,16 +12,19 @@ export function ProjectCard({
   project: Project;
   index?: number;
 }) {
-  const href = project.caseStudy
-    ? `/work/${project.slug}`
-    : project.githubLink || "/#all-projects";
+  const href = `/work/${project.slug}`;
 
   return (
     <Reveal delay={index * 0.05} className="h-full">
-      <article className="card-glow group h-full overflow-hidden rounded-[1.25rem] border border-line bg-surface shadow-card">
+      <article className="card-glow group flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-line bg-surface shadow-card">
         <ProjectVisual project={project} />
-        <div className="flex h-full flex-col gap-4 p-6 md:p-7">
+        <div className="flex flex-1 flex-col gap-4 p-6 md:p-7">
           <div className="flex flex-wrap gap-2">
+            {project.origin === "company" ? (
+              <span className="btn-grad inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[0.8rem] font-semibold text-on-accent">
+                <Building2 className="size-3.5" aria-hidden /> {project.org}
+              </span>
+            ) : null}
             {project.categories.map((c) => (
               <Badge key={c}>{c}</Badge>
             ))}
@@ -66,6 +69,11 @@ export function ProjectCard({
               >
                 Case study <ArrowUpRight className="size-4" />
               </Link>
+            ) : null}
+            {project.private ? (
+              <span className="inline-flex min-h-11 items-center gap-1.5 text-muted">
+                <Lock className="size-4" aria-hidden /> Private repository
+              </span>
             ) : null}
             {project.githubLink ? (
               <a

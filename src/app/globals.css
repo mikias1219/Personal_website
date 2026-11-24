@@ -82,26 +82,32 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-h1,
-h2,
-h3,
-h4 {
-  margin: 0;
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  text-wrap: balance;
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
 }
 
-p {
-  margin: 0;
-  text-wrap: pretty;
+@layer base {
+  p {
+    margin: 0;
+    text-wrap: pretty;
+  }
 }
 
-ul,
-ol {
-  margin: 0;
-  padding: 0;
+@layer base {
+  ul,
+  ol {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 @layer base {
@@ -110,9 +116,11 @@ ol {
   }
 }
 
-img {
-  max-width: 100%;
-  height: auto;
+@layer base {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 @layer base {
@@ -124,9 +132,11 @@ img {
   }
 }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
 }
 
 ::selection {
@@ -370,4 +380,23 @@ dialog::backdrop {
   background: var(--overlay);
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
+}
+
+/* Solid, high-contrast chat window (readable over the aurora in both themes) */
+.chat-surface {
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--line);
+}
+:root:not([data-theme="dark"]) .aurora::before,
+:root:not([data-theme="dark"]) .aurora::after {
+  opacity: 0.12;
+}
+
+.btn-grad:disabled {
+  background: var(--surface-2);
+  color: var(--muted);
+  box-shadow: none;
+  filter: none;
 }

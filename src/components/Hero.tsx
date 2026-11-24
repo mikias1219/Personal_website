@@ -16,7 +16,7 @@ export function Hero() {
   const tail = split > 0 ? site.headline.slice(split) : "";
 
   const stats = [
-    { value: `${projects.length}`, label: "Projects built" },
+    { value: `${projects.length}`, label: "Selected projects" },
     { value: `${certifications.length}`, label: "Certifications" },
     { value: "3", label: "Stacks: API · Web · Mobile" },
   ];
@@ -35,10 +35,10 @@ export function Hero() {
               <Image
                 src="/portraits/portrait-suit-480.webp"
                 alt={`Portrait of ${site.name}`}
-                width={112}
-                height={112}
+                width={160}
+                height={160}
                 priority
-                className="size-14 rounded-full object-cover object-[50%_15%] ring-2 ring-accent/50 ring-offset-2 ring-offset-bg"
+                className="size-16 rounded-full object-cover object-[50%_12%] shadow-card ring-1 ring-line"
               />
               <div>
                 <p className="font-semibold leading-tight">{site.name}</p>
@@ -58,7 +58,7 @@ export function Hero() {
 
             <h1
               id="hero-title"
-              className="mt-5 max-w-[21ch] text-[2.5rem] leading-[1.04] tracking-tight sm:text-6xl xl:text-[4.5rem]"
+              className="mt-5 max-w-[21ch] text-[2.5rem] leading-[1.05] tracking-tight sm:text-6xl lg:text-[3.25rem] xl:text-[3.75rem]"
             >
               {lead}
               {tail ? <span className="grad-text block">{tail}</span> : null}
@@ -106,13 +106,13 @@ export function Hero() {
           <Reveal delay={0.08}>
             <div className="relative">
               <div
-                className="absolute -inset-3 -z-10 rounded-[2rem] opacity-60 blur-2xl"
+                className="absolute -inset-2 -z-10 rounded-[2rem] opacity-30 blur-2xl"
                 style={{ background: "var(--grad)" }}
                 aria-hidden
               />
               <div
                 id="ask"
-                className="glass flex h-[36rem] scroll-mt-28 flex-col overflow-hidden rounded-[1.5rem] shadow-card sm:h-[38rem]"
+                className="chat-surface flex h-[36rem] scroll-mt-28 flex-col overflow-hidden rounded-[1.5rem] shadow-card sm:h-[38rem]"
               >
                 <PortfolioChat variant="hero" headingId="hero-chat-title" />
               </div>

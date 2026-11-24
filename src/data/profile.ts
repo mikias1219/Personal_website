@@ -35,20 +35,20 @@ export const capabilities = [
     number: "01",
     description:
       "Document retrieval, grounded chat, copilots and AI workflows.",
-    projects: ["knowledge-hub", "selamnew-workspace", "banglachatpro"],
+    projects: ["okde", "azure-ai-solution"],
   },
   {
     title: "Full-stack products",
     number: "02",
     description: "APIs, interfaces and data models that work together.",
-    projects: ["okde", "shop-manager", "delala"],
+    projects: ["selamnew-collaboration", "workforce-intelligence", "shop-manager"],
   },
   {
     title: "Cloud & DevOps",
     number: "03",
     description:
       "Containers, infrastructure as code and automated deployments.",
-    projects: ["knowledge-hub", "azure-ai-solution", "cicd-devops-lab"],
+    projects: ["azure-ai-solution", "workforce-intelligence"],
   },
 ];
 

@@ -6,7 +6,12 @@ import {
 } from "../src/lib/portfolio-context";
 import { experience, certifications, education } from "../src/data/experience";
 import { site } from "../src/data/profile";
-import { archiveProjects, featuredProjects } from "../src/data/projects";
+import {
+  companyProjects,
+  featuredProjects,
+  personalProjects,
+  projects,
+} from "../src/data/projects";
 import { allowedOrigin, readJson, BodyError } from "../src/lib/request";
 import { chatSchema, contactSchema } from "../src/lib/validation";
 test("confirmed facts reach chat without obsolete claims or phone data", () => {
@@ -30,13 +35,17 @@ test("confirmed facts reach chat without obsolete claims or phone data", () => {
   assert.equal(certifications.length, 6);
 });
 test("curation and related links use real routes", () => {
-  assert.equal(archiveProjects.length, 8);
-  assert.equal(featuredProjects.length, 4);
-  assert.ok(!archiveProjects.some((p) => p.title === "Music Management App"));
+  // Curated on purpose: 2 company + 3 personal, quality over quantity.
+  assert.equal(projects.length, 5);
+  assert.equal(featuredProjects.length, 5);
+  assert.equal(companyProjects.length, 2);
+  assert.equal(personalProjects.length, 3);
+  assert.ok(projects.every((p) => p.caseStudy));
+  // Private company code must never link to a repository.
+  assert.ok(companyProjects.every((p) => p.private && !p.githubLink));
+  assert.ok(personalProjects.every((p) => p.githubLink));
   assert.ok(
-    relatedSources("Knowledge Hub").some(
-      (s) => s.href === "/work/knowledge-hub",
-    ),
+    relatedSources("Tell me about OKDE").some((s) => s.href === "/work/okde"),
   );
 });
 test("foreign origins and invalid messages are rejected", () => {

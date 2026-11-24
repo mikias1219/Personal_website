@@ -24,10 +24,13 @@ import {
   earlierExperience,
   experience,
 } from "@/data/experience";
-import { featuredProjects } from "@/data/projects";
+import {
+  companyProjects,
+  personalProjects,
+  type Project,
+} from "@/data/projects";
 import { Badge, Button, Card, Container, Section, SectionHead } from "./ui";
 import { ProjectCard } from "./ProjectCard";
-import { MoreProjects } from "./MoreProjects";
 import { ContactForm } from "./ContactForm";
 import { ContactCta } from "./ContactCta";
 import { SocialLinks } from "./SocialLinks";
@@ -40,25 +43,52 @@ export function WorkSection() {
         <SectionHead
           titleId="work-title"
           eyebrow="01 · Selected work"
-          title="Things I’ve built"
-          lede="Four projects that show how Mikias builds products and AI features end to end."
-          action={
-            <Link
-              href="/#all-projects"
-              className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-accent no-underline"
-            >
-              Browse every project <ArrowUpRight className="size-4" />
-            </Link>
-          }
+          title="Five projects, chosen with care"
+          lede="Depth over quantity: two products built at IE Network Solutions and three personal builds, each built end to end."
         />
-        <div className="grid gap-6 md:grid-cols-2">
-          {featuredProjects.map((project, index) => (
-            <ProjectCard key={project.slug} project={project} index={index} />
-          ))}
-        </div>
-        <MoreProjects />
+        <WorkGroup
+          title="At IE Network Solutions"
+          note="Company code is private, so there are no source links. Ask me about them."
+          projects={companyProjects}
+        />
+        <WorkGroup
+          title="Personal projects"
+          note="Open source, with tests and automated delivery."
+          projects={personalProjects}
+          className="mt-14"
+        />
       </Container>
     </Section>
+  );
+}
+
+function WorkGroup({
+  title,
+  note,
+  projects,
+  className = "",
+}: {
+  title: string;
+  note: string;
+  projects: Project[];
+  className?: string;
+}) {
+  return (
+    <div className={className}>
+      <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h3 className="text-xl font-semibold tracking-tight">{title}</h3>
+        <p className="text-sm text-muted">{note}</p>
+      </div>
+      <div
+        className={`grid gap-6 md:grid-cols-2 ${
+          projects.length > 2 ? "lg:grid-cols-3" : ""
+        }`}
+      >
+        {projects.map((project, index) => (
+          <ProjectCard key={project.slug} project={project} index={index} />
+        ))}
+      </div>
+    </div>
   );
 }
 

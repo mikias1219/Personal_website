@@ -304,7 +304,15 @@ export function portfolioLookup(
     }
     if (chosen.length > 4 && !/all|every|complete/.test(current))
       chosen = chosen.slice(0, 4);
-    lines.push(chosen.map((p) => shortProject(p)).join("\n\n"));
+    if (!chosen.length) {
+      // Curated list has no project in that category: say so, then answer from skills.
+      const mobile = skills.find((s) => /mobile/i.test(s.title));
+      lines.push(
+        /mobile/.test(current) && mobile
+          ? `None of his five featured projects is mobile-focused. His mobile skills are **${mobile.items.join(", ")}**. Ask him about mobile work directly via [Contact](/#contact).`
+          : "None of his five featured projects falls in that category. See [Work](/#work) for the full selection.",
+      );
+    } else lines.push(chosen.map((p) => shortProject(p)).join("\n\n"));
   }
 
   if (wantsSkills) {

@@ -1,6 +1,7 @@
 import { streamText } from "ai";
 import { contextualQuestion } from "@/lib/chat-history";
 import { portfolioLookup } from "@/lib/portfolio-lookup";
+import { fitCheckReply, isFitCheck } from "@/lib/fit-check";
 import {
   CHAT_MAX_OUTPUT_TOKENS,
   portfolioModel,
@@ -55,7 +56,10 @@ export async function POST(req: Request) {
             controller.enqueue(encoder.encode(JSON.stringify(event) + "\n"));
         };
         const fallback = () => {
-          const reply = portfolioLookup(messages.at(-1)!.content, messages.slice(0, -1));
+          const last = messages.at(-1)!.content;
+          const reply = isFitCheck(last)
+            ? fitCheckReply(last)
+            : portfolioLookup(last, messages.slice(0, -1));
           send({ type: "fallback", text: reply.text, sources: reply.sources });
           send({ type: "done" });
         };

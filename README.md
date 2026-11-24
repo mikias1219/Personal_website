@@ -22,10 +22,10 @@ Local site: http://localhost:3000. The supported Webpack builder avoids Turbopac
 ## Content and routes
 
 - `src/app/page.tsx`: one home page. A hero with the intro and the **Ask about Mikias** chat, then Selected work, About, Experience, Skills, Credentials and Contact.
-- Other routes: `/work/[slug]` (four short case studies), `/certifications` (certificates with PDFs and verification links), `/experience` (printable CV view), custom 404, metadata, sitemap, robots and OG images. `/about`, `/contact` and `/work` redirect to the matching section of the home page.
+- Other routes: `/work/[slug]` (five short case studies), `/certifications` (certificates with PDFs and verification links), `/experience` (printable CV view), custom 404, metadata, sitemap, robots and OG images. `/about`, `/contact` and `/work` redirect to the matching section of the home page.
 - `src/data/profile.ts`: identity, headline, contact details, story and skills.
 - `src/data/experience.ts`: roles and dates, earlier experience, education, credentials, CV.
-- `src/data/projects.ts`: all 17 projects, categories, the four featured case studies and the overview flow labels.
+- `src/data/projects.ts`: the five curated projects (two company, three personal; company repos are private so they carry no source link), each with a case study and an overview flow.
 - `src/data/about-me.ts`: **extra facts for the chat** (languages, relocation, working style, anything not covered above). Add question and answer pairs here and the assistant can answer them. Leave it empty and the assistant says it does not have that information and points to Contact.
 - `src/content/work/*.mdx`: the order of the blocks in each case study. A block with no recorded facts renders nothing, so no placeholders are ever shown.
 - `src/components/`: `Hero`, `Sections` (all home sections), `PortfolioChat` (the chat panel, used in the hero and in the floating drawer), `ChatLauncher`, `ChatProvider` (one shared conversation), `MoreProjects`, `CertificateGallery`, `ContactForm`, `Header`, `Footer`.
@@ -35,7 +35,7 @@ Local site: http://localhost:3000. The supported Webpack builder avoids Turbopac
 
 The public CV download is the user-selected v7 PDF, copied unchanged on 29 October 2026. It is never parsed to generate pages or assistant context. [Content checklist](docs/CONTENT-CHECKLIST.md) lists all CONFIRM items, verification URLs and missing screenshots/metrics.
 
-Open `/`, `/work/selamnew-workspace`, `/work/knowledge-hub`, `/work/okde`, `/work/banglachatpro`, `/certifications`, `/experience` and any nonexistent path for review.
+Open `/`, `/work/selamnew-collaboration`, `/work/workforce-intelligence`, `/work/okde`, `/work/azure-ai-solution`, `/work/shop-manager`, `/certifications`, `/experience` and any nonexistent path for review.
 
 ## Environment
 

@@ -10,8 +10,8 @@ test("offline portfolio lookup uses confirmed records and qualifies pending fact
   );
   assert.ok(portfolioLookup("Have you got DP-100?").text.includes("DP-100"));
   assert.ok(
-    portfolioLookup("Tell me about Knowledge Hub").sources.some(
-      (s) => s.href === "/work/knowledge-hub",
+    portfolioLookup("Tell me about OKDE").sources.some(
+      (s) => s.href === "/work/okde",
     ),
   );
   assert.ok(
@@ -21,9 +21,11 @@ test("offline portfolio lookup uses confirmed records and qualifies pending fact
   );
 });
 test("misspelled questions still find the closest trusted records", () => {
-  const project = portfolioLookup("Tell me about Knowlege Hub");
-  assert.ok(project.text.includes("Knowledge Hub"));
-  assert.ok(project.sources.some((s) => s.href === "/work/knowledge-hub"));
+  const project = portfolioLookup("Tell me about Selamnew Colaboration");
+  assert.ok(project.text.includes("Selamnew Collaboration"));
+  assert.ok(
+    project.sources.some((s) => s.href === "/work/selamnew-collaboration"),
+  );
   assert.ok(
     portfolioLookup("Waht certifcate do you have?").text.includes("AI-102"),
   );
