@@ -45,11 +45,11 @@ See `.env.example`. All keys are server-only; never use `NEXT_PUBLIC_` for secre
 | --- | --- |
 | `SITE_URL` | Canonical origin; default `https://mikiasabatesite.vercel.app` |
 | `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_RESOURCE_NAME`, `AZURE_OPENAI_DEPLOYMENT` | Azure model, selected when all three exist |
-| `GEMINI_API_KEY`, `GEMINI_MODEL` | Gemini fallback; default model `gemini-3.8-flash` |
+| `GEMINI_API_KEY`, `GEMINI_MODEL` | Gemini fallback; default model `gemini-2.5-flash` |
 | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Shared production rate limiting |
 | `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL` | Contact delivery; existing recipient override supported |
 
-`GEMINI_MODEL` defaults to `gemini-3.8-flash`, a current option for new projects in [Google’s model lifecycle guidance](https://ai.google.dev/gemini-api/docs/deprecations). Override it for your account.
+`GEMINI_MODEL` defaults to `gemini-2.5-flash`. The chat route tries it first, then `gemini-flash-latest` and `gemini-2.5-flash-lite`, and only uses the offline keyword lookup if every model fails. (`gemini-3.8-flash` returns 429/503 on many keys.)
 
 `SITE_URL` drives metadata, sitemap, robots, CORS and assistant URLs. Set it before building when changing domains. The form recipient defaults to `profile.ts`; `CONTACT_TO_EMAIL` overrides it on the server. Without `CONTACT_FROM_EMAIL`, the Resend test sender can deliver only to the Resend account owner. A verified sender is needed for general delivery. Mail credentials remain only on Vercel by the user’s explicit preference.
 

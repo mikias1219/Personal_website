@@ -4,8 +4,7 @@ import { portfolioLookup } from "@/lib/portfolio-lookup";
 import { fitCheckReply, isFitCheck } from "@/lib/fit-check";
 import {
   CHAT_MAX_OUTPUT_TOKENS,
-  portfolioModel,
-  portfolioProviderOptions,
+  portfolioModels,
 } from "@/lib/ai-provider";
 import { buildSystemPrompt, relatedSources } from "@/lib/portfolio-context";
 import { chatSchema } from "@/lib/validation";
@@ -35,11 +34,13 @@ export async function POST(req: Request) {
         },
         { status: 400, headers },
       );
-    const model = portfolioModel();
+    const candidates = portfolioModels();
     const limit = await rateLimit(req, "chat");
     if (!limit.allowed)
       return Response.json(
-        { error: "Too many questions. Please try again later." },
+        {
+          error: `You’ve asked a lot of questions in a short time. Please wait about ${Math.max(1, Math.ceil(limit.retryAfter / 60))} minute(s), or email Mikias directly.`,
+        },
         {
           status: 429,
           headers: { ...headers, "Retry-After": String(limit.retryAfter) },
@@ -64,43 +65,61 @@ export async function POST(req: Request) {
           send({ type: "done" });
         };
         try {
-          if (!model) {
+          if (!candidates.length) {
             fallback();
             return;
           }
           let answer = "";
-          const result = streamText({
-            model,
-            system: buildSystemPrompt(),
-            messages,
-            maxOutputTokens: CHAT_MAX_OUTPUT_TOKENS,
-            providerOptions: portfolioProviderOptions(),
-            abortSignal: AbortSignal.any([
-              req.signal,
-              abort.signal,
-              AbortSignal.timeout(55000),
-            ]),
-            maxRetries: 0,
-            onError: () => {
-              /* Do not log messages or provider bodies. */
-            },
-          });
-          for await (const part of result.fullStream) {
-            if (part.type === "error") throw part.error;
-            if (part.type === "finish" && part.finishReason === "length")
-              send({type: "notice", message: "This answer reached its length limit. Ask me to continue for more detail."});
-            if (part.type === "text-delta") {
-              answer += part.text;
-              send({ type: "text", text: part.text });
+          let truncated = false;
+          for (const candidate of candidates) {
+            try {
+              const result = streamText({
+                model: candidate.model,
+                system: buildSystemPrompt(),
+                messages,
+                maxOutputTokens: CHAT_MAX_OUTPUT_TOKENS,
+                providerOptions: candidate.providerOptions,
+                abortSignal: AbortSignal.any([
+                  req.signal,
+                  abort.signal,
+                  AbortSignal.timeout(25000),
+                ]),
+                maxRetries: 0,
+                onError: () => {
+                  /* Do not log messages or provider bodies. */
+                },
+              });
+              for await (const part of result.fullStream) {
+                if (part.type === "error") throw part.error;
+                if (part.type === "finish" && part.finishReason === "length")
+                  truncated = true;
+                if (part.type === "text-delta") {
+                  answer += part.text;
+                  send({ type: "text", text: part.text });
+                }
+              }
+              if (answer.trim()) break;
+            } catch (error) {
+              // Once text has streamed, do not splice in another model's answer.
+              if (cancelled || answer.trim()) throw error;
             }
           }
+          if (truncated)
+            send({
+              type: "notice",
+              message:
+                "This answer reached its length limit. Ask me to continue for more detail.",
+            });
           if (!answer.trim()) {
             fallback();
             return;
           }
           send({
             type: "sources",
-            sources: relatedSources(contextualQuestion(messages.at(-1)!.content, messages.slice(0, -1))),
+            sources: relatedSources(
+              contextualQuestion(messages.at(-1)!.content, messages.slice(0, -1)),
+              answer,
+            ),
           });
           send({ type: "done" });
         } catch {

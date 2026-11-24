@@ -114,13 +114,28 @@ export function ChatLauncher() {
   const clamp = useCallback((o: Offset, base: DOMRect): Offset => {
     const minX = MARGIN - base.left;
     const maxX = innerWidth - MARGIN - base.right;
-    const minY = MARGIN - base.top;
+    // Never let the window slide under the sticky navbar.
+    const navBottom =
+      document.querySelector("body header.sticky")?.getBoundingClientRect()
+        .bottom ?? 0;
+    const minY = Math.max(MARGIN, navBottom + MARGIN) - base.top;
     const maxY = innerHeight - MARGIN - base.bottom;
     return {
       x: Math.min(Math.max(o.x, minX), Math.max(minX, maxX)),
       y: Math.min(Math.max(o.y, minY), Math.max(minY, maxY)),
     };
   }, []);
+
+  // A saved position may predate the navbar limit: re-clamp whenever it opens.
+  useEffect(() => {
+    if (!expanded) return;
+    const el = dialogRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const base = new DOMRect(r.left - offset.x, r.top - offset.y, r.width, r.height);
+    setOffset((o) => clamp(o, base));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [expanded, clamp]);
 
   // Keep the window on screen if the viewport shrinks.
   useEffect(() => {
@@ -263,7 +278,7 @@ export function ChatLauncher() {
           transform: `translate3d(${offset.x}px, ${offset.y}px, 0)`,
           transition: dragging ? "none" : "transform 0.2s ease",
         }}
-        className="fixed inset-auto bottom-0 right-0 z-40 m-0 h-[min(46rem,85dvh)] w-full max-w-none overflow-visible border-0 bg-transparent p-0 text-text open:flex sm:bottom-6 sm:right-6 sm:h-[min(41rem,100dvh-3rem)] sm:w-[min(27rem,100vw-2.5rem)] sm:max-w-[27rem]"
+        className="fixed inset-auto bottom-0 right-0 z-30 m-0 h-[min(46rem,85dvh)] w-full max-w-none overflow-visible border-0 bg-transparent p-0 text-text open:flex sm:bottom-6 sm:right-6 sm:h-[min(41rem,100dvh-8.5rem)] sm:w-[min(27rem,100vw-2.5rem)] sm:max-w-[27rem]"
         aria-labelledby={titleId}
         onKeyDown={(e) => {
           // Non-modal dialogs do not get the native Escape handling.
