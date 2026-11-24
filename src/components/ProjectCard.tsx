@@ -17,8 +17,8 @@ export function ProjectCard({
     : project.githubLink || "/#all-projects";
 
   return (
-    <Reveal delay={index * 0.05}>
-      <article className="group overflow-hidden rounded-2xl border border-line bg-surface shadow-card transition duration-200 hover:-translate-y-1 hover:border-accent/40">
+    <Reveal delay={index * 0.05} className="h-full">
+      <article className="card-glow group h-full overflow-hidden rounded-[1.25rem] border border-line bg-surface shadow-card">
         <ProjectVisual project={project} />
         <div className="flex h-full flex-col gap-4 p-6 md:p-7">
           <div className="flex flex-wrap gap-2">
@@ -39,7 +39,7 @@ export function ProjectCard({
           </div>
           {project.role ? (
             <p className="text-sm">
-              <span className="font-semibold">His role: </span>
+              <span className="font-semibold">My role: </span>
               <span className="text-muted">{project.role}</span>
             </p>
           ) : null}

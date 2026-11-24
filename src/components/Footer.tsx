@@ -6,7 +6,7 @@ import { Container } from "./ui";
 
 export function Footer() {
   return (
-    <footer className="border-t border-line py-10">
+    <footer className="border-t border-line bg-surface/40 py-10">
       <Container>
         <div className="flex flex-wrap items-center justify-between gap-6">
           <div>

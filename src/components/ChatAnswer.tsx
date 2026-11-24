@@ -121,11 +121,11 @@ export function ChatAnswer({ content }: { content: string }) {
       }
       blocks.push(
         ordered ? (
-          <ol key={start} className="my-2 list-decimal space-y-1 pl-5">
+          <ol key={start} className="my-2 list-decimal space-y-1 pl-5 marker:text-accent">
             {items}
           </ol>
         ) : (
-          <ul key={start} className="my-2 list-disc space-y-1 pl-5">
+          <ul key={start} className="my-2 list-disc space-y-1 pl-5 marker:text-accent">
             {items}
           </ul>
         ),

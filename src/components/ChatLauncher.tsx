@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { MessageCircle } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { PortfolioChat } from "./PortfolioChat";
 import { useChatPanel } from "./ChatProvider";
 
@@ -41,7 +41,7 @@ export function ChatLauncher() {
     <>
       <button
         type="button"
-        className={`fixed bottom-4 right-4 z-30 inline-flex min-h-12 items-center gap-2 rounded-full bg-accent px-5 font-semibold text-on-accent shadow-card transition duration-200 hover:brightness-110 md:bottom-6 md:right-6 ${
+        className={`fixed bottom-4 right-4 z-30 btn-grad inline-flex min-h-12 items-center gap-2 rounded-full px-5 font-semibold text-on-accent transition duration-200 hover:-translate-y-0.5 md:bottom-6 md:right-6 ${
           open || !showFab
             ? "pointer-events-none translate-y-3 opacity-0"
             : "opacity-100"
@@ -49,8 +49,8 @@ export function ChatLauncher() {
         onClick={openPanel}
         aria-haspopup="dialog"
       >
-        <MessageCircle className="size-5" />
-        Ask agent
+        <Sparkles className="size-5" />
+        Ask AI
       </button>
 
       <dialog
@@ -65,7 +65,7 @@ export function ChatLauncher() {
           closePanel();
         }}
       >
-        <div className="flex h-full w-full flex-col overflow-hidden rounded-t-3xl border border-line bg-surface shadow-card sm:rounded-3xl">
+        <div className="flex h-full w-full flex-col overflow-hidden rounded-t-3xl border border-line bg-surface shadow-card sm:rounded-3xl sm:shadow-[0_30px_80px_-20px_rgb(0_0_0/0.6)]">
           <PortfolioChat
             variant="drawer"
             headingId={titleId}

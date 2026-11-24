@@ -39,13 +39,13 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0b1220" },
-    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
+    { media: "(prefers-color-scheme: dark)", color: "#060914" },
+    { media: "(prefers-color-scheme: light)", color: "#060914" },
   ],
 };
 
-/* Light-first for recruiters; only follow OS dark when the visitor has no stored choice. */
-const themeScript = `(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark')t='light';document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(e){try{if(localStorage.getItem('theme'))return}catch(x){}var n=e.matches?'dark':'light';document.documentElement.dataset.theme=n;document.documentElement.style.colorScheme=n;dispatchEvent(new Event('themechange'))})})();`;
+/* Dark-first; a stored visitor choice always wins. */
+const themeScript = `(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark')t='dark';document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t})();`;
 
 export default function RootLayout({
   children,

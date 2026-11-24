@@ -1,5 +1,5 @@
 import { Hero } from "@/components/Hero";
-import { AskBar } from "@/components/AskBar";
+import { TechMarquee } from "@/components/TechMarquee";
 import {
   WorkSection,
   ExperienceSection,
@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <AskBar />
+      <TechMarquee />
       <WorkSection />
       <ExperienceSection />
       <SkillsSection />

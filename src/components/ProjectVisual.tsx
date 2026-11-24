@@ -9,10 +9,10 @@ const tints: Record<Category, string> = {
 };
 
 const stroke: Record<Category, string> = {
-  "AI & LLM": "#155eef",
-  "Full-stack": "#0f766e",
-  Mobile: "#b45309",
-  DevOps: "#4f46e5",
+  "AI & LLM": "#6d7cff",
+  "Full-stack": "#14b8a6",
+  Mobile: "#f59e0b",
+  DevOps: "#a78bfa",
 };
 
 export function ProjectVisual({ project }: { project: Project }) {
