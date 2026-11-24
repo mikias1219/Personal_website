@@ -11,8 +11,8 @@ export function ogImage(title: string) {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "70px",
-          background: "#0b0e11",
-          color: "#edf2f1",
+          background: "#0f1914",
+          color: "#e8f0ea",
           fontFamily: "sans-serif",
         }}
       >
@@ -24,7 +24,7 @@ export function ogImage(title: string) {
           }}
         >
           <span>MA · {site.name}</span>
-          <span style={{ color: "#4fd6b0" }}>SOFTWARE / AI</span>
+          <span style={{ color: "#f5bd1f" }}>Software & AI</span>
         </div>
         <div
           style={{
@@ -41,10 +41,10 @@ export function ogImage(title: string) {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            borderTop: "1px solid #29332f",
+            borderTop: "1px solid #2a3c32",
             paddingTop: 24,
             fontSize: 22,
-            color: "#a0adaa",
+            color: "#a3b4aa",
           }}
         >
           <span>{site.role}</span>

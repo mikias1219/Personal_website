@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { Icon } from "./Icon";
 import type { Project } from "@/data/projects";
-import { ArchitectureDiagram } from "./ArchitectureDiagram";
+
 export type CaseSection =
   | "problem"
   | "role"
@@ -10,14 +9,11 @@ export type CaseSection =
   | "stack"
   | "outcome"
   | "links";
-export function Placeholder({ children }: { children: React.ReactNode }) {
-  return (
-    <aside className="placeholder">
-      <span className="mono">CONTENT TO ADD</span>
-      <p>{children}</p>
-    </aside>
-  );
-}
+
+/**
+ * One block of a case study. Blocks without recorded facts render nothing,
+ * so the page never shows placeholders or "to do" notes.
+ */
 export function CaseStudySections({
   project,
   section,
@@ -28,104 +24,70 @@ export function CaseStudySections({
   switch (section) {
     case "problem":
       return (
-        <section id="problem">
-          <h2>Problem</h2>
+        <section id="overview">
+          <h2>What it is</h2>
           <p>{project.summary}</p>
-          <Placeholder>
-            TODO: add the original problem statement, constraints and intended
-            users.
-          </Placeholder>
         </section>
       );
     case "role":
-      return (
+      return project.role ? (
         <section id="role">
           <h2>My role</h2>
-          <p>
-            {project.role ||
-              "Project included in my portfolio; detailed ownership is awaiting documentation."}
-          </p>
-          <Placeholder>
-            TODO: confirm individual ownership, collaborators and delivery
-            scope.
-          </Placeholder>
+          <p>{project.role}</p>
         </section>
-      );
+      ) : null;
     case "architecture":
-      return (
-        <section id="architecture">
-          <h2>Architecture</h2>
-          <p>
-            This conceptual overview groups the capabilities and technologies
-            recorded in the project data. Deployment details await verification.
+      return project.diagram?.length ? (
+        <section id="how-it-fits">
+          <h2>How it fits together</h2>
+          <ol className="flow">
+            {project.diagram.map((step) => (
+              <li key={step}>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="flow-note">
+            A high-level overview of what the project covers, not a deployment
+            diagram.
           </p>
-          <ArchitectureDiagram project={project} />
-          <Placeholder>
-            TODO: add the verified architecture diagram and a product
-            screenshot.
-          </Placeholder>
         </section>
-      );
+      ) : null;
     case "decisions":
-      return (
-        <section id="decisions">
-          <h2>Key decisions & trade-offs</h2>
-          <Placeholder>
-            TODO: document an actual technical decision, alternatives considered
-            and the trade-off.
-          </Placeholder>
-        </section>
-      );
+      return null;
     case "stack":
-      return (
+      return project.stack?.length ? (
         <section id="stack">
           <h2>Stack</h2>
-          <ul className="stack-list">
-            {project.stack?.map((s) => (
-              <li key={s}>{s}</li>
+          <ul className="tags">
+            {project.stack.map((s) => (
+              <li className="tag" key={s}>
+                {s}
+              </li>
             ))}
           </ul>
         </section>
-      );
+      ) : null;
     case "outcome":
-      return (
-        <section id="outcome">
-          <h2>Outcome</h2>
-          <p>{project.outcome}</p>
-          <Placeholder>
-            TODO: add a measured result, evaluation method and time period. No
-            performance or business metric has been supplied.
-          </Placeholder>
-        </section>
-      );
+      // The outcome is already the lead sentence in the page header.
+      return null;
     case "links":
-      return (
+      return project.githubLink || project.demoLink ? (
         <section id="links">
           <h2>Links</h2>
-          {project.githubLink && (
-            <p>
+          <p className="inline-actions">
+            {project.githubLink && (
               <a className="text-link" href={project.githubLink}>
-                <Icon name="github" /> Source on GitHub{" "}
-                <Icon name="arrow-up-right" />
+                <Icon name="github" /> Source on GitHub
               </a>
-            </p>
-          )}
-          {project.demoLink && (
-            <p>
+            )}
+            {project.demoLink && (
               <a className="text-link" href={project.demoLink}>
-                <Icon name="globe" /> Live demo <Icon name="arrow-up-right" />
+                <Icon name="globe" /> Live demo
               </a>
-            </p>
-          )}
-          {!project.githubLink && !project.demoLink && (
-            <p>
-              A public repository or demo has not been supplied.{" "}
-              <Link className="text-link" href="/#contact">
-                Ask about this project ↗
-              </Link>
-            </p>
-          )}
+            )}
+          </p>
         </section>
-      );
+      ) : null;
   }
 }

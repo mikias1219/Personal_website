@@ -3,7 +3,8 @@ import path from "node:path";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { Container, Section, Badge } from "@/components/ui";
+import { Container, Section } from "@/components/ui";
+import { Icon } from "@/components/Icon";
 import {
   CaseStudySections,
   type CaseSection,
@@ -56,55 +57,35 @@ export default async function CaseStudy({
   return (
     <Container>
       <Section>
-        <Link href="/#work" className="text-link">
-          ← All work
+        <Link href="/#work" className="back-link">
+          <Icon name="arrow-right" className="flip" width={18} height={18} /> All work
         </Link>
-        <header className="case-header">
-          <p className="eyebrow">
-            Case study / {project.year || "Selected work"}
-          </p>
+        <header className="page-head">
           <h1>{project.title}</h1>
-          <p className="lead">{project.summary}</p>
-          <div className="actions">
+          <p className="page-lead">{project.outcome ?? project.summary}</p>
+          <ul className="tags">
             {project.categories.map((c) => (
-              <Badge key={c}>{c}</Badge>
+              <li className="tag" key={c}>
+                {c}
+              </li>
             ))}
-          </div>
+            {project.year && <li className="tag">{project.year}</li>}
+          </ul>
         </header>
-        <div className="case-layout">
-          <nav className="case-nav" aria-label="Case study sections">
-            {[
-              "Problem",
-              "My role",
-              "Architecture",
-              "Key decisions",
-              "Stack",
-              "Outcome",
-              "Links",
-            ].map((s, i) => (
-              <a
-                key={s}
-                href={`#${["problem", "role", "architecture", "decisions", "stack", "outcome", "links"][i]}`}
-              >
-                {s}
-              </a>
-            ))}
-          </nav>
-          <article className="case-prose">
-            <MDXRemote
-              source={source}
-              components={{
-                CaseSection: ({ section }: { section: CaseSection }) => (
-                  <CaseStudySections project={project} section={section} />
-                ),
-              }}
-            />
-          </article>
+        <div className="case">
+          <MDXRemote
+            source={source}
+            components={{
+              CaseSection: ({ section }: { section: CaseSection }) => (
+                <CaseStudySections project={project} section={section} />
+              ),
+            }}
+          />
         </div>
-        <div className="next-project">
-          <p className="eyebrow">Next case study</p>
-          <Link href={`/work/${next.slug}`}>{next.title} ↗</Link>
-        </div>
+        <nav className="next-case" aria-label="Next case study">
+          <span className="muted">Next case study</span>
+          <Link href={`/work/${next.slug}`}>{next.title}</Link>
+        </nav>
       </Section>
       <script
         type="application/ld+json"

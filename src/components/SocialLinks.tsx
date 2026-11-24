@@ -1,5 +1,6 @@
 import { socials } from "@/data/profile";
-import { Icon, SocialIcon } from "./Icon";
+import { SocialIcon } from "./Icon";
+
 export function SocialLinks({
   className = "",
   includeEmail = true,
@@ -8,14 +9,13 @@ export function SocialLinks({
   includeEmail?: boolean;
 }) {
   return (
-    <div className={`social-links ${className}`}>
+    <div className={`hero-links ${className}`.trim()}>
       {socials
         .filter((s) => includeEmail || s.label !== "Email")
         .map((s) => (
-          <a key={s.label} href={s.href} className="social-link">
+          <a key={s.label} href={s.href}>
             <SocialIcon label={s.label} />
-            <span>{s.label}</span>
-            <Icon name="arrow-up-right" className="social-arrow" />
+            {s.label}
           </a>
         ))}
     </div>

@@ -18,7 +18,13 @@ export type IconName =
   | "message"
   | "menu"
   | "close"
-  | "check";
+  | "check"
+  | "sun"
+  | "moon"
+  | "send"
+  | "stop"
+  | "spark"
+  | "refresh";
 const paths: Record<IconName, string> = {
   github:
     "M9 19c-4.3 1.3-4.3-2.2-6-2.7M15 22v-3.4c.1-1-.3-1.7-.8-2.1 2.8-.3 5.8-1.4 5.8-6.3 0-1.4-.5-2.5-1.3-3.4.1-.4.6-1.7-.1-3.4 0 0-1.1-.3-3.5 1.3a12 12 0 0 0-6.3 0C6.4 3.1 5.3 3.4 5.3 3.4c-.7 1.7-.2 3-.1 3.4C4.4 7.7 4 8.8 4 10.2c0 4.9 3 6 5.8 6.3-.4.4-.8 1.1-.8 2.1V22",
@@ -42,6 +48,12 @@ const paths: Record<IconName, string> = {
   menu: "M4 6h16M4 12h16M4 18h16",
   close: "m6 6 12 12M6 18 18 6",
   check: "m5 12 4 4L19 6",
+  sun: "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4m11.2-11.2L19 5",
+  moon: "M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z",
+  send: "M12 19V5m-6 6 6-6 6 6",
+  stop: "M8 8h8v8H8z",
+  spark: "M12 3v4m0 10v4M3 12h4m10 0h4M6 6l2.5 2.5m7 7L18 18M6 18l2.5-2.5m7-7L18 6",
+  refresh: "M20 11a8 8 0 0 0-14.5-3.5M4 5v4h4M4 13a8 8 0 0 0 14.5 3.5M20 19v-4h-4",
 };
 export function Icon({
   name,

@@ -1,6 +1,6 @@
 # Mikias Abate — portfolio
 
-Next.js App Router, strict TypeScript, Tailwind CSS, Motion, MDX and Vercel AI SDK. Vercel deployment. Dark and light themes share CSS tokens. Geist Sans and Mono are self-hosted with `next/font/local`; the existing font files and their SIL Open Font License are retained.
+Next.js App Router, strict TypeScript, Tailwind CSS (reset only), MDX and Vercel AI SDK. Vercel deployment. Light and dark themes share CSS tokens. Bricolage Grotesque (headings) and Figtree (text) are self-hosted with `next/font/local`; their SIL Open Font License is in `src/app/fonts/OFL.txt`.
 
 ## Run
 
@@ -21,19 +21,21 @@ Local site: http://localhost:3000. The supported Webpack builder avoids Turbopac
 
 ## Content and routes
 
-- `src/app/`: A continuous Home page with Work, About, Skills, full Experience, Credentials and Contact sections; optional `/work/[slug]` details, `/experience` print view, `/certifications`, custom 404, metadata, sitemap, robots and OG images.
-- `src/data/profile.ts`: identity, correct LinkedIn, contact details, story, capability proof links and skills.
-- `src/data/experience.ts`: confirmed roles/dates, earlier experience, education, credentials, confirmation flags and PDF state.
-- `src/data/projects.ts`: existing project facts, categories, archive selection, four case-study slugs and conceptual diagram labels. All 17 original projects are available in the expandable, filterable archive on the main page.
-- `src/content/work/*.mdx`: trusted repository-authored case-study section order. Reusable components resolve facts from the project records. Never compile visitor-provided MDX.
-- `src/components/`: own UI primitives, responsive layout, theme controls, system trace, project visuals, chat, form and print controls.
-- `src/app/globals.css`: theme and spacing tokens, Tailwind mappings, component styles and print rules.
-- `src/lib/`: canonical config, metadata, generated assistant context, provider adapter, validation and API guards.
-- `public/portraits/`: existing optimized WebP portraits.
+- `src/app/page.tsx`: one home page. A hero with the intro and the **Ask about Mikias** chat, then Selected work, About, Experience, Skills, Credentials and Contact.
+- Other routes: `/work/[slug]` (four short case studies), `/certifications` (certificates with PDFs and verification links), `/experience` (printable CV view), custom 404, metadata, sitemap, robots and OG images. `/about`, `/contact` and `/work` redirect to the matching section of the home page.
+- `src/data/profile.ts`: identity, headline, contact details, story and skills.
+- `src/data/experience.ts`: roles and dates, earlier experience, education, credentials, CV.
+- `src/data/projects.ts`: all 17 projects, categories, the four featured case studies and the overview flow labels.
+- `src/data/about-me.ts`: **extra facts for the chat** (languages, relocation, working style, anything not covered above). Add question and answer pairs here and the assistant can answer them. Leave it empty and the assistant says it does not have that information and points to Contact.
+- `src/content/work/*.mdx`: the order of the blocks in each case study. A block with no recorded facts renders nothing, so no placeholders are ever shown.
+- `src/components/`: `Hero`, `Sections` (all home sections), `PortfolioChat` (the chat panel, used in the hero and in the floating drawer), `ChatLauncher`, `ChatProvider` (one shared conversation), `MoreProjects`, `CertificateGallery`, `ContactForm`, `Header`, `Footer`.
+- `src/app/globals.css`: design tokens (colors, shadow, spacing) and every style, in one file of about 1,600 lines.
+- `src/lib/`: canonical config, metadata, assistant context, provider adapter, validation and API guards.
+- `public/portraits/`: optimized portraits.
 
 The public CV download is the user-selected v7 PDF, copied unchanged on 29 October 2026. It is never parsed to generate pages or assistant context. [Content checklist](docs/CONTENT-CHECKLIST.md) lists all CONFIRM items, verification URLs and missing screenshots/metrics.
 
-Open `/`, `/work`, `/work/selamnew-workspace`, `/work/knowledge-hub`, `/work/okde`, `/work/banglachatpro`, `/about`, `/experience`, `/contact` and any nonexistent path for review.
+Open `/`, `/work/selamnew-workspace`, `/work/knowledge-hub`, `/work/okde`, `/work/banglachatpro`, `/certifications`, `/experience` and any nonexistent path for review.
 
 ## Environment
 
@@ -76,4 +78,6 @@ Credential sources, dates and all six available PDF copies are documented in [do
 
 ## Visual system
 
-The portfolio uses graphite and teal in dark mode, a matching light palette, Geist typography, shared SVG icons, clear numbered section headings and aligned card grids. The hero pairs the introduction with the existing portrait and a software-to-AI flow. `Icon.tsx`, `SocialLinks.tsx` and `HeroVisual.tsx` centralize the visuals without an extra icon dependency. The hero uses a compressed static AVIF portrait with the original WebP fallback. Navigation remains in one document; detailed credentials, case studies and print experience are optional views. Offscreen section layout is rendered normally so anchors and PDF link hit areas stay stable.
+Calm and plain. A soft green-grey page, white surfaces and deep green ink, with one marigold accent used for the main buttons and the chat. Headings use Bricolage Grotesque and text uses Figtree. Sections are simple lists, not grids of cards; the chat is the one bold element. Light and dark themes follow the visitor's system setting and can be switched in the header. Motion is limited to one entrance on the hero and the chat messages, and is turned off for visitors who prefer reduced motion.
+
+The chat opens as a panel in the hero. Once it scrolls out of view, a floating **Ask about Mikias** button opens the same conversation in a drawer, so a visitor can ask a question from anywhere on the page.

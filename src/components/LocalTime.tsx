@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { site } from "@/data/profile";
+
 export function LocalTime() {
   const [time, setTime] = useState<string | null>(null);
   useEffect(() => {
@@ -20,9 +21,10 @@ export function LocalTime() {
     };
   }, []);
   return (
-    <span className="local-time mono">
-      <span className="signal" aria-hidden="true" />
-      {time || "Addis Ababa"} · {site.utcOffset}
+    <span suppressHydrationWarning>
+      {time
+        ? `${site.location}. It’s ${time} there (${site.utcOffset}).`
+        : `${site.location} (${site.utcOffset})`}
     </span>
   );
 }

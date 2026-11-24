@@ -1,24 +1,21 @@
-import { Container, Section, Button } from "@/components/ui";
+import { Container, Button } from "@/components/ui";
+
 export default function NotFound() {
   return (
     <Container>
-      <Section>
-        <p className="eyebrow">404 / Page not found</p>
-        <h1>
-          A loose end.
-          <br />
-          <span className="accent">Let’s get you back.</span>
-        </h1>
-        <p className="lead">
-          This page doesn’t exist. Explore the work or head back home.
+      <header className="page-head not-found">
+        <h1>This page doesn’t exist.</h1>
+        <p className="page-lead">
+          The link may be old or mistyped. Head back home, or ask the assistant
+          what you were looking for.
         </p>
-        <div className="actions">
+        <p className="hero-actions">
           <Button href="/">Back home</Button>
-          <Button href="/work" variant="secondary">
-            Explore work ↗
+          <Button href="/#work" variant="secondary">
+            See selected work
           </Button>
-        </div>
-      </Section>
+        </p>
+      </header>
     </Container>
   );
 }

@@ -3,28 +3,45 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ChatAnswer } from "./ChatAnswer";
 import { usePortfolioConversation } from "./ChatProvider";
+import { Icon } from "./Icon";
 import type { PortfolioSource } from "@/lib/portfolio-context";
 
-/** Suggestions from the trusted records; sending one is like asking the question. */
-const suggestions = [
-  "Tell me everything about your background — roles, skills and education.",
-  "What have you built with Azure AI?",
-  "Walk me through Knowledge Hub or OKDE.",
-  "Which certifications do you hold, and are they verified?",
+/** Starter and follow-up questions. Sending one is the same as typing it. */
+export const starters = [
+  "Who is Mikias and what does he do?",
+  "What has he built with Azure AI?",
+  "What’s his tech stack?",
+  "Which certifications does he hold?",
+  "Is he open to work, and how do I reach him?",
 ];
 
-export function PortfolioChat({ autofocus = false }: { autofocus?: boolean }) {
+const greeting =
+  "Hi, I’m an AI assistant that knows Mikias’s work. Ask about his projects, experience, skills or certifications and I’ll answer from his portfolio.";
+
+export function PortfolioChat({
+  variant = "hero",
+  headingId = "chat-title",
+  autofocus = false,
+  onClose,
+}: {
+  variant?: "hero" | "drawer";
+  headingId?: string;
+  autofocus?: boolean;
+  onClose?: () => void;
+}) {
   const { messages, busy, error, announcement, send, stop, reset, retry } =
     usePortfolioConversation();
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const logRef = useRef<HTMLDivElement>(null);
+  const inputId = variant === "drawer" ? "floating-question" : "portfolio-question";
 
   useEffect(() => {
     if (autofocus) inputRef.current?.focus();
   }, [autofocus]);
   useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
+    const log = logRef.current;
+    if (log) log.scrollTo({ top: log.scrollHeight, behavior: busy ? "instant" : "smooth" });
   }, [messages, busy]);
 
   function submit() {
@@ -34,109 +51,140 @@ export function PortfolioChat({ autofocus = false }: { autofocus?: boolean }) {
     setInput("");
   }
 
+  const asked = new Set(
+    messages.filter((m) => m.role === "user").map((m) => m.content),
+  );
+  const last = messages.at(-1);
+  const finished = !!last && last.role === "assistant" && !busy && !!last.content;
+  const suggestions =
+    messages.length === 0
+      ? starters
+      : finished
+        ? starters.filter((s) => !asked.has(s)).slice(0, 3)
+        : [];
+
   return (
-    <div className="portfolio-chat">
-      <div className="chat-topbar">
-        <span className="signal" />
-        <p>Ask my portfolio</p>
-        <span className="mono muted">GROUNDED IN THE WORK</span>
-      </div>
+    <section
+      className={`chat chat-${variant}`}
+      aria-labelledby={headingId}
+      id={variant === "hero" ? "ask" : undefined}
+    >
+      <header className="chat-head">
+        <span className="chat-mark" aria-hidden="true">
+          <Icon name="spark" />
+        </span>
+        <div>
+          <h2 className="chat-title" id={headingId}>
+            Ask about Mikias
+          </h2>
+          <p className="chat-sub">AI assistant · answers from his portfolio</p>
+        </div>
+        <div className="chat-head-actions">
+          {messages.length > 0 && !busy && (
+            <button type="button" className="chat-new" onClick={reset}>
+              <Icon name="refresh" width={16} height={16} /> New chat
+            </button>
+          )}
+          {onClose && (
+            <button
+              type="button"
+              className="icon-button"
+              aria-label="Close chat"
+              onClick={onClose}
+            >
+              <Icon name="close" />
+            </button>
+          )}
+        </div>
+      </header>
+
       <div
-        className="chat-messages"
-        ref={scrollRef}
+        className="chat-log"
+        ref={logRef}
+        role="log"
+        aria-live="off"
         aria-label="Conversation"
-        role="region"
         tabIndex={0}
       >
-        {messages.length === 0 ? (
-          <div className="chat-welcome">
-            <span className="chat-spark" aria-hidden="true">
-              ✳
-            </span>
-            <h3>What would you like to know?</h3>
-            <p className="muted">
-              Projects, experience, skills, certifications — every answer comes
-              from the recorded facts.
-            </p>
-          </div>
-        ) : (
-          messages.map((m) => (
-            <div className={`chat-message ${m.role}`} key={m.id}>
-              <p className="mono">
-                {m.role === "user"
-                  ? "YOU"
-                  : m.lookup
-                    ? "PORTFOLIO LOOKUP"
-                    : "PORTFOLIO ASSISTANT"}
-              </p>
+        <div className="msg msg-assistant">
+          <p className="msg-answer">{greeting}</p>
+        </div>
+        {messages.map((m) =>
+          m.role === "user" ? (
+            <div className="msg msg-user" key={m.id}>
+              <span className="sr-only">You: </span>
+              {m.content}
+            </div>
+          ) : (
+            <div className="msg msg-assistant" key={m.id}>
+              <span className="sr-only">Assistant: </span>
+              {m.content ? (
+                <ChatAnswer content={m.content} />
+              ) : m.stopped ? (
+                <p className="msg-note">The answer was stopped.</p>
+              ) : (
+                <span className="typing" role="status" aria-label="Finding an answer">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+              )}
               {m.lookup && (
-                <p className="lookup-note">
-                  AI service unavailable. This answer uses saved portfolio
-                  facts.
+                <p className="msg-note">
+                  The AI service is unavailable, so this answer comes from
+                  saved portfolio facts.
                 </p>
               )}
-              {m.notice && <p className="chat-notice">{m.notice}</p>}
-              {m.role === "assistant" ? (
-                <ChatAnswer content={m.content} />
-              ) : (
-                <p className="message-text">{m.content}</p>
-              )}
-              {m.role === "assistant" && !m.content && (
-                <p className="message-text muted">Finding an answer…</p>
-              )}
-              {m.stopped && !m.content && (
-                <p className="chat-notice">The answer was stopped.</p>
-              )}
+              {m.notice && <p className="msg-note">{m.notice}</p>}
               {m.stopped && m.content && !busy && (
-                <div className="chat-retry-row">
-                  <button className="chat-retry" onClick={retry}>
-                    Try again ↻
+                <p className="msg-note">
+                  Stopped early.{" "}
+                  <button type="button" className="text-link" onClick={retry}>
+                    Try again
                   </button>
-                </div>
+                </p>
               )}
-              {m.sources && (
-                <div className="source-chips">
-                  <span className="mono muted">Explore related work</span>
+              {m.sources && m.sources.length > 0 && !!m.content && (
+                <div className="msg-sources">
+                  <span>See also</span>
                   {m.sources.map((s: PortfolioSource) => (
                     <Link key={s.href} href={s.href}>
-                      {s.label} ↗
+                      {s.label}
                     </Link>
                   ))}
                 </div>
               )}
             </div>
-          ))
+          ),
         )}
       </div>
-      {messages.length === 0 && (
-        <div className="chat-suggestions">
+
+      {error && (
+        <div className="chat-error" role="alert">
+          {error}{" "}
+          <button type="button" onClick={retry}>
+            Try again
+          </button>{" "}
+          or <Link href="/#contact">email Mikias</Link>.
+        </div>
+      )}
+
+      {suggestions.length > 0 && (
+        <div className="chat-suggest" role="group" aria-label="Suggested questions">
           {suggestions.map((s) => (
-            <button key={s} onClick={() => send(s)} disabled={busy}>
-              {s} ↗
+            <button
+              key={s}
+              type="button"
+              className="chip"
+              onClick={() => send(s)}
+              disabled={busy}
+            >
+              {s}
             </button>
           ))}
         </div>
       )}
-      {error && (
-        <div className="chat-error" role="alert">
-          {error}{" "}
-          <button className="chat-retry" onClick={retry}>
-            Try again ↻
-          </button>{" "}
-          <Link href="/#contact">Contact Mikias ↗</Link>
-        </div>
-      )}
-      {messages.length > 0 && !busy && (
-        <div className="chat-reset-row">
-          <button
-            className="chat-retry"
-            onClick={reset}
-            aria-label="Start a new conversation"
-          >
-            New conversation
-          </button>
-        </div>
-      )}
+
       <form
         className="chat-form"
         onSubmit={(e) => {
@@ -144,20 +192,18 @@ export function PortfolioChat({ autofocus = false }: { autofocus?: boolean }) {
           submit();
         }}
       >
-        <label
-          htmlFor={autofocus ? "floating-question" : "portfolio-question"}
-          className="sr-only"
-        >
+        <label htmlFor={inputId} className="sr-only">
           Your question about Mikias
         </label>
         <input
           ref={inputRef}
-          id={autofocus ? "floating-question" : "portfolio-question"}
+          id={inputId}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           maxLength={2000}
-          placeholder="Ask about my work…"
+          placeholder="Ask anything about Mikias…"
           autoComplete="off"
+          enterKeyHint="send"
         />
         <button
           className="chat-send"
@@ -166,20 +212,16 @@ export function PortfolioChat({ autofocus = false }: { autofocus?: boolean }) {
           onClick={busy ? () => stop() : undefined}
           aria-label={busy ? "Stop answer" : "Send question"}
         >
-          {busy ? "■" : "↑"}
+          <Icon name={busy ? "stop" : "send"} />
         </button>
       </form>
-      <div className="chat-disclaimer mono">
-        Answers can be imperfect. Check the linked work.
-      </div>
-      <div
-        className="sr-only"
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-      >
+      <p className="chat-note">
+        AI can make mistakes. Check the linked work or{" "}
+        <Link href="/#contact">ask Mikias directly</Link>.
+      </p>
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
         {announcement}
       </div>
-    </div>
+    </section>
   );
 }

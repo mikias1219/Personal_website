@@ -108,6 +108,7 @@ export function ContactForm() {
         <label htmlFor="company">Leave this empty</label>
         <input id="company" name="company" tabIndex={-1} autoComplete="off" />
       </div>
+      <div className="form-actions">
       <button
         type="submit"
         className="button button-primary"
@@ -117,7 +118,7 @@ export function ContactForm() {
           "Sending…"
         ) : (
           <>
-            Send message <Icon name="arrow-up-right" />
+            Send message <Icon name="arrow-right" />
           </>
         )}
       </button>
@@ -126,6 +127,7 @@ export function ContactForm() {
           Send with your email app <Icon name="mail" />
         </a>
       )}
+      </div>
       <p
         ref={statusRef}
         tabIndex={-1}

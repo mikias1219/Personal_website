@@ -10,6 +10,7 @@ export const site = {
   utcOffset: "UTC+3",
   email: "mikiyasabate003@gmail.com",
   availability: "Open to full-time roles and contracts",
+  headline: "I build full-stack products and the AI inside them.",
   statement:
     "I build full-stack products and the AI inside them. From APIs and interfaces to grounded answers over your data.",
   linkedin: "https://www.linkedin.com/in/mikiasabate/",

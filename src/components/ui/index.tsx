@@ -7,71 +7,71 @@ export function Container({
   ...props
 }: ComponentProps<"div">) {
   return (
-    <div className={`container ${className}`} {...props}>
+    <div className={`container ${className}`.trim()} {...props}>
       {children}
     </div>
   );
 }
+
 export function Section({
   children,
   className = "",
   ...props
 }: ComponentProps<"section">) {
   return (
-    <section className={`section ${className}`} {...props}>
+    <section className={`section ${className}`.trim()} {...props}>
       {children}
     </section>
   );
 }
-export function Card({
+
+export function SectionHead({
+  title,
+  lede,
   children,
-  className = "",
-  ...props
-}: ComponentProps<"article">) {
+}: {
+  title: string;
+  lede?: string;
+  children?: ReactNode;
+}) {
   return (
-    <article className={`card ${className}`} {...props}>
+    <div className="section-head">
+      <div>
+        <h2 className="section-title">{title}</h2>
+        {lede && <p className="section-lede">{lede}</p>}
+      </div>
       {children}
-    </article>
+    </div>
   );
 }
-export function Badge({ children }: { children: ReactNode }) {
-  return <span className="badge">{children}</span>;
-}
+
+type ButtonProps = Omit<ComponentProps<"a">, "href"> & {
+  href: string;
+  variant?: "primary" | "secondary";
+  size?: "default" | "small";
+};
+
+/** Internal paths use next/link; mailto:, downloads and external URLs use a plain anchor. */
 export function Button({
   href,
   children,
   variant = "primary",
+  size = "default",
+  className = "",
   ...props
-}: ComponentProps<typeof Link> & {
-  variant?: "primary" | "secondary" | "quiet";
-}) {
+}: ButtonProps) {
+  const classes =
+    `button button-${variant} ${size === "small" ? "button-small" : ""} ${className}`.trim();
+  const internal = href.startsWith("/") || href.startsWith("#");
+  if (internal && !props.download)
+    return (
+      <Link href={href} className={classes} {...props}>
+        {children}
+      </Link>
+    );
   return (
-    <Link href={href} className={`button button-${variant}`} {...props}>
+    <a href={href} className={classes} {...props}>
       {children}
-    </Link>
-  );
-}
-export function SectionHeading({
-  number,
-  label,
-  title,
-  children,
-}: {
-  number?: string;
-  label: string;
-  title: string;
-  children?: ReactNode;
-}) {
-  return (
-    <div className="section-heading">
-      <div>
-        <p className="eyebrow">
-          {number && <span>{number} / </span>}
-          {label}
-        </p>
-        <h2>{title}</h2>
-      </div>
-      {children}
-    </div>
+    </a>
   );
 }

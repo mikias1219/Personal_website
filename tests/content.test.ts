@@ -137,3 +137,20 @@ test("local preview and verified Vercel preview origins work without allowing fo
     });
   }
 });
+test("extra personal facts reach the assistant prompt and the offline lookup", async () => {
+  const { personalFacts } = await import("../src/data/about-me");
+  const { portfolioLookup } = await import("../src/lib/portfolio-lookup");
+  const prompt = buildSystemPrompt();
+  assert.ok(prompt.includes("additionalFacts"));
+  for (const fact of personalFacts) {
+    assert.ok(prompt.includes(fact.answer));
+    assert.ok(portfolioLookup(fact.question).text.includes(fact.answer));
+  }
+});
+test("contact-style questions link to the contact section", () => {
+  assert.ok(
+    relatedSources("Is he open to work, and how do I reach him?").some(
+      (s) => s.href === "/#contact",
+    ),
+  );
+});

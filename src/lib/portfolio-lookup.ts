@@ -1,8 +1,9 @@
 import { site, skills, about } from "@/data/profile";
 import { experience, earlierExperience, education, certifications, cv } from "@/data/experience";
 import { projects, type Project } from "@/data/projects";
+import { personalFacts } from "@/data/about-me";
 import { contextualQuestion, type ChatTurn } from "./chat-history";
-import { mentionsTopic, projectMatches, relatedSources, type PortfolioSource } from "./portfolio-context";
+import { mentionsTopic, projectMatches, questionTokens, relatedSources, type PortfolioSource } from "./portfolio-context";
 export interface PortfolioReply { text: string; sources: PortfolioSource[]; }
 const roleText = (r: typeof experience[number]) => `### ${r.title} — ${r.org}\n${r.period}${r.location ? ` · ${r.location}` : ""}\n\n${r.points.map(p=>`- ${p}`).join("\n")}${r.confirmation ? `\n\nDetails awaiting confirmation: ${r.confirmation}` : ""}`;
 const credentialText = (c: typeof certifications[number]) => `### ${c.name}\n- **Issuer:** ${c.issuer}\n- **Issued:** ${c.issued}\n- **Valid until:** ${c.validTo}\n- **Credential ID:** ${c.credentialId}${c.certificationNumber ? `\n- **Certification number:** ${c.certificationNumber}` : ""}\n- **Recorded status:** ${c.status}\n\n${c.summary}\n\n**Areas covered:** ${c.skills.join(", ")}.\n\n[Verify with ${c.issuer}](${c.verifyUrl})${c.pdfUrl ? ` · [Download certificate PDF](${c.pdfUrl})` : ""}`;
@@ -68,6 +69,9 @@ export function portfolioLookup(question: string, history: ChatTurn[] = []): Por
     sections.push(`## Certifications\n${selected.map(credentialText).join("\n\n")}`);
   }
   if (wantsContact || all) sections.push(`## Contact & CV\n${site.availability}. Based in ${site.location} (${site.utcOffset}).\n\n[Email Mikias](mailto:${site.email}) · [LinkedIn](${site.linkedin}) · [GitHub](${site.github}) · [Download CV](${cv.url})`);
+  const factTokens = new Set(questionTokens(current).filter(t => t.length > 3));
+  const facts = personalFacts.filter(f => questionTokens(f.question).filter(t => t.length > 3 && factTokens.has(t)).length >= 1);
+  if (facts.length) sections.push(facts.map(f => `**${f.question}**\n${f.answer}`).join("\n\n"));
   if (!sections.length) return {text:`I don't have that information in Mikias's portfolio. I can answer questions about his documented projects, experience, skills, education and certifications. If you mean a project from our conversation, tell me which one or ask a follow-up with its name. For other details, [contact Mikias](/#contact).`,sources:[{label:"Contact Mikias",href:"/#contact"}]};
   return {text:sections.join("\n\n"),sources:relatedSources(context)};
 }

@@ -1,49 +1,62 @@
 "use client";
-import dynamic from "next/dynamic";
-import { Icon } from "./Icon";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-const Chat = dynamic(
-  () => import("./PortfolioChat").then((m) => m.PortfolioChat),
-  {
-    loading: () => (
-      <p className="chat-loading" role="status">
-        Loading the assistant…
-      </p>
-    ),
-  },
-);
+import { Icon } from "./Icon";
+import { PortfolioChat } from "./PortfolioChat";
+
+/**
+ * A floating "Ask about Mikias" button that opens the same conversation in a
+ * drawer. It hides while the main chat on the home page is on screen.
+ */
 export function ChatLauncher() {
   const pathname = usePathname();
   return <FloatingChat key={pathname} />;
 }
+
 function FloatingChat() {
   const [open, setOpen] = useState(false);
+  const [mainChatVisible, setMainChatVisible] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     if (open) dialog.current?.showModal();
-    else dialog.current?.close();
+    else if (dialog.current?.open) dialog.current.close();
   }, [open]);
+
+  useEffect(() => {
+    const target = document.getElementById("ask");
+    if (!target) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setMainChatVisible(entry.isIntersecting),
+      { threshold: 0.25 },
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       <button
         ref={launcher}
-        className="chat-launcher"
-        aria-label="Open Ask my portfolio"
+        type="button"
+        className={`chat-launcher ${mainChatVisible ? "is-hidden" : ""}`.trim()}
         aria-haspopup="dialog"
+        inert={mainChatVisible}
         onClick={() => setOpen(true)}
       >
-        <Icon name="message" /> <span>Ask my portfolio</span>
+        <Icon name="spark" /> Ask about Mikias
       </button>
       <dialog
         ref={dialog}
-        className="chat-dialog"
-        aria-labelledby="chat-dialog-title"
+        className="chat-drawer"
+        aria-labelledby="drawer-chat-title"
         onClick={(event) => {
-          if ((event.target as HTMLElement).closest("a")) setOpen(false);
+          const target = event.target as HTMLElement;
+          if (target === dialog.current || target.closest("a")) setOpen(false);
         }}
-        onCancel={() => {
+        onCancel={(event) => {
+          event.preventDefault();
           setOpen(false);
           launcher.current?.focus();
         }}
@@ -52,17 +65,14 @@ function FloatingChat() {
           launcher.current?.focus();
         }}
       >
-        <div className="chat-dialog-title">
-          <h2 id="chat-dialog-title">Ask my portfolio</h2>
-          <button
-            className="icon-button"
-            aria-label="Close assistant"
-            onClick={() => setOpen(false)}
-          >
-            <Icon name="close" />
-          </button>
-        </div>
-        {open && <Chat autofocus />}
+        {open && (
+          <PortfolioChat
+            variant="drawer"
+            headingId="drawer-chat-title"
+            autofocus
+            onClose={() => setOpen(false)}
+          />
+        )}
       </dialog>
     </>
   );

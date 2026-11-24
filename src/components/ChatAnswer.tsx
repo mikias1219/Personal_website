@@ -26,5 +26,5 @@ export function ChatAnswer({content}:{content:string}){
     if(/^\s*([-*•]|\d+[.)])\s+/.test(line)){const start=i;const ordered=/^\s*\d+[.)]\s/.test(line);const items:ReactNode[]=[];while(i<lines.length && (ordered ? /^\s*\d+[.)]\s+/ : /^\s*[-*•]\s+/).test(lines[i])){items.push(<li key={i}>{inline(lines[i].replace(/^\s*([-*•]|\d+[.)])\s+/,""))}</li>);i++;}blocks.push(ordered ? <ol key={start}>{items}</ol> : <ul key={start}>{items}</ul>);continue;}
     const start=i;const paragraph=[line];i++;while(i<lines.length && lines[i].trim() && !/^(#{1,6}\s|\s*[-*•]\s|\s*\d+[.)]\s|```)/.test(lines[i]))paragraph.push(lines[i++]);blocks.push(<p key={start}>{inline(paragraph.join("\n"))}</p>);
   }
-  return <div className="chat-answer message-text">{blocks}</div>;
+  return <div className="msg-answer">{blocks}</div>;
 }
