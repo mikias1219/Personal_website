@@ -242,6 +242,24 @@ export function CredentialsSection() {
         <div className="grid gap-4 md:grid-cols-2">
           {preview.map((c) => (
             <Card key={c.id} className="flex flex-col gap-3">
+              {c.previewUrl && c.pdfUrl ? (
+                <a
+                  className="overflow-hidden rounded-xl border border-line bg-surface-2"
+                  href={c.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Open the ${c.name} certificate PDF`}
+                >
+                  <Image
+                    src={c.previewUrl}
+                    width={1000}
+                    height={707}
+                    sizes="(max-width: 52rem) 90vw, 520px"
+                    alt={`Certificate for ${c.name}, awarded to Mikias Abate`}
+                    className="w-full"
+                  />
+                </a>
+              ) : null}
               <p className="inline-flex items-center gap-2 text-sm text-muted">
                 <BadgeCheck className="size-4 text-ok" aria-hidden />
                 {c.issuer}
