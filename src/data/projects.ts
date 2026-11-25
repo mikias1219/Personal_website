@@ -66,7 +66,7 @@ export const projects: Project[] = [
     ],
     summary:
       "Team collaboration platform: real-time chat in spaces and channels, audio and video calls with guest join links, collaborative rich-text editing with @mentions, search and role-based access control.",
-    stack: ["NestJS", "Next.js", "PostgreSQL", "Socket.IO", "LiveKit"],
+    stack: ["NestJS", "Next.js", "PostgreSQL", "Redis", "Elasticsearch", "Socket.IO", "LiveKit"],
   },
   {
     title: "Workforce Intelligence",
