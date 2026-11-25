@@ -2,9 +2,11 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Building2, Code2, Lock } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { Container, Section } from "@/components/ui";
+import { Button, Container, Section } from "@/components/ui";
+import { ProjectMedia } from "@/components/ProjectCard";
+import { ProjectVisual } from "@/components/ProjectVisual";
 import {
   CaseStudySections,
   type CaseSection,
@@ -59,6 +61,15 @@ export default async function CaseStudy({
         featuredProjects.length
     ];
 
+  const toc = [
+    { id: "overview", label: "Overview", show: true },
+    { id: "screens", label: "Screens", show: !!project.screenshots?.length },
+    { id: "role", label: "My role", show: !!project.role },
+    { id: "how-it-works", label: "How it works", show: !!project.diagram?.length },
+    { id: "decisions", label: "Key decisions", show: !!project.decisions?.length },
+    { id: "outcome", label: "Outcome", show: !!project.outcome },
+  ].filter((t) => t.show);
+
   return (
     <Container>
       <Section>
@@ -68,50 +79,182 @@ export default async function CaseStudy({
         >
           <ArrowLeft className="size-4" /> All work
         </Link>
-        <header className="mt-6 max-w-3xl">
-          <h1 className="text-4xl tracking-tight md:text-5xl">
-            {project.title}
-          </h1>
-          <p className="mt-4 text-lg text-muted">
-            {project.outcome ?? project.summary}
-          </p>
-          <ul className="mt-5 flex flex-wrap gap-2">
-            {project.categories.map((c) => (
-              <li
-                key={c}
-                className="rounded-full border border-line px-3 py-1 text-sm"
-              >
-                {c}
-              </li>
-            ))}
-            {project.year ? (
-              <li className="rounded-full border border-line px-3 py-1 text-sm">
-                {project.year}
-              </li>
-            ) : null}
-          </ul>
+
+        <header className="mt-6 grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+          <div>
+            <ul className="mb-5 flex flex-wrap gap-2">
+              {project.origin === "company" ? (
+                <li className="btn-grad inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold text-on-accent">
+                  <Building2 className="size-3.5" aria-hidden /> {project.org}
+                </li>
+              ) : (
+                <li className="rounded-full border border-line px-3 py-1 text-sm">
+                  Personal project
+                </li>
+              )}
+              {project.categories.map((c) => (
+                <li
+                  key={c}
+                  className="rounded-full border border-line px-3 py-1 text-sm"
+                >
+                  {c}
+                </li>
+              ))}
+              {project.year ? (
+                <li className="rounded-full border border-line px-3 py-1 text-sm">
+                  {project.year}
+                </li>
+              ) : null}
+            </ul>
+            <h1 className="text-4xl tracking-tight md:text-5xl">
+              {project.title}
+            </h1>
+            <p className="mt-4 text-lg text-muted">
+              {project.tagline ?? project.outcome ?? project.summary}
+            </p>
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              {project.demoLink ? (
+                <Button href={project.demoLink}>
+                  Try the live demo <ArrowUpRight className="size-4" />
+                </Button>
+              ) : null}
+              {project.githubLink ? (
+                <Button
+                  href={project.githubLink}
+                  variant={project.demoLink ? "secondary" : "primary"}
+                >
+                  <Code2 className="size-4" /> View source
+                </Button>
+              ) : null}
+              {project.private ? (
+                <span className="inline-flex min-h-11 items-center gap-2 text-sm text-muted">
+                  <Lock className="size-4" aria-hidden /> Private company code.
+                  Happy to walk through it in an interview.
+                </span>
+              ) : null}
+            </div>
+          </div>
+          <div className="rounded-[1.5rem] border border-line bg-gradient-to-br from-accent-soft via-surface-2 to-transparent p-5 sm:p-8">
+            <ProjectMedia project={project} priority />
+          </div>
         </header>
-        <div className="mt-10 grid max-w-3xl gap-10">
-          <MDXRemote
-            source={source}
-            components={{
-              CaseSection: ({ section }: { section: CaseSection }) => (
-                <CaseStudySections project={project} section={section} />
-              ),
-            }}
-          />
+
+        {project.highlights?.length ? (
+          <dl className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
+            {project.highlights.map((h) => (
+              <div key={h.label} className="bg-surface p-5 md:p-6">
+                <dt className="text-2xl font-semibold tracking-tight text-accent md:text-3xl">
+                  {h.value}
+                </dt>
+                <dd className="mt-1 text-sm text-muted">{h.label}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
+
+        <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,1fr)_17rem]">
+          <div className="grid max-w-3xl gap-12 lg:order-1">
+            <MDXRemote
+              source={source}
+              components={{
+                CaseSection: ({ section }: { section: CaseSection }) => (
+                  <CaseStudySections project={project} section={section} />
+                ),
+              }}
+            />
+          </div>
+          <aside className="space-y-5 lg:order-2 lg:sticky lg:top-28 lg:self-start">
+            <div className="rounded-2xl border border-line bg-surface p-5">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">
+                Project facts
+              </h2>
+              <dl className="mt-4 space-y-4 text-sm">
+                {project.org ? (
+                  <div>
+                    <dt className="text-muted">Company</dt>
+                    <dd className="font-medium">{project.org}</dd>
+                  </div>
+                ) : null}
+                {project.year ? (
+                  <div>
+                    <dt className="text-muted">Year</dt>
+                    <dd className="font-medium">{project.year}</dd>
+                  </div>
+                ) : null}
+                {project.role ? (
+                  <div>
+                    <dt className="text-muted">My role</dt>
+                    <dd className="font-medium">{project.role}</dd>
+                  </div>
+                ) : null}
+                {project.stack?.length ? (
+                  <div>
+                    <dt className="text-muted">Stack</dt>
+                    <dd className="mt-2 flex flex-wrap gap-1.5">
+                      {project.stack.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-full border border-line px-2.5 py-0.5 text-xs"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </dd>
+                  </div>
+                ) : null}
+              </dl>
+            </div>
+            <nav
+              aria-label="On this page"
+              className="hidden rounded-2xl border border-line bg-surface p-5 lg:block"
+            >
+              <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">
+                On this page
+              </h2>
+              <ul className="mt-3 space-y-1">
+                {toc.map((t) => (
+                  <li key={t.id}>
+                    <a
+                      href={`#${t.id}`}
+                      className="block rounded-lg px-2 py-1.5 text-sm text-muted no-underline hover:bg-surface-2 hover:text-text"
+                    >
+                      {t.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </aside>
         </div>
+
         <nav
-          className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6"
+          className="mt-16 border-t border-line pt-8"
           aria-label="Next case study"
         >
-          <span className="text-sm text-muted">Next case study</span>
+          <p className="text-sm text-muted">Next case study</p>
           <Link
             href={`/work/${next.slug}`}
-            className="inline-flex items-center gap-2 text-xl font-semibold tracking-tight no-underline hover:underline"
+            className="group mt-3 grid items-center gap-5 rounded-2xl border border-line bg-surface p-4 no-underline transition hover:border-accent/60 sm:grid-cols-[14rem_1fr_auto]"
           >
-            {next.title} <ArrowRight className="size-5" />
+            <div className="overflow-hidden rounded-xl border border-line">
+              <ProjectVisual project={next} />
+            </div>
+            <span>
+              <span className="block text-xl font-semibold tracking-tight md:text-2xl">
+                {next.title}
+              </span>
+              <span className="mt-1 block text-sm text-muted">
+                {next.tagline ?? next.outcome}
+              </span>
+            </span>
+            <ArrowRight className="size-6 transition group-hover:translate-x-1" />
           </Link>
+          <p className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted">
+            Want to talk about this work?
+            <Button href="/#contact" variant="secondary">
+              Get in touch
+            </Button>
+          </p>
         </nav>
       </Section>
       <script

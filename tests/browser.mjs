@@ -39,8 +39,7 @@ try {
     "/",
     "/work/selamnew-collaboration",
     "/work/workforce-intelligence",
-    "/work/okde",
-    "/work/azure-ai-solution",
+    "/work/checkpoint-ai-agent",
     "/experience",
     "/certifications",
     "/missing-page",
@@ -101,11 +100,11 @@ try {
       throw new Error("Section link reloaded the document");
   }
 
-  // Curated work: exactly five project cards (2 company, 3 personal).
+  // Curated work: exactly four project cards (2 company, 2 personal).
   const cards = page.locator("#work article");
   await cards.first().scrollIntoViewIfNeeded();
-  if ((await cards.count()) !== 5)
-    throw new Error(`Expected 5 curated project cards, found ${await cards.count()}`);
+  if ((await cards.count()) !== 4)
+    throw new Error(`Expected 4 curated project cards, found ${await cards.count()}`);
 
   await page.route("**/api/chat", (r) =>
     r.fulfill({
@@ -113,10 +112,10 @@ try {
       contentType: "application/x-ndjson",
       body:
         [
-          { type: "text", text: "OKDE uses queued document ingestion." },
+          { type: "text", text: "Checkpoint pauses risky actions for approval." },
           {
             type: "sources",
-            sources: [{ label: "OKDE", href: "/work/okde" }],
+            sources: [{ label: "Checkpoint", href: "/work/checkpoint-ai-agent" }],
           },
           { type: "done" },
         ]
@@ -132,7 +131,7 @@ try {
   await page.getByRole("dialog").waitFor();
   await page
     .getByRole("dialog")
-    .getByRole("link", { name: "OKDE" })
+    .getByRole("link", { name: "Checkpoint" })
     .waitFor();
   await page.unroute("**/api/chat");
   await page.locator("#floating-question").fill("What is his current role?");

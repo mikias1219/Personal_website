@@ -35,7 +35,7 @@ Local site: http://localhost:3000. The supported Webpack builder avoids Turbopac
 
 The public CV download is the user-selected v7 PDF, copied unchanged on 29 October 2026. It is never parsed to generate pages or assistant context. [Content checklist](docs/CONTENT-CHECKLIST.md) lists all CONFIRM items, verification URLs and missing screenshots/metrics.
 
-Open `/`, `/work/selamnew-collaboration`, `/work/workforce-intelligence`, `/work/okde`, `/work/azure-ai-solution`, `/work/shop-manager`, `/certifications`, `/experience` and any nonexistent path for review.
+Open `/`, `/work/selamnew-collaboration`, `/work/workforce-intelligence`, `/work/checkpoint-ai-agent`, `/work/shop-manager`, `/certifications`, `/experience` and any nonexistent path for review.
 
 ## Environment
 

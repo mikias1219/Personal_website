@@ -45,6 +45,6 @@ export const personalFacts: PersonalFact[] = [
   {
     question: "What AI projects has Mikias built?",
     answer:
-      "His AI projects are OKDE (a multi-tenant knowledge and decision engine with RAG chat) and Azure AI Solution (nine Azure AI capabilities, deployed automatically). At IE Network Solutions he also delivered hiring AI on Azure: CV extraction, candidate scoring and job matching.",
+      "His main AI project is Checkpoint, a personal AI chief of staff where risky actions wait for human approval, with a public demo, offline evals and CI. At IE Network Solutions he also delivered hiring AI on Azure: CV extraction, candidate scoring and job matching.",
   },
 ];

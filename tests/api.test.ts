@@ -114,7 +114,7 @@ test("AI SDK provider stream becomes text, related sources and completion events
           {
             content: {
               role: "model",
-              parts: [{ text: "OKDE uses queued document ingestion." }],
+              parts: [{ text: "Checkpoint pauses risky actions for approval." }],
             },
             finishReason: "STOP",
           },
@@ -131,7 +131,7 @@ test("AI SDK provider stream becomes text, related sources and completion events
     };
     const response = await chat(
       request("chat", {
-        messages: [{ role: "user", content: "Tell me about OKDE" }],
+        messages: [{ role: "user", content: "Tell me about Checkpoint" }],
       }),
     );
     assert.equal(response.status, 200);
@@ -144,13 +144,13 @@ test("AI SDK provider stream becomes text, related sources and completion events
         .filter((e) => e.type === "text")
         .map((e) => e.text)
         .join(""),
-      "OKDE uses queued document ingestion.",
+      "Checkpoint pauses risky actions for approval.",
     );
     assert.ok(
       events
         .find((e) => e.type === "sources")
         .sources.some(
-          (s: { href: string }) => s.href === "/work/okde",
+          (s: { href: string }) => s.href === "/work/checkpoint-ai-agent",
         ),
     );
     assert.equal(events.at(-1).type, "done");

@@ -35,7 +35,7 @@ export const capabilities = [
     number: "01",
     description:
       "Document retrieval, grounded chat, copilots and AI workflows.",
-    projects: ["okde", "azure-ai-solution"],
+    projects: ["checkpoint-ai-agent"],
   },
   {
     title: "Full-stack products",
@@ -48,7 +48,7 @@ export const capabilities = [
     number: "03",
     description:
       "Containers, infrastructure as code and automated deployments.",
-    projects: ["azure-ai-solution", "workforce-intelligence"],
+    projects: ["workforce-intelligence", "checkpoint-ai-agent"],
   },
 ];
 

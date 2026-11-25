@@ -1,10 +1,13 @@
+import Image from "next/image";
 import { Code2, ExternalLink } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { Badge } from "./ui";
 import { ProjectVisual } from "./ProjectVisual";
+import { ShotFrame } from "./ShotFrame";
 
 export type CaseSection =
   | "problem"
+  | "screens"
   | "role"
   | "architecture"
   | "decisions"
@@ -33,6 +36,50 @@ export function CaseStudySections({
           </p>
         </section>
       );
+    case "screens":
+      return project.screenshots?.length ? (
+        <section id="screens" className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight">Screens</h2>
+          <ul className="grid gap-6 sm:grid-cols-2">
+            {project.screenshots.map((shot) => {
+              const portrait = shot.height > shot.width;
+              return (
+                <li
+                  key={shot.src}
+                  className={`space-y-2 ${portrait ? "" : "sm:col-span-2"}`}
+                >
+                  <figure className="space-y-3">
+                    {portrait || project.frame !== "browser" ? (
+                      <div className="overflow-hidden rounded-2xl border border-line bg-surface-2">
+                        <Image
+                          src={shot.src}
+                          alt={shot.alt}
+                          width={shot.width}
+                          height={shot.height}
+                          className={`h-auto ${portrait ? "mx-auto max-w-[320px]" : "w-full"}`}
+                          sizes="(max-width: 768px) 100vw, 768px"
+                        />
+                      </div>
+                    ) : (
+                      <ShotFrame
+                        src={shot.src}
+                        alt={shot.alt}
+                        width={shot.width}
+                        height={shot.height}
+                        label={project.title}
+                        sizes="(max-width: 1024px) 100vw, 768px"
+                      />
+                    )}
+                    <figcaption className="text-sm text-muted">
+                      {shot.caption}
+                    </figcaption>
+                  </figure>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ) : null;
     case "role":
       return project.role ? (
         <section id="role" className="space-y-3">
@@ -49,7 +96,7 @@ export function CaseStudySections({
             How it works
           </h2>
           <div className="overflow-hidden rounded-2xl border border-line">
-            <ProjectVisual project={project} />
+            <ProjectVisual project={{ ...project, image: undefined }} />
           </div>
           <ol className="flex flex-wrap items-center gap-2">
             {project.diagram.map((step) => (
@@ -67,7 +114,24 @@ export function CaseStudySections({
         </section>
       ) : null;
     case "decisions":
-      return null;
+      return project.decisions?.length ? (
+        <section id="decisions" className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight">
+            Key decisions
+          </h2>
+          <ul className="grid gap-3 md:grid-cols-2">
+            {project.decisions.map((d) => (
+              <li
+                key={d.title}
+                className="space-y-1 rounded-2xl border border-line bg-surface p-4"
+              >
+                <h3 className="text-base font-semibold">{d.title}</h3>
+                <p className="text-sm text-muted">{d.body}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null;
     case "stack":
       return project.stack?.length ? (
         <section id="stack" className="space-y-3">

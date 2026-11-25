@@ -309,8 +309,8 @@ export function portfolioLookup(
       const mobile = skills.find((s) => /mobile/i.test(s.title));
       lines.push(
         /mobile/.test(current) && mobile
-          ? `None of his five featured projects is mobile-focused. His mobile skills are **${mobile.items.join(", ")}**. Ask him about mobile work directly via [Contact](/#contact).`
-          : "None of his five featured projects falls in that category. See [Work](/#work) for the full selection.",
+          ? `None of his four featured projects is mobile-focused. His mobile skills are **${mobile.items.join(", ")}**. Ask him about mobile work directly via [Contact](/#contact).`
+          : "None of his four featured projects falls in that category. See [Work](/#work) for the full selection.",
       );
     } else lines.push(chosen.map((p) => shortProject(p)).join("\n\n"));
   }

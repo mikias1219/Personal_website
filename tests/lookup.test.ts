@@ -10,8 +10,8 @@ test("offline portfolio lookup uses confirmed records and qualifies pending fact
   );
   assert.ok(portfolioLookup("Have you got DP-100?").text.includes("DP-100"));
   assert.ok(
-    portfolioLookup("Tell me about OKDE").sources.some(
-      (s) => s.href === "/work/okde",
+    portfolioLookup("Tell me about Checkpoint").sources.some(
+      (s) => s.href === "/work/checkpoint-ai-agent",
     ),
   );
   assert.ok(

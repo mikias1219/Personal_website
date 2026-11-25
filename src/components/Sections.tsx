@@ -24,11 +24,7 @@ import {
   earlierExperience,
   experience,
 } from "@/data/experience";
-import {
-  companyProjects,
-  personalProjects,
-  type Project,
-} from "@/data/projects";
+import { companyProjects, personalProjects } from "@/data/projects";
 import { Badge, Button, Card, Container, Section, SectionHead } from "./ui";
 import { ProjectCard } from "./ProjectCard";
 import { ContactForm } from "./ContactForm";
@@ -37,58 +33,37 @@ import { SocialLinks } from "./SocialLinks";
 import { Reveal } from "./Reveal";
 
 export function WorkSection() {
+  const all = [...companyProjects, ...personalProjects];
   return (
     <Section id="work" ariaLabelledby="work-title">
       <Container>
         <SectionHead
           titleId="work-title"
           eyebrow="01 · Selected work"
-          title="Five projects, chosen with care"
-          lede="Depth over quantity: two products built at IE Network Solutions and three personal builds, each built end to end."
+          title="Four projects, chosen with care"
+          lede="Depth over quantity: two products built at IE Network Solutions and two personal builds. Every claim is checked against the code, and every project has a case study."
         />
-        <WorkGroup
-          title="At IE Network Solutions"
-          note="Company code is private, so there are no source links. Ask me about them."
-          projects={companyProjects}
-        />
-        <WorkGroup
-          title="Personal projects"
-          note="Open source, with tests and automated delivery."
-          projects={personalProjects}
-          className="mt-14"
-        />
+        <ul
+          className="mb-10 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted"
+          aria-label="How to read this section"
+        >
+          <li className="inline-flex items-center gap-2">
+            <Building2 className="size-4 text-accent" aria-hidden /> Company
+            projects are private, so there are no source links. Ask me about
+            them.
+          </li>
+          <li className="inline-flex items-center gap-2">
+            <Sparkles className="size-4 text-accent" aria-hidden /> Personal
+            projects are open source, with tests and automated delivery.
+          </li>
+        </ul>
+        <div className="space-y-8 md:space-y-10">
+          {all.map((project, index) => (
+            <ProjectCard key={project.slug} project={project} index={index} />
+          ))}
+        </div>
       </Container>
     </Section>
-  );
-}
-
-function WorkGroup({
-  title,
-  note,
-  projects,
-  className = "",
-}: {
-  title: string;
-  note: string;
-  projects: Project[];
-  className?: string;
-}) {
-  return (
-    <div className={className}>
-      <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <h3 className="text-xl font-semibold tracking-tight">{title}</h3>
-        <p className="text-sm text-muted">{note}</p>
-      </div>
-      <div
-        className={`grid gap-6 md:grid-cols-2 ${
-          projects.length > 2 ? "lg:grid-cols-3" : ""
-        }`}
-      >
-        {projects.map((project, index) => (
-          <ProjectCard key={project.slug} project={project} index={index} />
-        ))}
-      </div>
-    </div>
   );
 }
 

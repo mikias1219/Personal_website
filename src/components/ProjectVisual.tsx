@@ -27,7 +27,7 @@ export function ProjectVisual({ project }: { project: Project }) {
       <div className="relative aspect-[16/10] overflow-hidden border-b border-line bg-surface-2">
         <Image
           src={project.image}
-          alt=""
+          alt={`${project.title} screenshot`}
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 560px"
